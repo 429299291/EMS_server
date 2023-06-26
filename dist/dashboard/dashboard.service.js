@@ -6,14 +6,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppService = void 0;
+exports.DashboardService = void 0;
 const common_1 = require("@nestjs/common");
-let AppService = exports.AppService = class AppService {
-    getHello() {
-        return 'Hello World!';
+let DashboardService = exports.DashboardService = class DashboardService {
+    getDashboard() {
+        return {
+            code: 201,
+            data: "成功"
+        };
+    }
+    addDashboard() {
+        return {
+            code: 200,
+            data: { name: "daivs", age: 23 },
+            msg: "添加成功"
+        };
+    }
+    getDashboardById(id) {
+        let dashboard = {};
+        return {
+            name: 'davis1',
+            id: id
+        };
     }
 };
-exports.AppService = AppService = __decorate([
+exports.DashboardService = DashboardService = __decorate([
     (0, common_1.Injectable)()
-], AppService);
-//# sourceMappingURL=app.service.js.map
+], DashboardService);
+//# sourceMappingURL=dashboard.service.js.map
