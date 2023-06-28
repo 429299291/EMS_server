@@ -12,35 +12,39 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DashboardService = void 0;
+exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
-const _entities_1 = require("./entities/ entities");
-let DashboardService = exports.DashboardService = class DashboardService {
-    constructor(Dashboard) {
-        this.Dashboard = Dashboard;
+const entities_1 = require("./ entities/entities");
+let UserService = exports.UserService = class UserService {
+    constructor(user) {
+        this.user = user;
     }
-    getDashboard() {
+    findAll() {
+        return this.user.find();
     }
-    addDashboard() {
-        const data = new _entities_1.Dashboard();
-        data.name = "nest davis";
-        data.age = 22;
-        console.log(this.Dashboard);
-        return this.Dashboard.save(data);
+    findOne(id) {
+        return this.user.findOneBy({ id });
     }
-    getDashboardById(id) {
-        let dashboard = {};
-        return {
-            name: 'davis1',
-            id: id
-        };
+    login(param) {
+        this.user.findOneBy({ id: param.id });
+        return;
+    }
+    addUser() {
+        const data = new entities_1.User();
+        data.username = 'sdfsdf';
+        data.age = 19;
+        data.password = 's9dfs9df9sdf9s9';
+        return this.user.save(data);
+    }
+    async remove(id) {
+        await this.user.delete(id);
     }
 };
-exports.DashboardService = DashboardService = __decorate([
+exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_2.InjectRepository)(_entities_1.Dashboard)),
+    __param(0, (0, typeorm_2.InjectRepository)(entities_1.User)),
     __metadata("design:paramtypes", [typeorm_1.Repository])
-], DashboardService);
-//# sourceMappingURL=dashboard.service.js.map
+], UserService);
+//# sourceMappingURL=user.service.js.map

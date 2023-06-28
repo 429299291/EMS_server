@@ -6,19 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DashboardModule = void 0;
+exports.UserModule = void 0;
 const common_1 = require("@nestjs/common");
-const dashboard_controller_1 = require("./dashboard.controller");
-const dashboard_service_1 = require("./dashboard.service");
+const user_controller_1 = require("./user.controller");
+const user_service_1 = require("./user.service");
 const typeorm_1 = require("@nestjs/typeorm");
-const _entities_1 = require("./entities/ entities");
-let DashboardModule = exports.DashboardModule = class DashboardModule {
+const entities_1 = require("./ entities/entities");
+let UserModule = exports.UserModule = class UserModule {
 };
-exports.DashboardModule = DashboardModule = __decorate([
+exports.UserModule = UserModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([_entities_1.Dashboard])],
-        controllers: [dashboard_controller_1.DashboardController],
-        providers: [dashboard_service_1.DashboardService]
+        imports: [typeorm_1.TypeOrmModule.forFeature([entities_1.User])],
+        controllers: [user_controller_1.UserController],
+        providers: [user_service_1.UserService]
     })
-], DashboardModule);
-//# sourceMappingURL=dashboard.module.js.map
+], UserModule);
+//# sourceMappingURL=user.module.js.map

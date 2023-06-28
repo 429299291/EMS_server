@@ -9,16 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DashboardController = void 0;
+exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
-const dashboard_service_1 = require("./dashboard.service");
-let DashboardController = exports.DashboardController = class DashboardController {
-    constructor(dashboardService) {
-        this.dashboardService = dashboardService;
+const user_service_1 = require("./user.service");
+let UserController = exports.UserController = class UserController {
+    constructor(userService) {
+        this.userService = userService;
     }
-    getDashboard() {
-        console.log('===');
-        return this.dashboardService.addDashboard();
+    addUser() {
+        return this.userService.addUser();
+    }
+    login(param) {
+        return this.userService.findOne(param);
     }
 };
 __decorate([
@@ -26,9 +28,15 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Object)
-], DashboardController.prototype, "getDashboard", null);
-exports.DashboardController = DashboardController = __decorate([
-    (0, common_1.Controller)('dashboard'),
-    __metadata("design:paramtypes", [dashboard_service_1.DashboardService])
-], DashboardController);
-//# sourceMappingURL=dashboard.controller.js.map
+], UserController.prototype, "addUser", null);
+__decorate([
+    (0, common_1.Post)('/login'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Object)
+], UserController.prototype, "login", null);
+exports.UserController = UserController = __decorate([
+    (0, common_1.Controller)('user'),
+    __metadata("design:paramtypes", [user_service_1.UserService])
+], UserController);
+//# sourceMappingURL=user.controller.js.map

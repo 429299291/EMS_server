@@ -5,6 +5,7 @@ export class DashboardController {
     constructor(private dashboardService:DashboardService){}
     @Get('/add')
     getDashboard():any{        
+        console.log('===');
         return this.dashboardService.addDashboard()
     }
 

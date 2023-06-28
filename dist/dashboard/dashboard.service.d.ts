@@ -1,16 +1,10 @@
+import { Repository } from 'typeorm';
+import { Dashboard } from './entities/ entities';
 export declare class DashboardService {
-    getDashboard(): {
-        code: number;
-        data: string;
-    };
-    addDashboard(): {
-        code: number;
-        data: {
-            name: string;
-            age: number;
-        };
-        msg: string;
-    };
+    private readonly Dashboard;
+    constructor(Dashboard: Repository<Dashboard>);
+    getDashboard(): void;
+    addDashboard(): Promise<Dashboard>;
     getDashboardById(id: number): {
         name: string;
         id: number;

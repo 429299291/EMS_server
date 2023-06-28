@@ -8,12 +8,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const dashboard_module_1 = require("./dashboard/dashboard.module");
+const typeorm_1 = require("@nestjs/typeorm");
+const user_module_1 = require("./user/user.module");
+const _entities_1 = require("./dashboard/entities/ entities");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [dashboard_module_1.DashboardModule],
+        imports: [typeorm_1.TypeOrmModule.forRoot({
+                type: "mysql",
+                host: "rm-cn-uqm3a2odq001d67o.rwlb.rds.aliyuncs.com",
+                port: 3306,
+                username: "root",
+                password: "zhudong520!",
+                database: "ems",
+                retryDelay: 500,
+                retryAttempts: 1,
+                synchronize: true,
+                autoLoadEntities: true
+            }), _entities_1.Dashboard, user_module_1.UserModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
