@@ -6,10 +6,19 @@ export class User{
     id:number
 
     @Column({type:"varchar",length:255})
-    username:string
+    name:string
 
     @Column({type:"int"})
     age:number
+
+    @Column({type:"varchar"})
+    phone:string
+
+    @Column({type:"varchar"})
+    email:string
+
+    @Column({type:"varchar"})
+    identity:string
     
     @CreateDateColumn({type:"timestamp"})
     date:Date

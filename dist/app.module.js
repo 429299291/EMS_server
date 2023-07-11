@@ -8,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const dashboard_module_1 = require("./dashboard/dashboard.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_module_1 = require("./user/user.module");
-const _entities_1 = require("./dashboard/entities/ entities");
+const ems_module_1 = require("./ems/ems.module");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
@@ -26,7 +27,7 @@ exports.AppModule = AppModule = __decorate([
                 retryAttempts: 1,
                 synchronize: true,
                 autoLoadEntities: true
-            }), _entities_1.Dashboard, user_module_1.UserModule],
+            }), dashboard_module_1.DashboardModule, user_module_1.UserModule, ems_module_1.EmsModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

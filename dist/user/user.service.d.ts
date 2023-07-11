@@ -3,9 +3,21 @@ import { User } from './ entities/entities';
 export declare class UserService {
     private readonly user;
     constructor(user: Repository<User>);
-    findAll(): Promise<User[]>;
+    getUserAll(): Promise<User[]>;
+    getUserByName(name: string): Promise<User[]>;
     findOne(id: number): Promise<User | null>;
-    login(param: any): Promise<User | null>;
-    addUser(): Promise<User>;
+    login(body: any, res: any): Promise<{
+        code: number;
+        message: string;
+    }>;
+    register(body: any, res: any): Promise<void>;
+    delUser(id: string): Promise<{
+        code: number;
+        message: string;
+    }>;
+    updateUser(body: any): Promise<{
+        code: number;
+        message: string;
+    }>;
     remove(id: number): Promise<void>;
 }
