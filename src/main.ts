@@ -1,9 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 const MiddleWareAll =(req:any,res:any,next:any)=>{
-  console.log('全局中间件');
-  console.log(req.path);
-  
+  console.log('全局中间件');  
   next()
 }
 

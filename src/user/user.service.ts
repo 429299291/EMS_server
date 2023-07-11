@@ -78,9 +78,7 @@ export class UserService {
                     // Store hash in your password DB.
                     if(err) throw err
                     newUser.password = hash;//加密过的密码                    
-                    thisUSER.save(newUser).then((resolve)=>{
-                        console.log(resolve);
-                        
+                    thisUSER.save(newUser).then((resolve)=>{                        
                         res.json({
                             code:200,
                             message:"注册成功"
