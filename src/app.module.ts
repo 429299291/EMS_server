@@ -6,6 +6,7 @@ import {TypeOrmModule} from '@nestjs/typeorm'
 import { UserModule } from './user/user.module';
 import { Dashboard } from './dashboard/entities/ entities';
 import { EmsModule } from './ems/ems.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -20,7 +21,7 @@ import { EmsModule } from './ems/ems.module';
     synchronize:true,//实体同步到数据库
     // entities: [DashboardModule,UserModule],
     autoLoadEntities:true//自动加载实体
-  }),DashboardModule,UserModule, EmsModule],
+  }),DashboardModule,UserModule, EmsModule, AuthModule],
   // controllers: [AppController],
   // providers: [AppService],
 })

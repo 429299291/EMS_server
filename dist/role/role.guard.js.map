@@ -1,0 +1,1 @@
+{"version":3,"file":"role.guard.js","sourceRoot":"","sources":["../../src/role/role.guard.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAA2E;AAIpE,IAAM,SAAS,uBAAf,MAAM,SAAS;IACpB,WAAW,CACT,OAAyB;QAEzB,OAAO,CAAC,GAAG,CAAC,IAAI,CAAC,CAAC;QAElB,OAAO,IAAI,CAAC;IACd,CAAC;CACF,CAAA;oBARY,SAAS;IADrB,IAAA,mBAAU,GAAE;GACA,SAAS,CAQrB"}

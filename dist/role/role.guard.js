@@ -6,20 +6,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserModule = void 0;
+exports.RoleGuard = void 0;
 const common_1 = require("@nestjs/common");
-const user_controller_1 = require("./user.controller");
-const user_service_1 = require("./user.service");
-const typeorm_1 = require("@nestjs/typeorm");
-const entities_1 = require("./ entities/entities");
-let UserModule = exports.UserModule = class UserModule {
+let RoleGuard = exports.RoleGuard = class RoleGuard {
+    canActivate(context) {
+        console.log('守卫');
+        return true;
+    }
 };
-exports.UserModule = UserModule = __decorate([
-    (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([entities_1.User])],
-        controllers: [user_controller_1.UserController],
-        exports: [user_service_1.UserService],
-        providers: [user_service_1.UserService]
-    })
-], UserModule);
-//# sourceMappingURL=user.module.js.map
+exports.RoleGuard = RoleGuard = __decorate([
+    (0, common_1.Injectable)()
+], RoleGuard);
+//# sourceMappingURL=role.guard.js.map

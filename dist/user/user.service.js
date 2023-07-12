@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const entities_1 = require("./ entities/entities");
-const jwt = require('jsonwebtoken');
 const keys = "secret";
 const bcrypt = require('bcrypt');
 let UserService = exports.UserService = class UserService {
@@ -34,8 +33,8 @@ let UserService = exports.UserService = class UserService {
             }
         });
     }
-    findOne(id) {
-        return this.user.findOneBy({ id });
+    findOne(email) {
+        return this.user.findOneBy({ email });
     }
     login(body, res) {
         return this.user.findOneBy({ email: body.email })
@@ -46,27 +45,6 @@ let UserService = exports.UserService = class UserService {
                     message: "用户不存在"
                 };
             }
-            bcrypt.compare(body.password, user.password, (err, result) => {
-                if (result) {
-                    const rule = { id: user.id, name: user.name };
-                    jwt.sign(rule, keys, { expiresIn: 3600000 }, (err, token) => {
-                        if (err)
-                            throw err;
-                        res.json({
-                            success: true,
-                            code: 200,
-                            message: "登录成功",
-                            token: "Bearer " + token
-                        });
-                    });
-                }
-                else {
-                    res.json({
-                        code: 204,
-                        message: "密码错误"
-                    });
-                }
-            });
         });
     }
     register(body, res) {
@@ -90,7 +68,6 @@ let UserService = exports.UserService = class UserService {
                             throw err;
                         newUser.password = hash;
                         thisUSER.save(newUser).then((resolve) => {
-                            console.log(resolve);
                             res.json({
                                 code: 200,
                                 message: "注册成功"

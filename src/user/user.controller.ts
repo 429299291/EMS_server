@@ -1,5 +1,7 @@
-import { Controller, Get,Post,Request,Query,Body,Headers,Param,Response  } from '@nestjs/common';
+import { Controller, Get,Post,Request,Query,Body,Headers,Param,Response, UseGuards  } from '@nestjs/common';
 import { UserService } from './user.service';
+import { RoleGuard } from 'src/role/role.guard';
+import { AuthGuard } from 'src/auth/auth.guard';
 @Controller('user')
 export class UserController {
     constructor(private userService:UserService){}
@@ -10,14 +12,17 @@ export class UserController {
         // return this.userService.findAll()
     }
     @Get('/all')
+    @UseGuards(RoleGuard)
     getUserAll():any{
         return this.userService.getUserAll()
     }
     @Get('/delete/:id')
+    @UseGuards(AuthGuard)
     delUser(@Param() {id}):any{      
         return this.userService.delUser(id)
     }
     @Post('/update/:id')
+    @UseGuards(AuthGuard)
     updateUser(@Body() body,@Param() {id}):any{ 
         return this.userService.updateUser({id,...body})
     }

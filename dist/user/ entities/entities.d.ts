@@ -5,7 +5,9 @@ export declare class User {
     phone: string;
     email: string;
     identity: string;
+    accessPermissions: string[];
     date: Date;
     uuid: string;
+    actived: boolean;
     password: string;
 }

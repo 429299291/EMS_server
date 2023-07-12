@@ -12,6 +12,7 @@ const dashboard_module_1 = require("./dashboard/dashboard.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_module_1 = require("./user/user.module");
 const ems_module_1 = require("./ems/ems.module");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
@@ -27,7 +28,7 @@ exports.AppModule = AppModule = __decorate([
                 retryAttempts: 1,
                 synchronize: true,
                 autoLoadEntities: true
-            }), dashboard_module_1.DashboardModule, user_module_1.UserModule, ems_module_1.EmsModule],
+            }), dashboard_module_1.DashboardModule, user_module_1.UserModule, ems_module_1.EmsModule, auth_module_1.AuthModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

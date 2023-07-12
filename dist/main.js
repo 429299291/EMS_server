@@ -4,7 +4,6 @@ const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const MiddleWareAll = (req, res, next) => {
     console.log('全局中间件');
-    console.log(req.path);
     next();
 };
 async function bootstrap() {

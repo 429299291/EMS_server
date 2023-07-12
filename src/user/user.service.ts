@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import {JsonContains, Like, Repository} from 'typeorm'
 import {InjectRepository} from '@nestjs/typeorm'
 import { User } from './ entities/entities';
-const jwt = require('jsonwebtoken');
 const keys = "secret"
 const bcrypt = require('bcrypt')
 
@@ -20,8 +19,8 @@ export class UserService {
         });
     }
 
-    findOne(id: number): Promise<User | null> {
-        return this.user.findOneBy({ id });
+    findOne(email: string): Promise<User | null> {
+        return this.user.findOneBy({ email });
     }
 
     login(body:any,res) {
@@ -35,26 +34,26 @@ export class UserService {
                 }
             }
             //密码匹配
-            bcrypt.compare(body.password, user.password,(err, result) => {          
-                if(result){ 
-                    const rule = {id:user.id,name:user.name}
-                    // jwt.sign('规则','加密名字','过期时间','箭头函数')
-                    jwt.sign(rule,keys,{expiresIn:3600000},(err,token) =>{
-                        if(err) throw err;
-                        res.json({
-                            success:true,
-                            code:200,
-                            message:"登录成功",
-                            token:"Bearer "+token
-                        })
-                    })
-                }else{                    
-                    res.json({
-                        code:204,
-                        message:"密码错误"
-                    })
-                }
-            });
+            // bcrypt.compare(body.password, user.password,(err, result) => {          
+            //     if(result){ 
+            //         const rule = {id:user.id,name:user.name}
+            //         // jwt.sign('规则','加密名字','过期时间','箭头函数')
+            //         jwt.sign(rule,keys,{expiresIn:3600000},(err,token) =>{
+            //             if(err) throw err;
+            //             res.json({
+            //                 success:true,
+            //                 code:200,
+            //                 message:"登录成功",
+            //                 token:"Bearer "+token
+            //             })
+            //         })
+            //     }else{                    
+            //         res.json({
+            //             code:204,
+            //             message:"密码错误"
+            //         })
+            //     }
+            // });
 
         })
     }

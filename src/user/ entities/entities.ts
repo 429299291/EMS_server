@@ -17,14 +17,20 @@ export class User{
     @Column({type:"varchar"})
     email:string
 
-    @Column({type:"varchar"})
+    @Column({type:"varchar",default:"nomal"})
     identity:string
+
+    @Column("simple-array")
+    accessPermissions:string[]
     
     @CreateDateColumn({type:"timestamp"})
     date:Date
 
     @Generated('uuid')
     uuid:string
+
+    @Column({default:true})
+    actived:boolean
 
     @Column({type:"varchar"})
     password:string

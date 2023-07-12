@@ -34,9 +34,13 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar" }),
+    (0, typeorm_1.Column)({ type: "varchar", default: "nomal" }),
     __metadata("design:type", String)
 ], User.prototype, "identity", void 0);
+__decorate([
+    (0, typeorm_1.Column)("simple-array"),
+    __metadata("design:type", Array)
+], User.prototype, "accessPermissions", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
@@ -45,6 +49,10 @@ __decorate([
     (0, typeorm_1.Generated)('uuid'),
     __metadata("design:type", String)
 ], User.prototype, "uuid", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: true }),
+    __metadata("design:type", Boolean)
+], User.prototype, "actived", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar" }),
     __metadata("design:type", String)
