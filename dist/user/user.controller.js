@@ -25,6 +25,9 @@ let UserController = exports.UserController = class UserController {
         let username = params.username;
         return this.userService.getUserByName(username);
     }
+    currentUser({ email }) {
+        return this.userService.getUserByEmail(email);
+    }
     getUserAll() {
         return this.userService.getUserAll();
     }
@@ -48,6 +51,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Object)
 ], UserController.prototype, "getUserByName", null);
+__decorate([
+    (0, common_1.Get)('/currentUser/:email'),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Object)
+], UserController.prototype, "currentUser", null);
 __decorate([
     (0, common_1.Get)('/all'),
     (0, common_1.UseGuards)(role_guard_1.RoleGuard),

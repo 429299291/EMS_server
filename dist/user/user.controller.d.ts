@@ -3,6 +3,9 @@ export declare class UserController {
     private userService;
     constructor(userService: UserService);
     getUserByName(params: any): any;
+    currentUser({ email }: {
+        email: any;
+    }): any;
     getUserAll(): any;
     delUser({ id }: {
         id: any;

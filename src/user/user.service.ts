@@ -18,6 +18,13 @@ export class UserService {
             }
         });
     }
+    getUserByEmail(email:string) {
+        return this.user.find({
+            where:{
+                email:Like(`%${email}%`)
+            }
+        });
+    }
 
     findOne(email: string): Promise<User | null> {
         return this.user.findOneBy({ email });

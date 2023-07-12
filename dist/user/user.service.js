@@ -33,6 +33,13 @@ let UserService = exports.UserService = class UserService {
             }
         });
     }
+    getUserByEmail(email) {
+        return this.user.find({
+            where: {
+                email: (0, typeorm_1.Like)(`%${email}%`)
+            }
+        });
+    }
     findOne(email) {
         return this.user.findOneBy({ email });
     }

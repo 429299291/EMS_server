@@ -11,6 +11,11 @@ export class UserController {
         return this.userService.getUserByName(username)
         // return this.userService.findAll()
     }
+    @Get('/currentUser/:email')
+    currentUser(@Param() {email}):any{             
+        return this.userService.getUserByEmail(email)
+    }
+    
     @Get('/all')
     @UseGuards(RoleGuard)
     getUserAll():any{

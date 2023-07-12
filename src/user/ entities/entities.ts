@@ -8,8 +8,14 @@ export class User{
     @Column({type:"varchar",length:255})
     name:string
 
+    @Column({type:"varchar",length:255,default:null})
+    avatar:string
+
     @Column({type:"int"})
     age:number
+
+    @Column({type:"int",default:0})
+    balance:number
 
     @Column({type:"varchar"})
     phone:string
