@@ -5,7 +5,7 @@ export class User{
     @PrimaryGeneratedColumn('uuid')  //自增  uuid 不重复
     id:number
 
-    @Column({type:"varchar",length:255})
+    @Column({type:"varchar",length:255,default:"user"})
     name:string
 
     @Column({type:"varchar",length:255,default:null})
@@ -20,7 +20,7 @@ export class User{
     @Column({type:"varchar"})
     phone:string
 
-    @Column({type:"varchar"})
+    @Column({type:"varchar",nullable:true})
     email:string
 
     @Column({type:"varchar",default:"nomal"})
@@ -35,10 +35,15 @@ export class User{
     @Generated('uuid')
     uuid:string
 
-    @Column({default:true})
+    @Column({default:true,comment:"激活状态"})
     actived:boolean
 
-    @Column({type:"varchar"})
+    @Column({type:"varchar",select:true,nullable:true})
     password:string
+
+    @Column("simple-json")
+    location:{
+        location:"深圳",
+    }
     
 }

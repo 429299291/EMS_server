@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { Dashboard } from './dashboard/entities/ entities';
 import { EmsModule } from './ems/ems.module';
 import { AuthModule } from './auth/auth.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -21,7 +22,7 @@ import { AuthModule } from './auth/auth.module';
     synchronize:true,//实体同步到数据库
     // entities: [DashboardModule,UserModule],
     autoLoadEntities:true//自动加载实体
-  }),DashboardModule,UserModule, EmsModule, AuthModule],
+  }),DashboardModule,UserModule, EmsModule, AuthModule, UploadModule],
   // controllers: [AppController],
   // providers: [AppService],
 })

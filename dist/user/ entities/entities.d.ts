@@ -12,4 +12,7 @@ export declare class User {
     uuid: string;
     actived: boolean;
     password: string;
+    location: {
+        location: "深圳";
+    };
 }

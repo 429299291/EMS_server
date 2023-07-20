@@ -1,12 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 const MiddleWareAll =(req:any,res:any,next:any)=>{
   console.log('全局中间件');  
   next()
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.useStaticAssets(join(__dirname,'../files/images/avatar'),{
+    // prefix:"api"
+  })
   app.use(MiddleWareAll)
   app.enableCors();
   app.setGlobalPrefix("api")

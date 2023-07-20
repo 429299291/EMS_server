@@ -19,7 +19,7 @@ export class UserService {
         });
     }
     getUserByEmail(email:string) {
-        return this.user.find({
+        return this.user.findOne({
             where:{
                 email:Like(`%${email}%`)
             }
@@ -113,14 +113,15 @@ export class UserService {
     async updateUser(body) {
         if(body.password){
             // 密码加密模式
-            bcrypt.genSalt(10, function(err, salt) {
+            let newPassword = await bcrypt.genSalt(10, function(err, salt) {
                 bcrypt.hash(body.password, salt, (err, hash) => {
                         // Store hash in your password DB.
                         if(err) throw err
                         body.password = hash;//加密过的密码                                            
                     });
                     return body
-                });            
+                });
+                body.password = newPassword
         }        
         return this.user.update(body.id,{...body}).then(resolve=>{
             if(resolve.affected==1){

@@ -34,7 +34,7 @@ let UserService = exports.UserService = class UserService {
         });
     }
     getUserByEmail(email) {
-        return this.user.find({
+        return this.user.findOne({
             where: {
                 email: (0, typeorm_1.Like)(`%${email}%`)
             }
@@ -103,7 +103,7 @@ let UserService = exports.UserService = class UserService {
     }
     async updateUser(body) {
         if (body.password) {
-            bcrypt.genSalt(10, function (err, salt) {
+            let newPassword = await bcrypt.genSalt(10, function (err, salt) {
                 bcrypt.hash(body.password, salt, (err, hash) => {
                     if (err)
                         throw err;
@@ -111,6 +111,7 @@ let UserService = exports.UserService = class UserService {
                 });
                 return body;
             });
+            body.password = newPassword;
         }
         return this.user.update(body.id, { ...body }).then(resolve => {
             if (resolve.affected == 1) {

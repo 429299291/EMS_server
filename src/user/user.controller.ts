@@ -2,6 +2,7 @@ import { Controller, Get,Post,Request,Query,Body,Headers,Param,Response, UseGuar
 import { UserService } from './user.service';
 import { RoleGuard } from 'src/role/role.guard';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { log } from 'console';
 @Controller('user')
 export class UserController {
     constructor(private userService:UserService){}
@@ -12,8 +13,8 @@ export class UserController {
         // return this.userService.findAll()
     }
     @Get('/currentUser/:email')
-    currentUser(@Param() {email}):any{             
-        return this.userService.getUserByEmail(email)
+    currentUser(@Param() {email}):any{     
+        return this.userService.getUserByEmail(email)        
     }
     
     @Get('/all')
