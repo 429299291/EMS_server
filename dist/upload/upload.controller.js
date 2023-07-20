@@ -19,6 +19,8 @@ const create_upload_dto_1 = require("./dto/create-upload.dto");
 const update_upload_dto_1 = require("./dto/update-upload.dto");
 const platform_express_1 = require("@nestjs/platform-express");
 const constants_1 = require("../constants");
+const path_1 = require("path");
+const compressing_1 = require("compressing");
 let UploadController = exports.UploadController = class UploadController {
     constructor(uploadService) {
         this.uploadService = uploadService;
@@ -29,6 +31,18 @@ let UploadController = exports.UploadController = class UploadController {
             message: "上传成功",
             data: `${constants_1.www}/home/files/images/avatar/${file.filename}`
         };
+    }
+    downloadAvatar(res) {
+        const url = (0, path_1.join)(__dirname, '../files/images/avatar/1689863888602.png');
+        res.download(url);
+    }
+    async downloadStream(res) {
+        const url = (0, path_1.join)(__dirname, '../files/images/avatar/1689865626035.png');
+        const tarStream = new compressing_1.zip.Stream();
+        await tarStream.addEntry(url);
+        res.setHeader('Content-Type', 'application/octet-stream');
+        res.setHeader('Content-Disposition', 'attachment; filename=xiaoman');
+        tarStream.pipe(res);
     }
     create(createUploadDto) {
         return this.uploadService.create(createUploadDto);
@@ -54,6 +68,20 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UploadController.prototype, "upload", null);
+__decorate([
+    (0, common_1.Get)('avatar'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UploadController.prototype, "downloadAvatar", null);
+__decorate([
+    (0, common_1.Get)('stream'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UploadController.prototype, "downloadStream", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
