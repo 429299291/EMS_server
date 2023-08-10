@@ -11,7 +11,7 @@ const common_1 = require("@nestjs/common");
 const user_controller_1 = require("./user.controller");
 const user_service_1 = require("./user.service");
 const typeorm_1 = require("@nestjs/typeorm");
-const entities_1 = require("./ entities/entities");
+const entities_1 = require("./entities/entities");
 let UserModule = exports.UserModule = class UserModule {
 };
 exports.UserModule = UserModule = __decorate([

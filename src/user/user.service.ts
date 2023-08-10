@@ -1,15 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import {JsonContains, Like, Repository} from 'typeorm'
+import {JsonContains, Like, Repository,LessThanOrEqual, MoreThan, Not} from 'typeorm'
 import {InjectRepository} from '@nestjs/typeorm'
-import { User } from './ entities/entities';
+import { User } from './entities/entities';
 const keys = "secret"
 const bcrypt = require('bcrypt')
 
 @Injectable()
 export class UserService {
     constructor(@InjectRepository(User) private readonly user:Repository<User>){}
-    getUserAll(): Promise<User[]> {
-        return this.user.find();
+    getUserAll(body) {        
+        const data = this.user.find(
+        //     {
+        //     where:{
+        //         email:Like(`%${body.name}%`)
+        //     },
+        //     order:{
+        //         email:"DESC"
+        //     },
+        //     skip:(body.page-1)* body.pageSize,       //分页
+        //     take:body.pageSize
+        // }
+        );
+        // const total = await this.user.count({
+        //     where:{
+        //         age:Not(0)
+        //     },
+        // })
+        return {
+            ...data,
+            // total
+        }
     }
     getUserByName(name:string) {
         return this.user.find({

@@ -16,15 +16,18 @@ exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
-const entities_1 = require("./ entities/entities");
+const entities_1 = require("./entities/entities");
 const keys = "secret";
 const bcrypt = require('bcrypt');
 let UserService = exports.UserService = class UserService {
     constructor(user) {
         this.user = user;
     }
-    getUserAll() {
-        return this.user.find();
+    getUserAll(body) {
+        const data = this.user.find();
+        return {
+            ...data,
+        };
     }
     getUserByName(name) {
         return this.user.find({

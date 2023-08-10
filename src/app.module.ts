@@ -5,9 +5,10 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import {TypeOrmModule} from '@nestjs/typeorm'
 import { UserModule } from './user/user.module';
 import { Dashboard } from './dashboard/entities/ entities';
-import { EmsModule } from './ems/ems.module';
 import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
+import { MqttModule } from './mqtt/mqtt.module';
+import { DeviceModule } from './device/device.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -22,7 +23,7 @@ import { UploadModule } from './upload/upload.module';
     synchronize:true,//实体同步到数据库
     // entities: [DashboardModule,UserModule],
     autoLoadEntities:true//自动加载实体
-  }),DashboardModule,UserModule, EmsModule, AuthModule, UploadModule],
+  }),DashboardModule,UserModule, AuthModule, UploadModule, MqttModule, DeviceModule],
   // controllers: [AppController],
   // providers: [AppService],
 })

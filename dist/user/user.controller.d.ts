@@ -6,7 +6,10 @@ export declare class UserController {
     currentUser({ email }: {
         email: any;
     }): any;
-    getUserAll(): any;
+    getUserAll({ page, pageSize }: {
+        page: any;
+        pageSize: any;
+    }): any;
     delUser({ id }: {
         id: any;
     }): any;

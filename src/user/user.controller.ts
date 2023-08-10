@@ -17,10 +17,12 @@ export class UserController {
         return this.userService.getUserByEmail(email)        
     }
     
-    @Get('/all')
-    @UseGuards(RoleGuard)
-    getUserAll():any{
-        return this.userService.getUserAll()
+    @Get('/all/:page')
+    // @UseGuards(RoleGuard)
+    getUserAll(@Param() {page,pageSize}):any{
+        console.log(page);
+        
+        return this.userService.getUserAll(page)
     }
     @Get('/delete/:id')
     @UseGuards(AuthGuard)
