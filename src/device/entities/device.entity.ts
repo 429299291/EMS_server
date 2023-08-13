@@ -29,7 +29,7 @@ export class Device {
   date:Date
 
 
-  @ManyToOne(()=>User)
+  @ManyToOne(()=>User,user=>user.devices)
   user:User
 
 

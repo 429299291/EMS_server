@@ -44,7 +44,7 @@ __decorate([
     __metadata("design:type", Date)
 ], Device.prototype, "date", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => entities_1.User),
+    (0, typeorm_1.ManyToOne)(() => entities_1.User, user => user.devices),
     __metadata("design:type", entities_1.User)
 ], Device.prototype, "user", void 0);
 __decorate([
