@@ -15,11 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeviceService = void 0;
 const common_1 = require("@nestjs/common");
 const device_entity_1 = require("./entities/device.entity");
+const entities_1 = require("../user/entities/entities");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 let DeviceService = exports.DeviceService = class DeviceService {
-    constructor(device) {
+    constructor(device, user) {
         this.device = device;
+        this.user = user;
     }
     async create(createDeviceDto) {
         const device = await this.device.findOneBy({ deviceId: createDeviceDto.deviceId });
@@ -27,7 +29,12 @@ let DeviceService = exports.DeviceService = class DeviceService {
             return { code: 200, message: "设备已经注册" };
         }
         else {
-            return this.device.save(createDeviceDto);
+            const user = await this.user.findOneBy({ id: createDeviceDto.userId });
+            const deviceList = [];
+            await this.device.save(createDeviceDto);
+            deviceList.push(createDeviceDto);
+            user.devices = deviceList;
+            return this.user.save(user);
         }
     }
     findAll() {
@@ -46,6 +53,8 @@ let DeviceService = exports.DeviceService = class DeviceService {
 exports.DeviceService = DeviceService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(device_entity_1.Device)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(entities_1.User)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], DeviceService);
 //# sourceMappingURL=device.service.js.map

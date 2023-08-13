@@ -27,9 +27,8 @@ let UserController = exports.UserController = class UserController {
     currentUser({ email }) {
         return this.userService.getUserByEmail(email);
     }
-    getUserAll({ page, pageSize }) {
-        console.log(page);
-        return this.userService.getUserAll(page);
+    getUserAll(page, pageSize) {
+        return this.userService.getUserAll({ page, pageSize });
     }
     delUser({ id }) {
         return this.userService.delUser(id);
@@ -59,10 +58,11 @@ __decorate([
     __metadata("design:returntype", Object)
 ], UserController.prototype, "currentUser", null);
 __decorate([
-    (0, common_1.Get)('/all/:page'),
-    __param(0, (0, common_1.Param)()),
+    (0, common_1.Get)('/all/:page/:pageSize'),
+    __param(0, (0, common_1.Param)("page", common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Param)("pageSize", common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Object)
 ], UserController.prototype, "getUserAll", null);
 __decorate([

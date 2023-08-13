@@ -1,4 +1,4 @@
-import { Controller, Get,Post,Request,Query,Body,Headers,Param,Response, UseGuards  } from '@nestjs/common';
+import { Controller, Get,Post,Request,Query,Body,Headers,Param,Response, UseGuards,ParseIntPipe  } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RoleGuard } from 'src/role/role.guard';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -17,12 +17,10 @@ export class UserController {
         return this.userService.getUserByEmail(email)        
     }
     
-    @Get('/all/:page')
+    @Get('/all/:page/:pageSize')
     // @UseGuards(RoleGuard)
-    getUserAll(@Param() {page,pageSize}):any{
-        console.log(page);
-        
-        return this.userService.getUserAll(page)
+    getUserAll(@Param("page",ParseIntPipe) page,@Param("pageSize",ParseIntPipe) pageSize):any{
+        return this.userService.getUserAll({page,pageSize})
     }
     @Get('/delete/:id')
     @UseGuards(AuthGuard)

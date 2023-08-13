@@ -12,8 +12,12 @@ export class Device {
   @Column({type:"varchar",length:255,default:null})
   deviceId:string
 
-  @Column({type:"varchar",default:''})
-  location:string
+  @Column("simple-json")
+  location:{
+      location:string,
+      lng:number,
+      lat:number
+  }
 
   @Column({type:"varchar",default:'voltronicpower'})
   supplier:string
@@ -25,7 +29,7 @@ export class Device {
   date:Date
 
 
-  @ManyToOne(()=>User,User=>User.device)
+  @ManyToOne(()=>User)
   user:User
 
 

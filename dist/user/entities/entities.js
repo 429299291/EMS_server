@@ -16,7 +16,7 @@ let User = exports.User = class User {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], User.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 255, default: "user" }),
@@ -74,7 +74,7 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => device_entity_1.Device, Device => Device.user),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", Array)
-], User.prototype, "device", void 0);
+], User.prototype, "devices", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);

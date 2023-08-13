@@ -23,10 +23,23 @@ let UserService = exports.UserService = class UserService {
     constructor(user) {
         this.user = user;
     }
-    getUserAll(body) {
-        const data = this.user.find();
+    async getUserAll(body) {
+        const data = await this.user.find({
+            relations: ["devices"],
+            where: {
+                age: (0, typeorm_1.Not)(0)
+            },
+            skip: (body.page - 1) * body.pageSize,
+            take: body.pageSize
+        });
+        const total = await this.user.count({
+            where: {
+                age: (0, typeorm_1.Not)(0)
+            },
+        });
         return {
-            ...data,
+            data,
+            total
         };
     }
     getUserByName(name) {

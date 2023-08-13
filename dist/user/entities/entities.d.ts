@@ -1,6 +1,6 @@
 import { Device } from "src/device/entities/device.entity";
 export declare class User {
-    id: number;
+    id: string;
     name: string;
     avatar: string;
     age: number;
@@ -16,5 +16,5 @@ export declare class User {
     location: {
         location: string;
     };
-    device: Device[];
+    devices: Device[];
 }

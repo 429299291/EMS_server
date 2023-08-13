@@ -4,7 +4,7 @@ import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated, OneToMa
 @Entity()
 export class User{
     @PrimaryGeneratedColumn('uuid')  //自增  uuid 不重复
-    id:number
+    id:string
 
     @Column({type:"varchar",length:255,default:"user"})
     name:string
@@ -49,5 +49,5 @@ export class User{
     
     @OneToMany(()=>Device,Device=>Device.user)
     @JoinColumn()
-    device:Device[]
+    devices:Device[]
 }

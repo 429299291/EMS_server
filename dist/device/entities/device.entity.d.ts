@@ -4,7 +4,11 @@ export declare class Device {
     id: number;
     name: string;
     deviceId: string;
-    location: string;
+    location: {
+        location: string;
+        lng: number;
+        lat: number;
+    };
     supplier: string;
     WorkingMode: number;
     date: Date;

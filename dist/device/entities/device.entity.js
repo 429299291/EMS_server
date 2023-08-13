@@ -28,8 +28,8 @@ __decorate([
     __metadata("design:type", String)
 ], Device.prototype, "deviceId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", default: '' }),
-    __metadata("design:type", String)
+    (0, typeorm_1.Column)("simple-json"),
+    __metadata("design:type", Object)
 ], Device.prototype, "location", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", default: 'voltronicpower' }),
@@ -44,7 +44,7 @@ __decorate([
     __metadata("design:type", Date)
 ], Device.prototype, "date", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => entities_1.User, User => User.device),
+    (0, typeorm_1.ManyToOne)(() => entities_1.User),
     __metadata("design:type", entities_1.User)
 ], Device.prototype, "user", void 0);
 __decorate([

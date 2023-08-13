@@ -4,7 +4,7 @@ import { UpdateDeviceDto } from './dto/update-device.dto';
 export declare class DeviceController {
     private readonly deviceService;
     constructor(deviceService: DeviceService);
-    create(createDeviceDto: CreateDeviceDto): Promise<(CreateDeviceDto & import("./entities/device.entity").Device) | {
+    create(createDeviceDto: CreateDeviceDto): Promise<import("../user/entities/entities").User | {
         code: number;
         message: string;
     }>;
