@@ -29,7 +29,7 @@ let UserService = exports.UserService = class UserService {
             where: {
                 age: (0, typeorm_1.Not)(0)
             },
-            skip: (body.page - 1) * body.pageSize,
+            skip: (body.page) * body.pageSize,
             take: body.pageSize
         });
         const total = await this.user.count({

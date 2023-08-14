@@ -15,7 +15,7 @@ export class UserService {
             where:{
                 age:Not(0)
             },
-            skip:(body.page-1)* body.pageSize,       //分页
+            skip:(body.page)* body.pageSize,       //分页
             take:body.pageSize
         })
 
