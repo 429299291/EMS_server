@@ -76,14 +76,14 @@ export class DeviceService {
         const data = await this.device.find({
             // relations:["devices"],
             where:{
-              WorkingMode:Not(0)
+              WorkingMode:Not(9)
             },
             skip:(body.current-1)* body.pageSize,       //分页
             take:body.pageSize
         })            
         const total = await this.device.count({
             where:{
-                WorkingMode:Not(0)
+                WorkingMode:Not(9)
             },
         })
         return {

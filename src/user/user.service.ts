@@ -70,14 +70,14 @@ export class UserService {
             const data = await this.user.find({
                 relations:["devices"],
                 where:{
-                    age:Not(0)
+                    age:Not(999)
                 },
                 skip:(body.current-1)* body.pageSize,       //分页
                 take:body.pageSize
             })            
             const total = await this.user.count({
                 where:{
-                    age:Not(0)
+                    age:Not(999)
                 },
             })
             return {
