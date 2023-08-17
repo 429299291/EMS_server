@@ -4,6 +4,7 @@ import { UpdateMqttDto } from './dto/update-mqtt.dto';
 export declare class MqttController {
     private readonly mqttService;
     constructor(mqttService: MqttService);
+    getDevices(body: any): void;
     findAlls(): Promise<import("./entities/mqtt.entity").EMS123[]>;
     create(createMqttDto: CreateMqttDto): Promise<any>;
     findOne(id: number): string;

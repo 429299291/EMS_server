@@ -4,10 +4,14 @@ export declare class Device {
     id: number;
     name: string;
     deviceId: string;
+    status: number;
     location: {
         location: string;
         lng: number;
         lat: number;
+        electrovalency: number;
+        maxElectrovalency: number;
+        minElectrovalency: number;
     };
     supplier: string;
     WorkingMode: number;

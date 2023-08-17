@@ -37,6 +37,74 @@ let DeviceService = exports.DeviceService = class DeviceService {
             return this.user.save(user);
         }
     }
+    async getDevices(body) {
+        if (body.name) {
+            const data = await this.device.find({
+                where: {
+                    name: (0, typeorm_2.Like)(`%${body.name}%`)
+                },
+                skip: (body.current - 1) * body.pageSize,
+                take: body.pageSize
+            });
+            const total = await this.device.count({
+                where: {
+                    name: (0, typeorm_2.Like)(`%${body.name}%`)
+                },
+            });
+            return {
+                data,
+                total,
+                success: data ? true : false
+            };
+        }
+        else if (body.location) {
+            const data = await this.device.find({
+                where: {
+                    location: (0, typeorm_2.Like)(`%${body.location}%`)
+                },
+                skip: (body.current - 1) * body.pageSize,
+                take: body.pageSize
+            });
+            const total = await this.device.count({
+                where: {
+                    location: (0, typeorm_2.Like)(`%${body.location}%`)
+                },
+            });
+            return {
+                data,
+                total,
+                success: data ? true : false
+            };
+        }
+        else if (body.id) {
+            const data = await this.device.findOneBy({ id: body.id });
+            const total = await this.device.countBy({ id: body.id });
+            return {
+                data,
+                total,
+                success: data ? true : false
+            };
+        }
+        else {
+            const data = await this.device.find({
+                where: {
+                    WorkingMode: (0, typeorm_2.Not)(0)
+                },
+                skip: (body.current - 1) * body.pageSize,
+                take: body.pageSize
+            });
+            const total = await this.device.count({
+                where: {
+                    WorkingMode: (0, typeorm_2.Not)(0)
+                },
+            });
+            return {
+                data,
+                total,
+                success: data ? true : false
+            };
+        }
+    }
     findAll() {
         return this.device.find();
     }

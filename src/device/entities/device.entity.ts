@@ -12,11 +12,17 @@ export class Device {
   @Column({type:"varchar",length:255,default:null})
   deviceId:string
 
+  @Column({type:"int"})
+  status:number
+
   @Column("simple-json")
   location:{
       location:string,
       lng:number,
-      lat:number
+      lat:number,
+      electrovalency:number,
+      maxElectrovalency:number,
+      minElectrovalency:number
   }
 
   @Column({type:"varchar",default:'voltronicpower'})

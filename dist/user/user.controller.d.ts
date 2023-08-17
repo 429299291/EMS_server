@@ -7,6 +7,7 @@ export declare class UserController {
         email: any;
     }): any;
     getUserAll(page: any, pageSize: any): any;
+    getUsers(body: any): any;
     delUser({ id }: {
         id: any;
     }): any;

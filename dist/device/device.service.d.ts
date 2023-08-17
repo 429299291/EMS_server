@@ -11,6 +11,15 @@ export declare class DeviceService {
         code: number;
         message: string;
     }>;
+    getDevices(body: any): Promise<{
+        data: Device[];
+        total: number;
+        success: boolean;
+    } | {
+        data: Device;
+        total: number;
+        success: boolean;
+    }>;
     findAll(): Promise<Device[]>;
     findOne(id: number): string;
     update(id: number, updateDeviceDto: UpdateDeviceDto): string;

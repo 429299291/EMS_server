@@ -9,13 +9,13 @@ const bcrypt = require('bcrypt')
 @Injectable()
 export class UserService {
     constructor(@InjectRepository(User) private readonly user:Repository<User>){}
-    async getUserAll(body) {        
+    async getUserAll(body) {     
         const data = await this.user.find({
             relations:["devices"],
             where:{
                 age:Not(0)
             },
-            skip:(body.page)* body.pageSize,       //分页
+            skip:(body.page-1)* body.pageSize,       //分页
             take:body.pageSize
         })
 
@@ -27,6 +27,63 @@ export class UserService {
         return {
             data,
             total
+        }
+    }
+    async getUsers(body) {
+        if(body.name){
+            const data = await this.user.find({
+                relations:["devices"],
+                where:{
+                    name:Like(`%${body.name}%`)
+                },
+                skip:(body.current-1)* body.pageSize,       //分页
+                take:body.pageSize
+            })
+            const total = await this.user.count({
+                where:{
+                    name:Like(`%${body.name}%`)
+                },
+            })
+            return {
+                data,
+                total
+            }
+        }else if(body.email){
+            const data = await this.user.find({
+                relations:["devices"],
+                where:{
+                    email:Like(`%${body.email}%`)
+                },
+                skip:(body.current-1)* body.pageSize,       //分页
+                take:body.pageSize
+            })
+            const total = await this.user.count({
+                where:{
+                    email:Like(`%${body.email}%`)
+                },
+            })            
+            return {
+                data,
+                total
+            }
+        }else{            
+            const data = await this.user.find({
+                relations:["devices"],
+                where:{
+                    age:Not(0)
+                },
+                skip:(body.current-1)* body.pageSize,       //分页
+                take:body.pageSize
+            })            
+            const total = await this.user.count({
+                where:{
+                    age:Not(0)
+                },
+            })
+            return {
+                data,
+                total
+            }
         }
     }
     getUserByName(name:string) {

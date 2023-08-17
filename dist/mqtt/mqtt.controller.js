@@ -19,22 +19,43 @@ const mqtt_service_1 = require("./mqtt.service");
 const create_mqtt_dto_1 = require("./dto/create-mqtt.dto");
 const update_mqtt_dto_1 = require("./dto/update-mqtt.dto");
 const mqtt = require("mqtt");
+let client;
 let MqttController = exports.MqttController = class MqttController {
     constructor(mqttService) {
         this.mqttService = mqttService;
-        const client = mqtt.connect('mqtt://47.106.120.119', {
+        client = mqtt.connect('mqtt://47.106.120.119', {
             username: "ems",
             password: "xuheng8888",
+            protocolId: 'MQTT',
+            clientId: 'EMS-12345',
         });
         client.on('connect', function () {
-            client.subscribe('HEMS', function (err) {
+            client.subscribe(`HEMS`, function (err) {
                 if (!err) {
+                    setInterval(() => {
+                        client.publish(`EMS/${(Math.random() * 100000).toFixed(0)}`, JSON.stringify({
+                            name: `EMS-23`,
+                            userId: '1b68ccbb-f276-4a98-9523-156fc412ab51',
+                            id: (Math.random() * 100000).toFixed(0),
+                            timeStamp: Math.floor(new Date().getTime() / 1000),
+                            location: "深圳",
+                            supplier: 'voltronicpower',
+                            WorkingMode: Math.ceil(Math.random() * 4),
+                        }), { qos: 1, retain: true });
+                    }, 60000);
                 }
             });
         });
         client.on('message', (topic, message) => {
             this.mqttService.create(message);
         });
+    }
+    getDevices(body) {
+        client.publish(`EMS/${(Math.random() * 100000).toFixed(0)}`, JSON.stringify({
+            ...body,
+            name: `EMS-110`,
+            timeStamp: Math.floor(new Date().getTime() / 1000),
+        }), { qos: 1, retain: true });
     }
     findAlls() {
         return this.mqttService.findAll();
@@ -52,6 +73,13 @@ let MqttController = exports.MqttController = class MqttController {
         return this.mqttService.remove(id);
     }
 };
+__decorate([
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], MqttController.prototype, "getDevices", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),

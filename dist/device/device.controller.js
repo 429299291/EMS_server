@@ -24,6 +24,9 @@ let DeviceController = exports.DeviceController = class DeviceController {
     create(createDeviceDto) {
         return this.deviceService.create(createDeviceDto);
     }
+    getDevices(createDeviceDto) {
+        return this.deviceService.getDevices(createDeviceDto);
+    }
     findAll() {
         return this.deviceService.findAll();
     }
@@ -44,6 +47,13 @@ __decorate([
     __metadata("design:paramtypes", [create_device_dto_1.CreateDeviceDto]),
     __metadata("design:returntype", void 0)
 ], DeviceController.prototype, "create", null);
+__decorate([
+    (0, common_1.Post)('devices'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_device_dto_1.CreateDeviceDto]),
+    __metadata("design:returntype", void 0)
+], DeviceController.prototype, "getDevices", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),

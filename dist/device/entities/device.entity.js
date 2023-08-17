@@ -28,6 +28,10 @@ __decorate([
     __metadata("design:type", String)
 ], Device.prototype, "deviceId", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: "int" }),
+    __metadata("design:type", Number)
+], Device.prototype, "status", void 0);
+__decorate([
     (0, typeorm_1.Column)("simple-json"),
     __metadata("design:type", Object)
 ], Device.prototype, "location", void 0);

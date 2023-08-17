@@ -29,7 +29,7 @@ let UserService = exports.UserService = class UserService {
             where: {
                 age: (0, typeorm_1.Not)(0)
             },
-            skip: (body.page) * body.pageSize,
+            skip: (body.page - 1) * body.pageSize,
             take: body.pageSize
         });
         const total = await this.user.count({
@@ -41,6 +41,65 @@ let UserService = exports.UserService = class UserService {
             data,
             total
         };
+    }
+    async getUsers(body) {
+        if (body.name) {
+            const data = await this.user.find({
+                relations: ["devices"],
+                where: {
+                    name: (0, typeorm_1.Like)(`%${body.name}%`)
+                },
+                skip: (body.current - 1) * body.pageSize,
+                take: body.pageSize
+            });
+            const total = await this.user.count({
+                where: {
+                    name: (0, typeorm_1.Like)(`%${body.name}%`)
+                },
+            });
+            return {
+                data,
+                total
+            };
+        }
+        else if (body.email) {
+            const data = await this.user.find({
+                relations: ["devices"],
+                where: {
+                    email: (0, typeorm_1.Like)(`%${body.email}%`)
+                },
+                skip: (body.current - 1) * body.pageSize,
+                take: body.pageSize
+            });
+            const total = await this.user.count({
+                where: {
+                    email: (0, typeorm_1.Like)(`%${body.email}%`)
+                },
+            });
+            return {
+                data,
+                total
+            };
+        }
+        else {
+            const data = await this.user.find({
+                relations: ["devices"],
+                where: {
+                    age: (0, typeorm_1.Not)(0)
+                },
+                skip: (body.current - 1) * body.pageSize,
+                take: body.pageSize
+            });
+            const total = await this.user.count({
+                where: {
+                    age: (0, typeorm_1.Not)(0)
+                },
+            });
+            return {
+                data,
+                total
+            };
+        }
     }
     getUserByName(name) {
         return this.user.find({

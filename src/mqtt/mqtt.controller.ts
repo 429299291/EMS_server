@@ -1,79 +1,36 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get,Post,Body } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { MqttService } from './mqtt.service';
 import { CreateMqttDto } from './dto/create-mqtt.dto';
 import { UpdateMqttDto } from './dto/update-mqtt.dto';
 import * as mqtt from "mqtt"
-
+import { log } from 'console';
+let client 
 
 @Controller('ems')
 export class MqttController {
   constructor(private readonly mqttService: MqttService) {
     // this.mqttService.create({name:"ems111"})'
-    const client  = mqtt.connect('mqtt://47.106.120.119',{
+    client  = mqtt.connect('mqtt://47.106.120.119',{
     username:"ems",
     password:"xuheng8888",
+    protocolId:'MQTT',
+    clientId: 'EMS-12345',
   })
     client.on('connect', function () {
-      client.subscribe('HEMS', function (err) {
+      client.subscribe(`HEMS`, function (err) {
         if (!err) {
-          // setInterval(()=>{
-          //   client.publish('HEMS',JSON.stringify({
-          //     name:`EMS123-12`,
-          //     // userId:'1b68ccbb-f276-4a98-9523-156fc412ab51',  //终端所有权ID
-          //     id:(Math.random()*100000).toFixed(0),//终端识别ID
-          //     timeStamp:1234567890,
-          //     // location:"SZX",
-          //     // supplier:'voltronicpower',
-          //     WorkingMode:1,
-          //     BAT:[{     //电池
-          //       id:'bat001',
-          //       isOn:true,
-          //       power:19,     //功率
-          //       SOC:60,     //电池容量
-          //       SOH:88,     //电池健康度
-          //       maxTemp:40,    //电池温度
-          //       minTemp:40,    //电池温度
-          //     }],
-          //     EV:[{     //充电桩 home取消
-          //       id:'ev001',
-          //       status:1,
-          //       power:16,
-          //       electricCurrent:40,   //电流
-          //     }],
-          //     GRID:[{
-          //       power:2,
-          //       volt:22    //电压
-          //     }],
-          //     PV:[{      //光伏
-          //       id:'ev001',
-          //       isOn:true,
-          //       power:14,
-          //     }],
-          //     HOME:[{
-          //       isOn:true,
-          //       power:11
-          //     }],
-          //     // INV:[{    //123没有
-          //     //   id:"home001",
-          //     //   isOn:true,
-          //     //   power:22,
-          //     // }],
-          //     fault:[
-          //       {
-          //         id:'213123',
-          //         name:'光伏1号',
-          //         errorCode:204,
-          //         // status:"正在维修"   //服务器处理
-          //       },
-          //       {
-          //         id:"434242",
-          //         name:'充电桩2号',
-          //         errorCode:"充电线路故障",
-          //       }            
-          //     ],
-          //   }),{qos:0,retain:false})
-          // },2000)
+          setInterval(()=>{
+            client.publish(`EMS/${(Math.random()*100000).toFixed(0)}`,JSON.stringify({
+              name:`EMS-23`,
+              userId:'1b68ccbb-f276-4a98-9523-156fc412ab51',  //终端所有权ID
+              id:(Math.random()*100000).toFixed(0),//终端识别ID
+              timeStamp:Math.floor(new Date().getTime()/1000),
+              location:"深圳",
+              supplier:'voltronicpower',
+              WorkingMode:Math.ceil(Math.random()*4),
+            }),{qos:1,retain:true})
+          },60000)
 
           // client.publish('HEMS', JSON.stringify(
           //   {
@@ -166,10 +123,17 @@ export class MqttController {
       // console.log(message.toString());
       this.mqttService.create(message)
       // client.end()
-    })
-
-    
+    })    
   }  
+
+  @Post()
+  getDevices(@Body() body) {
+    client.publish(`EMS/${(Math.random()*100000).toFixed(0)}`,JSON.stringify({
+      ...body,
+      name:`EMS-110`,
+      timeStamp:Math.floor(new Date().getTime()/1000),
+    }),{qos:1,retain:true})
+  }
 
   @Get()
   findAlls() {

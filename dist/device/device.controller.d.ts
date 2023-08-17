@@ -8,6 +8,15 @@ export declare class DeviceController {
         code: number;
         message: string;
     }>;
+    getDevices(createDeviceDto: CreateDeviceDto): Promise<{
+        data: import("./entities/device.entity").Device[];
+        total: number;
+        success: boolean;
+    } | {
+        data: import("./entities/device.entity").Device;
+        total: number;
+        success: boolean;
+    }>;
     findAll(): Promise<import("./entities/device.entity").Device[]>;
     findOne(id: string): string;
     update(id: string, updateDeviceDto: UpdateDeviceDto): string;

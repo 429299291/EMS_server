@@ -7,6 +7,10 @@ export declare class UserService {
         data: User[];
         total: number;
     }>;
+    getUsers(body: any): Promise<{
+        data: User[];
+        total: number;
+    }>;
     getUserByName(name: string): Promise<User[]>;
     getUserByEmail(email: string): Promise<User>;
     findOne(email: string): Promise<User | null>;

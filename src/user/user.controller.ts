@@ -22,6 +22,11 @@ export class UserController {
     getUserAll(@Param("page",ParseIntPipe) page,@Param("pageSize",ParseIntPipe) pageSize):any{
         return this.userService.getUserAll({page,pageSize})
     }
+    @Post('/getUsers')
+    @UseGuards(RoleGuard)
+    getUsers(@Body() body):any{
+        return this.userService.getUsers(body)
+    }
     @Get('/delete/:id')
     @UseGuards(AuthGuard)
     delUser(@Param() {id}):any{      
