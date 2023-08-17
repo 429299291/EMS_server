@@ -26,7 +26,7 @@ export class MqttController {
               timeStamp:Math.floor(new Date().getTime()/1000),
               location:"深圳",
               supplier:'voltronicpower',
-              WorkingMode:Math.ceil(Math.random()*4),
+              WorkingMode:Math.ceil(Math.random()*3),
             }),{qos:1,retain:true})
           },60000)
 
