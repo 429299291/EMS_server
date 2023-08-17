@@ -4,9 +4,7 @@ import { MqttService } from './mqtt.service';
 import { CreateMqttDto } from './dto/create-mqtt.dto';
 import { UpdateMqttDto } from './dto/update-mqtt.dto';
 import * as mqtt from "mqtt"
-import { log } from 'console';
 let client 
-
 @Controller('ems')
 export class MqttController {
   constructor(private readonly mqttService: MqttService) {
