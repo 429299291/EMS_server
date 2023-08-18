@@ -88,14 +88,14 @@ let DeviceService = exports.DeviceService = class DeviceService {
         else {
             const data = await this.device.find({
                 where: {
-                    WorkingMode: (0, typeorm_2.Not)(0)
+                    WorkingMode: (0, typeorm_2.Not)(9)
                 },
                 skip: (body.current - 1) * body.pageSize,
                 take: body.pageSize
             });
             const total = await this.device.count({
                 where: {
-                    WorkingMode: (0, typeorm_2.Not)(0)
+                    WorkingMode: (0, typeorm_2.Not)(9)
                 },
             });
             return {

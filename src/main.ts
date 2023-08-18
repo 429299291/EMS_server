@@ -13,6 +13,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname,'../files/images/avatar'),{
     // prefix:"api"
   })
+  app.enableCors()//允许跨域
   app.use(MiddleWareAll)
   app.useGlobalPipes(new ValidationPipe())//管道验证
   app.enableCors();

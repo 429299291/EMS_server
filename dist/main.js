@@ -11,6 +11,7 @@ const MiddleWareAll = (req, res, next) => {
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.useStaticAssets((0, path_1.join)(__dirname, '../files/images/avatar'), {});
+    app.enableCors();
     app.use(MiddleWareAll);
     app.useGlobalPipes(new common_1.ValidationPipe());
     app.enableCors();

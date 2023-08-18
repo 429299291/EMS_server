@@ -85,14 +85,14 @@ let UserService = exports.UserService = class UserService {
             const data = await this.user.find({
                 relations: ["devices"],
                 where: {
-                    age: (0, typeorm_1.Not)(0)
+                    age: (0, typeorm_1.Not)(999)
                 },
                 skip: (body.current - 1) * body.pageSize,
                 take: body.pageSize
             });
             const total = await this.user.count({
                 where: {
-                    age: (0, typeorm_1.Not)(0)
+                    age: (0, typeorm_1.Not)(999)
                 },
             });
             return {

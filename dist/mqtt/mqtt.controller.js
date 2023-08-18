@@ -40,7 +40,7 @@ let MqttController = exports.MqttController = class MqttController {
                             timeStamp: Math.floor(new Date().getTime() / 1000),
                             location: "深圳",
                             supplier: 'voltronicpower',
-                            WorkingMode: Math.ceil(Math.random() * 4),
+                            WorkingMode: Math.ceil(Math.random() * 4 - 1),
                         }), { qos: 1, retain: true });
                     }, 60000);
                 }
@@ -56,6 +56,9 @@ let MqttController = exports.MqttController = class MqttController {
             name: `EMS-110`,
             timeStamp: Math.floor(new Date().getTime() / 1000),
         }), { qos: 1, retain: true });
+        return {
+            success: true,
+        };
     }
     findAlls() {
         return this.mqttService.findAll();

@@ -125,12 +125,15 @@ export class MqttController {
   }  
 
   @Post()
-  getDevices(@Body() body) {
+  getDevices(@Body() body) {    
     client.publish(`EMS/${(Math.random()*100000).toFixed(0)}`,JSON.stringify({
       ...body,
       name:`EMS-110`,
       timeStamp:Math.floor(new Date().getTime()/1000),
     }),{qos:1,retain:true})
+    return {
+      success:true,
+    }
   }
 
   @Get()
