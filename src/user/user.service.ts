@@ -95,6 +95,7 @@ export class UserService {
     }
     getUserByEmail(email:string) {
         return this.user.findOne({
+            relations:["devices"],
             where:{
                 email:Like(`%${email}%`)
             }

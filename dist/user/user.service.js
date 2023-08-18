@@ -110,6 +110,7 @@ let UserService = exports.UserService = class UserService {
     }
     getUserByEmail(email) {
         return this.user.findOne({
+            relations: ["devices"],
             where: {
                 email: (0, typeorm_1.Like)(`%${email}%`)
             }
