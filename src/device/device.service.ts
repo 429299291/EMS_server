@@ -26,7 +26,7 @@ export class DeviceService {
     }
   }
   async getDevices(body) {
-    if(body.name){
+    if(body.name&&body.name !==''){
         const data = await this.device.find({
             // relations:["devices"],
             where:{
@@ -45,7 +45,7 @@ export class DeviceService {
             total,
             success:data?true:false
           }
-    }else if(body.location){
+    }else if(body.location&& body.location!==''){
       const data = await this.device.find({
           // relations:["devices"],
           where:{
@@ -64,15 +64,15 @@ export class DeviceService {
           total,
           success:data?true:false
         }
-  }else if(body.id){
-    const data = await this.device.findOneBy({id:body.id})
-    const total = await this.device.countBy({id:body.id})     
+  }else if(body.deviceId&&body.deviceId!==''){    
+    const data = await this.device.findOneBy({deviceId:body.deviceId})
+    const total = await this.device.countBy({deviceId:body.deviceId})     
     return {
         data,
         total,
         success:data?true:false
     }
-}else{            
+}else{              
         const data = await this.device.find({
             // relations:["devices"],
             where:{

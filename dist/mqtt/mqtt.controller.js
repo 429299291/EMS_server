@@ -32,17 +32,15 @@ let MqttController = exports.MqttController = class MqttController {
         client.on('connect', function () {
             client.subscribe(`HEMS`, function (err) {
                 if (!err) {
-                    setInterval(() => {
-                        client.publish(`EMS/${(Math.random() * 100000).toFixed(0)}`, JSON.stringify({
-                            name: `EMS-23`,
-                            userId: '1b68ccbb-f276-4a98-9523-156fc412ab51',
-                            id: (Math.random() * 100000).toFixed(0),
-                            timeStamp: Math.floor(new Date().getTime() / 1000),
-                            location: "深圳",
-                            supplier: 'voltronicpower',
-                            WorkingMode: Math.ceil(Math.random() * 4 - 1),
-                        }), { qos: 1, retain: true });
-                    }, 60000);
+                    client.publish(`EMS/${(Math.random() * 100000).toFixed(0)}`, JSON.stringify({
+                        name: `EMS-23`,
+                        userId: '1b68ccbb-f276-4a98-9523-156fc412ab51',
+                        id: (Math.random() * 100000).toFixed(0),
+                        timeStamp: Math.floor(new Date().getTime() / 1000),
+                        location: "深圳",
+                        supplier: 'voltronicpower',
+                        WorkingMode: Math.ceil(Math.random() * 4 - 1),
+                    }), { qos: 1, retain: true });
                 }
             });
         });

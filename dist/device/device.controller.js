@@ -25,6 +25,7 @@ let DeviceController = exports.DeviceController = class DeviceController {
         return this.deviceService.create(createDeviceDto);
     }
     getDevices(createDeviceDto) {
+        console.log(createDeviceDto);
         return this.deviceService.getDevices(createDeviceDto);
     }
     findAll() {

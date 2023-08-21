@@ -14,6 +14,8 @@ export class DeviceController {
 
   @Post('devices')
   getDevices(@Body() createDeviceDto: CreateDeviceDto) {
+    console.log(createDeviceDto);
+    
     return this.deviceService.getDevices(createDeviceDto);
   }
 
