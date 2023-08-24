@@ -12,6 +12,8 @@ export declare class Device {
         electrovalency: number;
         maxElectrovalency: number;
         minElectrovalency: number;
+        sunrise: string;
+        sunset: string;
     };
     supplier: string;
     WorkingMode: number;

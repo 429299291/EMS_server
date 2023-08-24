@@ -93,7 +93,7 @@ export class UserService {
             }
         });
     }
-    getUserByEmail(email:string) {
+    getUserByEmail(email:string) {        
         return this.user.findOne({
             relations:["devices"],
             where:{

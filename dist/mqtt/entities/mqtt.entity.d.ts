@@ -1,16 +1,17 @@
 import { Device } from "src/device/entities/device.entity";
 interface bat {
     id: string;
-    isOn: boolean;
+    volt: number;
     power: number;
     SOC: number;
-    SOH: number;
-    maxTemp: number;
-    minTemp: number;
+    SOH?: number;
+    maxTemp?: number;
+    minTemp?: number;
 }
 interface ev {
     id: string;
-    status: string;
+    status?: number;
+    volt: number;
     power: number;
     electricCurrent: number;
 }
@@ -19,20 +20,19 @@ interface grid {
     volt: number;
 }
 interface pv {
-    id: string;
-    isOn: boolean;
+    id?: string;
     power: number;
+    volt: number;
 }
 interface inv {
     id: string;
-    isOn: boolean;
     power: number;
     electricCurrent: number;
     volt: number;
 }
 interface home {
-    isOn: boolean;
     power: number;
+    volt: number;
 }
 interface fault {
     id: string;
@@ -48,7 +48,7 @@ export declare class EMS123 {
     GRID: grid[];
     PV: pv[];
     HOME: home[];
-    INV: inv[];
+    INV?: inv[];
     fault: fault[];
     timeStamp: number;
     device: Device;

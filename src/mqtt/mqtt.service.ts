@@ -39,8 +39,8 @@ export class MqttService {
     return this.ems.save(data)
   }
 
-  async findAll():Promise<EMS123[]> {
-    return this.ems.find();
+  async findAll(id):Promise<EMS123[]> {        
+    return this.ems.findBy(id);
   }
 
   findOne(id: number) {

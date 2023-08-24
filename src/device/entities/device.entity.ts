@@ -20,9 +20,11 @@ export class Device {
       location:string,
       lng:number,
       lat:number,
-      electrovalency:number,
+      electrovalency:number,//电价
       maxElectrovalency:number,
-      minElectrovalency:number
+      minElectrovalency:number,
+      sunrise:string,
+      sunset:string,
   }
 
   @Column({type:"varchar",default:'voltronicpower'})

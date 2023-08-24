@@ -51,8 +51,8 @@ let MqttService = exports.MqttService = class MqttService {
         }
         return this.ems.save(data);
     }
-    async findAll() {
-        return this.ems.find();
+    async findAll(id) {
+        return this.ems.findBy(id);
     }
     findOne(id) {
         return `This action returns a #${id} mqtt`;

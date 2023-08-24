@@ -3,39 +3,39 @@ import { Device } from "src/device/entities/device.entity"
 import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated,ManyToOne} from "typeorm"
 interface bat {     //电池
     id:string,
-    isOn:boolean,
+    volt:number,
     power:number,     //功率
     SOC:number,     //电池容量
-    SOH:number,     //电池健康度
-    maxTemp:number,    //电池温度
-    minTemp:number,    //电池温度
+    SOH?:number,     //电池健康度
+    maxTemp?:number,    //电池温度
+    minTemp?:number,    //电池温度
 }
 interface ev {
     id:string,
-    status:string,
+    status?:number,
+    volt:number,
     power:number,
     electricCurrent:number,     
 }
 interface grid {
     power:number,       //正负值,正是买电,负值是卖电
-    volt:number,        //电压0 停电
+    volt:number,
 }
 interface pv {
-    id:string,
-    isOn:boolean,
+    id?:string,
     power:number,        //0为不发电
+    volt:number,
 }
 interface inv {     //逆变器----123取消
     id:string,
-    isOn:boolean,
     power:number,
     electricCurrent:number,
-    volt:number
+    volt:number,
 }
 
 interface home {
-    isOn:boolean,
     power:number,
+    volt:number,
 }
 interface fault {
     id:string,
@@ -77,7 +77,7 @@ export class EMS123{
     HOME:home[]
 
     @Column("simple-json")
-    INV:inv[]
+    INV?:inv[]
 
     @Column("simple-array")
     fault:fault[]

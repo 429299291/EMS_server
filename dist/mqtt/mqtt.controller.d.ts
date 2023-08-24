@@ -7,7 +7,7 @@ export declare class MqttController {
     getDevices(body: any): {
         success: boolean;
     };
-    findAlls(): Promise<import("./entities/mqtt.entity").EMS123[]>;
+    findAlls(params: any): Promise<import("./entities/mqtt.entity").EMS123[]>;
     create(createMqttDto: CreateMqttDto): Promise<any>;
     findOne(id: number): string;
     update(updateMqttDto: UpdateMqttDto): string;
