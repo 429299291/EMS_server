@@ -4,6 +4,7 @@ import { MqttService } from './mqtt.service';
 import { CreateMqttDto } from './dto/create-mqtt.dto';
 import { UpdateMqttDto } from './dto/update-mqtt.dto';
 import * as mqtt from "mqtt"
+import { log } from 'console';
 let client 
 @Controller('ems')
 export class MqttController {
@@ -104,7 +105,9 @@ export class MqttController {
 
   @Post()
   getDevices(@Body() body) {    
-    client.publish(`EMS/${(Math.random()*100000).toFixed(0)}`,JSON.stringify({
+    console.log(body);
+    
+    client.publish(`EMS/server/${body.terminalID}`,JSON.stringify({
       ...body,
       name:`EMS-110`,
       timeStamp:Math.floor(new Date().getTime()/1000),

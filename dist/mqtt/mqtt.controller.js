@@ -40,7 +40,8 @@ let MqttController = exports.MqttController = class MqttController {
         });
     }
     getDevices(body) {
-        client.publish(`EMS/${(Math.random() * 100000).toFixed(0)}`, JSON.stringify({
+        console.log(body);
+        client.publish(`EMS/server/${body.terminalID}`, JSON.stringify({
             ...body,
             name: `EMS-110`,
             timeStamp: Math.floor(new Date().getTime() / 1000),
