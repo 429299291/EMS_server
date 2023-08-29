@@ -1,9 +1,9 @@
 import { EMS123 } from "src/mqtt/entities/mqtt.entity";
 import { User } from "src/user/entities/entities";
-export declare class Device {
+export declare class Terminal {
     id: number;
     name: string;
-    deviceId: string;
+    terminalID: string;
     status: number;
     location: {
         location: string;
@@ -19,5 +19,5 @@ export declare class Device {
     WorkingMode: number;
     date: Date;
     user: User;
-    terminal: EMS123[];
+    devices: EMS123[];
 }

@@ -3,7 +3,7 @@ import { DeviceService } from './device.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 
-@Controller('device')
+@Controller('terminal')
 export class DeviceController {
   constructor(private readonly deviceService: DeviceService) {}
 
@@ -12,10 +12,8 @@ export class DeviceController {
     return this.deviceService.create(createDeviceDto);
   }
 
-  @Post('devices')
-  getDevices(@Body() createDeviceDto: CreateDeviceDto) {
-    console.log(createDeviceDto);
-    
+  @Post('terminals')
+  getDevices(@Body() createDeviceDto: CreateDeviceDto) {    
     return this.deviceService.getDevices(createDeviceDto);
   }
 

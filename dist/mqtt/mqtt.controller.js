@@ -32,60 +32,6 @@ let MqttController = exports.MqttController = class MqttController {
         client.on('connect', function () {
             client.subscribe(`HEMS`, function (err) {
                 if (!err) {
-                    client.publish('HEMS', JSON.stringify({
-                        name: `EMS123-1`,
-                        userId: '1b68ccbb-f276-4a98-9523-156fc412ab51',
-                        timeStamp: 1690774581,
-                        WorkingMode: 1,
-                        BAT: [
-                            {
-                                id: 'bat001',
-                                power: 19,
-                                volt: 22,
-                                SOC: 60,
-                                SOH: 88,
-                                maxTemp: 40,
-                                minTemp: 20,
-                            },
-                        ],
-                        EV: [{
-                                id: 'ev001',
-                                status: 0,
-                                volt: 40,
-                                power: 16,
-                                electricCurrent: 40,
-                            }],
-                        GRID: [{
-                                power: 2,
-                                volt: 22
-                            }],
-                        PV: [{
-                                id: 'ev001',
-                                volt: 65,
-                                power: 14,
-                            }],
-                        HOME: [{
-                                volt: 40,
-                                power: 11
-                            }],
-                        INV: [{
-                                id: 'home001',
-                                volt: 40,
-                                power: 10,
-                            }],
-                        fault: [
-                            {
-                                id: '213123',
-                                name: '光伏1号',
-                                errorCode: 204,
-                            },
-                            {
-                                id: "434242",
-                                name: '充电桩2号',
-                                errorCode: 204,
-                            }
-                        ],
-                    }), { qos: 1, retain: false });
                 }
             });
         });

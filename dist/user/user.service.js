@@ -25,7 +25,7 @@ let UserService = exports.UserService = class UserService {
     }
     async getUserAll(body) {
         const data = await this.user.find({
-            relations: ["devices"],
+            relations: ["terminals"],
             where: {
                 age: (0, typeorm_1.Not)(0)
             },
@@ -45,7 +45,7 @@ let UserService = exports.UserService = class UserService {
     async getUsers(body) {
         if (body.name) {
             const data = await this.user.find({
-                relations: ["devices"],
+                relations: ["terminals"],
                 where: {
                     name: (0, typeorm_1.Like)(`%${body.name}%`)
                 },
@@ -64,7 +64,7 @@ let UserService = exports.UserService = class UserService {
         }
         else if (body.email) {
             const data = await this.user.find({
-                relations: ["devices"],
+                relations: ["terminals"],
                 where: {
                     email: (0, typeorm_1.Like)(`%${body.email}%`)
                 },
@@ -83,7 +83,7 @@ let UserService = exports.UserService = class UserService {
         }
         else {
             const data = await this.user.find({
-                relations: ["devices"],
+                relations: ["terminals"],
                 where: {
                     age: (0, typeorm_1.Not)(999)
                 },
@@ -110,7 +110,7 @@ let UserService = exports.UserService = class UserService {
     }
     getUserByEmail(email) {
         return this.user.findOne({
-            relations: ["devices"],
+            relations: ["terminals"],
             where: {
                 email: (0, typeorm_1.Like)(`%${email}%`)
             }

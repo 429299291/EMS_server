@@ -1,5 +1,5 @@
 import { error } from "console"
-import { Device } from "src/device/entities/device.entity"
+import { Terminal } from "src/device/entities/device.entity"
 import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated,ManyToOne} from "typeorm"
 interface bat {     //电池
     id:string,
@@ -85,9 +85,8 @@ export class EMS123{
     @Column({type:"int",default:null})
     timeStamp:number
 
-    @ManyToOne(()=>Device,Device=>Device.terminal)
-    device:Device
-
+    @ManyToOne(()=>Terminal,terminal=>terminal.devices)
+    terminal:Terminal
     // @CreateDateColumn({type:"timestamp"})
     // date:Date
 

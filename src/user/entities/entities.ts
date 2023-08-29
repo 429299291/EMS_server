@@ -1,4 +1,4 @@
-import { Device } from "src/device/entities/device.entity"
+import { Terminal } from "src/device/entities/device.entity"
 import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated, OneToMany, JoinColumn} from "typeorm"
 
 @Entity()
@@ -47,7 +47,7 @@ export class User{
         location:string,
     }
     
-    @OneToMany(()=>Device,Device=>Device.user)
+    @OneToMany(()=>Terminal,Terminal=>Terminal.user)
     @JoinColumn()
-    devices:Device[]
+    terminals:Terminal[]
 }

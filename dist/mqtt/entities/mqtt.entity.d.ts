@@ -1,4 +1,4 @@
-import { Device } from "src/device/entities/device.entity";
+import { Terminal } from "src/device/entities/device.entity";
 interface bat {
     id: string;
     volt: number;
@@ -51,6 +51,6 @@ export declare class EMS123 {
     INV?: inv[];
     fault: fault[];
     timeStamp: number;
-    device: Device;
+    terminal: Terminal;
 }
 export {};

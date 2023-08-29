@@ -11,7 +11,7 @@ export class UserService {
     constructor(@InjectRepository(User) private readonly user:Repository<User>){}
     async getUserAll(body) {     
         const data = await this.user.find({
-            relations:["devices"],
+            relations:["terminals"],
             where:{
                 age:Not(0)
             },
@@ -32,7 +32,7 @@ export class UserService {
     async getUsers(body) {
         if(body.name){
             const data = await this.user.find({
-                relations:["devices"],
+                relations:["terminals"],
                 where:{
                     name:Like(`%${body.name}%`)
                 },
@@ -50,7 +50,7 @@ export class UserService {
             }
         }else if(body.email){
             const data = await this.user.find({
-                relations:["devices"],
+                relations:["terminals"],
                 where:{
                     email:Like(`%${body.email}%`)
                 },
@@ -68,7 +68,7 @@ export class UserService {
             }
         }else{            
             const data = await this.user.find({
-                relations:["devices"],
+                relations:["terminals"],
                 where:{
                     age:Not(999)
                 },
@@ -95,7 +95,7 @@ export class UserService {
     }
     getUserByEmail(email:string) {        
         return this.user.findOne({
-            relations:["devices"],
+            relations:["terminals"],
             where:{
                 email:Like(`%${email}%`)
             }

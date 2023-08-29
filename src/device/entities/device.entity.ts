@@ -2,7 +2,7 @@ import { EMS123 } from "src/mqtt/entities/mqtt.entity"
 import { User } from "src/user/entities/entities"
 import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated,OneToMany, JoinColumn, OneToOne, ManyToOne} from "typeorm"
 @Entity()
-export class Device {
+export class Terminal {
   @PrimaryGeneratedColumn('uuid')  //自增  uuid 不重复
   id:number
 
@@ -10,7 +10,7 @@ export class Device {
   name:string
 
   @Column({type:"varchar",length:255,default:null})
-  deviceId:string
+  terminalID:string
 
   @Column({type:"int"})
   status:number
@@ -37,7 +37,7 @@ export class Device {
   date:Date
 
 
-  @ManyToOne(()=>User,user=>user.devices)
+  @ManyToOne(()=>User,user=>user.terminals)
   user:User
 
 
@@ -45,9 +45,9 @@ export class Device {
   // @JoinColumn()
   // terminal:EMS123
 
-  @OneToMany(()=>EMS123,EMS123=>EMS123.device)
+  @OneToMany(()=>EMS123,EMS123=>EMS123.terminal)
   @JoinColumn()
-  terminal:EMS123[]
+  devices:EMS123[]
   // @Column("simple-array")
   // BAT:bat[]
 }

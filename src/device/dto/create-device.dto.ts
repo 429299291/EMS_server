@@ -1,6 +1,6 @@
 export class CreateDeviceDto {
   readonly name: string;
-  readonly deviceId: string;
+  readonly terminalID: string;
   readonly location: object;
   readonly supplier: string;
   readonly WorkingMode: number;

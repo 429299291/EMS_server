@@ -25,7 +25,6 @@ let DeviceController = exports.DeviceController = class DeviceController {
         return this.deviceService.create(createDeviceDto);
     }
     getDevices(createDeviceDto) {
-        console.log(createDeviceDto);
         return this.deviceService.getDevices(createDeviceDto);
     }
     findAll() {
@@ -49,7 +48,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DeviceController.prototype, "create", null);
 __decorate([
-    (0, common_1.Post)('devices'),
+    (0, common_1.Post)('terminals'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_device_dto_1.CreateDeviceDto]),
@@ -84,7 +83,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DeviceController.prototype, "remove", null);
 exports.DeviceController = DeviceController = __decorate([
-    (0, common_1.Controller)('device'),
+    (0, common_1.Controller)('terminal'),
     __metadata("design:paramtypes", [device_service_1.DeviceService])
 ], DeviceController);
 //# sourceMappingURL=device.controller.js.map

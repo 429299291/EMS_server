@@ -9,54 +9,54 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Device = void 0;
+exports.Terminal = void 0;
 const mqtt_entity_1 = require("../../mqtt/entities/mqtt.entity");
 const entities_1 = require("../../user/entities/entities");
 const typeorm_1 = require("typeorm");
-let Device = exports.Device = class Device {
+let Terminal = exports.Terminal = class Terminal {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", Number)
-], Device.prototype, "id", void 0);
+], Terminal.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 255, default: "user" }),
     __metadata("design:type", String)
-], Device.prototype, "name", void 0);
+], Terminal.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 255, default: null }),
     __metadata("design:type", String)
-], Device.prototype, "deviceId", void 0);
+], Terminal.prototype, "terminalID", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "int" }),
     __metadata("design:type", Number)
-], Device.prototype, "status", void 0);
+], Terminal.prototype, "status", void 0);
 __decorate([
     (0, typeorm_1.Column)("simple-json"),
     __metadata("design:type", Object)
-], Device.prototype, "location", void 0);
+], Terminal.prototype, "location", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", default: 'voltronicpower' }),
     __metadata("design:type", String)
-], Device.prototype, "supplier", void 0);
+], Terminal.prototype, "supplier", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "int" }),
     __metadata("design:type", Number)
-], Device.prototype, "WorkingMode", void 0);
+], Terminal.prototype, "WorkingMode", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
-], Device.prototype, "date", void 0);
+], Terminal.prototype, "date", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => entities_1.User, user => user.devices),
+    (0, typeorm_1.ManyToOne)(() => entities_1.User, user => user.terminals),
     __metadata("design:type", entities_1.User)
-], Device.prototype, "user", void 0);
+], Terminal.prototype, "user", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => mqtt_entity_1.EMS123, EMS123 => EMS123.device),
+    (0, typeorm_1.OneToMany)(() => mqtt_entity_1.EMS123, EMS123 => EMS123.terminal),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", Array)
-], Device.prototype, "terminal", void 0);
-exports.Device = Device = __decorate([
+], Terminal.prototype, "devices", void 0);
+exports.Terminal = Terminal = __decorate([
     (0, typeorm_1.Entity)()
-], Device);
+], Terminal);
 //# sourceMappingURL=device.entity.js.map

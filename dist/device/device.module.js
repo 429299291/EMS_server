@@ -17,7 +17,7 @@ let DeviceModule = exports.DeviceModule = class DeviceModule {
 };
 exports.DeviceModule = DeviceModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([device_entity_1.Device, entities_1.User])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([device_entity_1.Terminal, entities_1.User])],
         controllers: [device_controller_1.DeviceController],
         providers: [device_service_1.DeviceService]
     })

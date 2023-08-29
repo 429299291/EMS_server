@@ -59,9 +59,9 @@ __decorate([
     __metadata("design:type", Number)
 ], EMS123.prototype, "timeStamp", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => device_entity_1.Device, Device => Device.terminal),
-    __metadata("design:type", device_entity_1.Device)
-], EMS123.prototype, "device", void 0);
+    (0, typeorm_1.ManyToOne)(() => device_entity_1.Terminal, terminal => terminal.devices),
+    __metadata("design:type", device_entity_1.Terminal)
+], EMS123.prototype, "terminal", void 0);
 exports.EMS123 = EMS123 = __decorate([
     (0, typeorm_1.Entity)()
 ], EMS123);

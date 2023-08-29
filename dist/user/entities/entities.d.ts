@@ -1,4 +1,4 @@
-import { Device } from "src/device/entities/device.entity";
+import { Terminal } from "src/device/entities/device.entity";
 export declare class User {
     id: string;
     name: string;
@@ -16,5 +16,5 @@ export declare class User {
     location: {
         location: string;
     };
-    devices: Device[];
+    terminals: Terminal[];
 }

@@ -19,34 +19,34 @@ const entities_1 = require("../user/entities/entities");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 let DeviceService = exports.DeviceService = class DeviceService {
-    constructor(device, user) {
-        this.device = device;
+    constructor(terminal, user) {
+        this.terminal = terminal;
         this.user = user;
     }
     async create(createDeviceDto) {
-        const device = await this.device.findOneBy({ deviceId: createDeviceDto.deviceId });
+        const device = await this.terminal.findOneBy({ terminalID: createDeviceDto.terminalID });
         if (device !== null) {
             return { code: 200, message: "设备已经注册" };
         }
         else {
             const user = await this.user.findOneBy({ id: createDeviceDto.userId });
             const deviceList = [];
-            await this.device.save(createDeviceDto);
+            await this.terminal.save(createDeviceDto);
             deviceList.push(createDeviceDto);
-            user.devices = deviceList;
+            user.terminals = deviceList;
             return this.user.save(user);
         }
     }
     async getDevices(body) {
         if (body.name && body.name !== '') {
-            const data = await this.device.find({
+            const data = await this.terminal.find({
                 where: {
                     name: (0, typeorm_2.Like)(`%${body.name}%`)
                 },
                 skip: (body.current - 1) * body.pageSize,
                 take: body.pageSize
             });
-            const total = await this.device.count({
+            const total = await this.terminal.count({
                 where: {
                     name: (0, typeorm_2.Like)(`%${body.name}%`)
                 },
@@ -58,14 +58,14 @@ let DeviceService = exports.DeviceService = class DeviceService {
             };
         }
         else if (body.location && body.location !== '') {
-            const data = await this.device.find({
+            const data = await this.terminal.find({
                 where: {
                     location: (0, typeorm_2.Like)(`%${body.location}%`)
                 },
                 skip: (body.current - 1) * body.pageSize,
                 take: body.pageSize
             });
-            const total = await this.device.count({
+            const total = await this.terminal.count({
                 where: {
                     location: (0, typeorm_2.Like)(`%${body.location}%`)
                 },
@@ -76,24 +76,24 @@ let DeviceService = exports.DeviceService = class DeviceService {
                 success: data ? true : false
             };
         }
-        else if (body.deviceId && body.deviceId !== '') {
-            const data = await this.device.findOneBy({ deviceId: body.deviceId });
-            const total = await this.device.countBy({ deviceId: body.deviceId });
+        else if (body.terminalID && body.terminalID !== '') {
+            const data = await this.terminal.findOneBy({ terminalID: body.terminalID });
+            const total = await this.terminal.countBy({ terminalID: body.terminalID });
             return {
-                data,
+                data: [data],
                 total,
                 success: data ? true : false
             };
         }
         else {
-            const data = await this.device.find({
+            const data = await this.terminal.find({
                 where: {
                     WorkingMode: (0, typeorm_2.Not)(9)
                 },
                 skip: (body.current - 1) * body.pageSize,
                 take: body.pageSize
             });
-            const total = await this.device.count({
+            const total = await this.terminal.count({
                 where: {
                     WorkingMode: (0, typeorm_2.Not)(9)
                 },
@@ -106,7 +106,7 @@ let DeviceService = exports.DeviceService = class DeviceService {
         }
     }
     findAll() {
-        return this.device.find();
+        return this.terminal.find();
     }
     findOne(id) {
         return `This action returns a #${id} device`;
@@ -120,7 +120,7 @@ let DeviceService = exports.DeviceService = class DeviceService {
 };
 exports.DeviceService = DeviceService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(device_entity_1.Device)),
+    __param(0, (0, typeorm_1.InjectRepository)(device_entity_1.Terminal)),
     __param(1, (0, typeorm_1.InjectRepository)(entities_1.User)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository])

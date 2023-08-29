@@ -3,10 +3,10 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/entities';
-import { Device } from 'src/device/entities/device.entity';
+import { Terminal } from 'src/device/entities/device.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([User,Device])],
+  imports:[TypeOrmModule.forFeature([User,Terminal])],
   controllers: [UserController],
   exports:[UserService],//对外共享模块
   providers: [UserService]

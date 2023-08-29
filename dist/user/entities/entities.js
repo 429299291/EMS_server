@@ -71,10 +71,10 @@ __decorate([
     __metadata("design:type", Object)
 ], User.prototype, "location", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => device_entity_1.Device, Device => Device.user),
+    (0, typeorm_1.OneToMany)(() => device_entity_1.Terminal, Terminal => Terminal.user),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", Array)
-], User.prototype, "devices", void 0);
+], User.prototype, "terminals", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);
