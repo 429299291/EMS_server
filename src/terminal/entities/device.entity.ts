@@ -4,13 +4,10 @@ import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated,OneToMan
 @Entity()
 export class Terminal {
   @PrimaryGeneratedColumn('uuid')  //自增  uuid 不重复
-  id:number
+  id:string
 
   @Column({type:"varchar",length:255,default:"user"})
   name:string
-
-  @Column({type:"varchar",length:255,default:null})
-  terminalID:string
 
   @Column({type:"int"})
   status:number

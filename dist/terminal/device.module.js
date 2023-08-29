@@ -6,20 +6,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeviceModule = void 0;
+exports.TerminalModule = void 0;
 const common_1 = require("@nestjs/common");
 const device_service_1 = require("./device.service");
 const device_controller_1 = require("./device.controller");
 const device_entity_1 = require("./entities/device.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const entities_1 = require("../user/entities/entities");
-let DeviceModule = exports.DeviceModule = class DeviceModule {
+let TerminalModule = exports.TerminalModule = class TerminalModule {
 };
-exports.DeviceModule = DeviceModule = __decorate([
+exports.TerminalModule = TerminalModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forFeature([device_entity_1.Terminal, entities_1.User])],
-        controllers: [device_controller_1.DeviceController],
-        providers: [device_service_1.DeviceService]
+        controllers: [device_controller_1.TerminalController],
+        providers: [device_service_1.TerminalService],
+        exports: [device_service_1.TerminalService]
     })
-], DeviceModule);
+], TerminalModule);
 //# sourceMappingURL=device.module.js.map

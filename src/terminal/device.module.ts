@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { DeviceService } from './device.service';
-import { DeviceController } from './device.controller';
+import { TerminalService } from './device.service';
+import { TerminalController } from './device.controller';
 import { Terminal } from './entities/device.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/entities';
 
 @Module({
   imports:[TypeOrmModule.forFeature([Terminal,User])],
-  controllers: [DeviceController],
-  providers: [DeviceService]
+  controllers: [TerminalController],
+  providers: [TerminalService],
+  exports:[TerminalService]
 })
-export class DeviceModule {}
+export class TerminalModule {}

@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { DeviceService } from './device.service';
+import { TerminalService } from './device.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 
 @Controller('terminal')
-export class DeviceController {
-  constructor(private readonly deviceService: DeviceService) {}
+export class TerminalController {
+  constructor(private readonly deviceService: TerminalService) {}
 
   @Post()
   create(@Body() createDeviceDto: CreateDeviceDto) {

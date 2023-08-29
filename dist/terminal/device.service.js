@@ -12,19 +12,19 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeviceService = void 0;
+exports.TerminalService = void 0;
 const common_1 = require("@nestjs/common");
 const device_entity_1 = require("./entities/device.entity");
 const entities_1 = require("../user/entities/entities");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-let DeviceService = exports.DeviceService = class DeviceService {
+let TerminalService = exports.TerminalService = class TerminalService {
     constructor(terminal, user) {
         this.terminal = terminal;
         this.user = user;
     }
     async create(createDeviceDto) {
-        const device = await this.terminal.findOneBy({ terminalID: createDeviceDto.terminalID });
+        const device = await this.terminal.findOneBy({ id: createDeviceDto.id });
         if (device !== null) {
             return { code: 200, message: "设备已经注册" };
         }
@@ -76,9 +76,9 @@ let DeviceService = exports.DeviceService = class DeviceService {
                 success: data ? true : false
             };
         }
-        else if (body.terminalID && body.terminalID !== '') {
-            const data = await this.terminal.findOneBy({ terminalID: body.terminalID });
-            const total = await this.terminal.countBy({ terminalID: body.terminalID });
+        else if (body.id && body.id !== '') {
+            const data = await this.terminal.findOneBy({ id: body.id });
+            const total = await this.terminal.countBy({ id: body.id });
             return {
                 data: [data],
                 total,
@@ -118,11 +118,11 @@ let DeviceService = exports.DeviceService = class DeviceService {
         return `This action removes a #${id} device`;
     }
 };
-exports.DeviceService = DeviceService = __decorate([
+exports.TerminalService = TerminalService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(device_entity_1.Terminal)),
     __param(1, (0, typeorm_1.InjectRepository)(entities_1.User)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository])
-], DeviceService);
+], TerminalService);
 //# sourceMappingURL=device.service.js.map

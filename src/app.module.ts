@@ -8,7 +8,7 @@ import { Dashboard } from './dashboard/entities/ entities';
 import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
 import { MqttModule } from './mqtt/mqtt.module';
-import { DeviceModule } from './device/device.module';
+import { TerminalModule } from './terminal/device.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -23,7 +23,7 @@ import { DeviceModule } from './device/device.module';
     synchronize:true,//实体同步到数据库
     // entities: [DashboardModule,UserModule],
     autoLoadEntities:true//自动加载实体
-  }),DashboardModule,UserModule, AuthModule, UploadModule, MqttModule, DeviceModule],
+  }),DashboardModule,UserModule, AuthModule, UploadModule, MqttModule, TerminalModule],
   // controllers: [AppController],
   // providers: [AppService],
 })

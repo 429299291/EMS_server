@@ -17,39 +17,51 @@ const common_1 = require("@nestjs/common");
 const mqtt_entity_1 = require("./entities/mqtt.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
+const device_entity_1 = require("../terminal/entities/device.entity");
 let MqttService = exports.MqttService = class MqttService {
-    constructor(ems) {
+    constructor(ems, terminal) {
         this.ems = ems;
+        this.terminal = terminal;
     }
-    create(createMqttDto) {
+    async create(createMqttDto) {
         let data = JSON.parse(createMqttDto.toString());
-        try {
-            data.BAT = data.BAT.map(data => {
-                return JSON.stringify(data);
-            });
-            data.EV = data.EV ? data.EV.map(data => {
-                return JSON.stringify(data);
-            }) : [];
-            data.PV = data.PV.map(data => {
-                return JSON.stringify(data);
-            });
-            data.GRID = data.GRID.map(data => {
-                return JSON.stringify(data);
-            });
-            data.HOME = data.HOME.map(data => {
-                return JSON.stringify(data);
-            });
-            data.INV = data.INV ? data.INV.map(data => {
-                return JSON.stringify(data);
-            }) : [];
-            data.fault = data.fault.map(data => {
-                return JSON.stringify(data);
-            });
-        }
-        catch (error) {
-            throw error(error);
-        }
-        return this.ems.save(data);
+        console.log(data.id);
+        return this.terminal.findOneBy({ id: data.id }).then(async (terminal) => {
+            if (terminal) {
+                try {
+                    data.BAT = data.BAT.map(data => {
+                        return JSON.stringify(data);
+                    });
+                    data.EV = data.EV ? data.EV.map(data => {
+                        return JSON.stringify(data);
+                    }) : [];
+                    data.PV = data.PV.map(data => {
+                        return JSON.stringify(data);
+                    });
+                    data.GRID = data.GRID.map(data => {
+                        return JSON.stringify(data);
+                    });
+                    data.HOME = data.HOME.map(data => {
+                        return JSON.stringify(data);
+                    });
+                    data.INV = data.INV ? data.INV.map(data => {
+                        return JSON.stringify(data);
+                    }) : [];
+                    data.fault = data.fault.map(data => {
+                        return JSON.stringify(data);
+                    });
+                }
+                catch (error) {
+                    throw error(error);
+                }
+                delete (data.id);
+                const deviceList = [];
+                deviceList.push(data);
+                terminal.devices = deviceList;
+                await this.ems.save(data);
+                return this.terminal.save(terminal);
+            }
+        });
     }
     async findAll(id) {
         return this.ems.findBy(id);
@@ -67,6 +79,8 @@ let MqttService = exports.MqttService = class MqttService {
 exports.MqttService = MqttService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(mqtt_entity_1.EMS123)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(device_entity_1.Terminal)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], MqttService);
 //# sourceMappingURL=mqtt.service.js.map

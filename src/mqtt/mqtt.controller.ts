@@ -17,7 +17,7 @@ export class MqttController {
     clientId: 'EMS-12345',
   })
     client.on('connect', function () {
-      client.subscribe(`HEMS`, function (err) {
+      client.subscribe(`EMS/client/#`, function (err) {
         if (!err) {
             // client.publish(`EMS/${(Math.random()*100000).toFixed(0)}`,JSON.stringify({
             //   name:`EMS-23`,
@@ -107,7 +107,7 @@ export class MqttController {
   getDevices(@Body() body) {    
     console.log(body);
     
-    client.publish(`EMS/server/${body.terminalID}`,JSON.stringify({
+    client.publish(`EMS/server/${body.id}`,JSON.stringify({
       ...body,
       name:`EMS-110`,
       timeStamp:Math.floor(new Date().getTime()/1000),
@@ -125,7 +125,7 @@ export class MqttController {
   @MessagePattern('createMqtt')
   create(@Payload() createMqttDto: CreateMqttDto) {
     return this.mqttService.create(createMqttDto);
-  }  
+  }
 
   // @MessagePattern('findAllMqtt')
   // findAll() {

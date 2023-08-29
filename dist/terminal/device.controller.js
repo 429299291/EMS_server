@@ -12,12 +12,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeviceController = void 0;
+exports.TerminalController = void 0;
 const common_1 = require("@nestjs/common");
 const device_service_1 = require("./device.service");
 const create_device_dto_1 = require("./dto/create-device.dto");
 const update_device_dto_1 = require("./dto/update-device.dto");
-let DeviceController = exports.DeviceController = class DeviceController {
+let TerminalController = exports.TerminalController = class TerminalController {
     constructor(deviceService) {
         this.deviceService = deviceService;
     }
@@ -46,27 +46,27 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_device_dto_1.CreateDeviceDto]),
     __metadata("design:returntype", void 0)
-], DeviceController.prototype, "create", null);
+], TerminalController.prototype, "create", null);
 __decorate([
     (0, common_1.Post)('terminals'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_device_dto_1.CreateDeviceDto]),
     __metadata("design:returntype", void 0)
-], DeviceController.prototype, "getDevices", null);
+], TerminalController.prototype, "getDevices", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], DeviceController.prototype, "findAll", null);
+], TerminalController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], DeviceController.prototype, "findOne", null);
+], TerminalController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -74,16 +74,16 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_device_dto_1.UpdateDeviceDto]),
     __metadata("design:returntype", void 0)
-], DeviceController.prototype, "update", null);
+], TerminalController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], DeviceController.prototype, "remove", null);
-exports.DeviceController = DeviceController = __decorate([
+], TerminalController.prototype, "remove", null);
+exports.TerminalController = TerminalController = __decorate([
     (0, common_1.Controller)('terminal'),
-    __metadata("design:paramtypes", [device_service_1.DeviceService])
-], DeviceController);
+    __metadata("design:paramtypes", [device_service_1.TerminalService])
+], TerminalController);
 //# sourceMappingURL=device.controller.js.map

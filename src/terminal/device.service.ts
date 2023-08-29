@@ -7,13 +7,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {JsonContains, Like, Repository,Not} from 'typeorm'
 
 @Injectable()
-export class DeviceService {
+export class TerminalService {
   constructor(
     @InjectRepository(Terminal) private readonly terminal:Repository<Terminal>,
     @InjectRepository(User) private readonly user:Repository<User>
   ){}
   async create(createDeviceDto: CreateDeviceDto) {  
-    const device = await this.terminal.findOneBy({ terminalID:createDeviceDto.terminalID})    
+    const device = await this.terminal.findOneBy({ id:createDeviceDto.id})    
     if(device !== null){
       return {code:200,message:"设备已经注册"}
     }else{
@@ -64,9 +64,9 @@ export class DeviceService {
           total,
           success:data?true:false
         }
-  }else if(body.terminalID&&body.terminalID!==''){        
-    const data = await this.terminal.findOneBy({terminalID:body.terminalID})
-    const total = await this.terminal.countBy({terminalID:body.terminalID})         
+  }else if(body.id&&body.id!==''){        
+    const data = await this.terminal.findOneBy({id:body.id})
+    const total = await this.terminal.countBy({id:body.id})         
     return {
         data:[data],
         total,

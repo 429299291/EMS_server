@@ -1,4 +1,4 @@
-import { Terminal } from "src/device/entities/device.entity"
+import { Terminal } from "src/terminal/entities/device.entity"
 import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated, OneToMany, JoinColumn} from "typeorm"
 
 @Entity()

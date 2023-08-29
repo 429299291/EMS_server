@@ -1,5 +1,5 @@
 import { error } from "console"
-import { Terminal } from "src/device/entities/device.entity"
+import { Terminal } from "src/terminal/entities/device.entity"
 import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated,ManyToOne} from "typeorm"
 interface bat {     //电池
     id:string,
@@ -47,7 +47,7 @@ interface fault {
 @Entity()
 export class EMS123{
     @PrimaryGeneratedColumn('uuid')  //自增  uuid 不重复
-    id:number
+    id:string
 
     @Column({type:"varchar",length:255,default:"user"})
     name:string

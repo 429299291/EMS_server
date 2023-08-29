@@ -17,16 +17,12 @@ let Terminal = exports.Terminal = class Terminal {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Terminal.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 255, default: "user" }),
     __metadata("design:type", String)
 ], Terminal.prototype, "name", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: 255, default: null }),
-    __metadata("design:type", String)
-], Terminal.prototype, "terminalID", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "int" }),
     __metadata("design:type", Number)

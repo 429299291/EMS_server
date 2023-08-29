@@ -1,9 +1,9 @@
-import { DeviceService } from './device.service';
+import { TerminalService } from './device.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
-export declare class DeviceController {
+export declare class TerminalController {
     private readonly deviceService;
-    constructor(deviceService: DeviceService);
+    constructor(deviceService: TerminalService);
     create(createDeviceDto: CreateDeviceDto): Promise<import("../user/entities/entities").User | {
         code: number;
         message: string;

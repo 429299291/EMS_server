@@ -12,11 +12,12 @@ const mqtt_service_1 = require("./mqtt.service");
 const mqtt_controller_1 = require("./mqtt.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const mqtt_entity_1 = require("./entities/mqtt.entity");
+const device_entity_1 = require("../terminal/entities/device.entity");
 let MqttModule = exports.MqttModule = class MqttModule {
 };
 exports.MqttModule = MqttModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([mqtt_entity_1.EMS123])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([mqtt_entity_1.EMS123, device_entity_1.Terminal])],
         controllers: [mqtt_controller_1.MqttController],
         providers: [mqtt_service_1.MqttService]
     })

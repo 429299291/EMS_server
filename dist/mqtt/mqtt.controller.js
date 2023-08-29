@@ -30,7 +30,7 @@ let MqttController = exports.MqttController = class MqttController {
             clientId: 'EMS-12345',
         });
         client.on('connect', function () {
-            client.subscribe(`HEMS`, function (err) {
+            client.subscribe(`EMS/client/#`, function (err) {
                 if (!err) {
                 }
             });
@@ -41,7 +41,7 @@ let MqttController = exports.MqttController = class MqttController {
     }
     getDevices(body) {
         console.log(body);
-        client.publish(`EMS/server/${body.terminalID}`, JSON.stringify({
+        client.publish(`EMS/server/${body.id}`, JSON.stringify({
             ...body,
             name: `EMS-110`,
             timeStamp: Math.floor(new Date().getTime() / 1000),

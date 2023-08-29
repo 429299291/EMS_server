@@ -1,4 +1,4 @@
-import { Terminal } from "src/device/entities/device.entity";
+import { Terminal } from "src/terminal/entities/device.entity";
 export declare class User {
     id: string;
     name: string;

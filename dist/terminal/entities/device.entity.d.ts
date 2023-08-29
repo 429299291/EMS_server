@@ -1,9 +1,8 @@
 import { EMS123 } from "src/mqtt/entities/mqtt.entity";
 import { User } from "src/user/entities/entities";
 export declare class Terminal {
-    id: number;
+    id: string;
     name: string;
-    terminalID: string;
     status: number;
     location: {
         location: string;

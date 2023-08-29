@@ -10,13 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EMS123 = void 0;
-const device_entity_1 = require("../../device/entities/device.entity");
+const device_entity_1 = require("../../terminal/entities/device.entity");
 const typeorm_1 = require("typeorm");
 let EMS123 = exports.EMS123 = class EMS123 {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], EMS123.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 255, default: "user" }),
