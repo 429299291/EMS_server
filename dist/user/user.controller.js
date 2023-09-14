@@ -15,8 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
-const role_guard_1 = require("../role/role.guard");
 const auth_guard_1 = require("../auth/auth.guard");
+const user_dto_1 = require("./dto/user.dto");
+const swagger_1 = require("@nestjs/swagger");
 let UserController = exports.UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -49,6 +50,11 @@ let UserController = exports.UserController = class UserController {
 };
 __decorate([
     (0, common_1.Get)('/getUserByName/:username'),
+    (0, swagger_1.ApiTags)("user"),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiOperation)({
+        summary: "测试接口"
+    }),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -56,6 +62,13 @@ __decorate([
 ], UserController.prototype, "getUserByName", null);
 __decorate([
     (0, common_1.Get)('/currentUser/:email'),
+    (0, swagger_1.ApiTags)("user"),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiParam)({
+        name: "email",
+        description: "email",
+        required: true
+    }),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -63,6 +76,7 @@ __decorate([
 ], UserController.prototype, "currentUser", null);
 __decorate([
     (0, common_1.Get)('/all/:page/:pageSize'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)("page", common_1.ParseIntPipe)),
     __param(1, (0, common_1.Param)("pageSize", common_1.ParseIntPipe)),
     __metadata("design:type", Function),
@@ -71,7 +85,7 @@ __decorate([
 ], UserController.prototype, "getUserAll", null);
 __decorate([
     (0, common_1.Post)('/getUsers'),
-    (0, common_1.UseGuards)(role_guard_1.RoleGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -88,6 +102,12 @@ __decorate([
 __decorate([
     (0, common_1.Post)('/update/:id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiTags)("user"),
+    (0, swagger_1.ApiParam)({
+        name: "id",
+        description: "用户ID",
+        required: true
+    }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)()),
     __metadata("design:type", Function),
@@ -96,10 +116,11 @@ __decorate([
 ], UserController.prototype, "updateUser", null);
 __decorate([
     (0, common_1.Post)('/register'),
+    (0, swagger_1.ApiTags)("user"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [user_dto_1.CreateUserDto, Object]),
     __metadata("design:returntype", Object)
 ], UserController.prototype, "register", null);
 __decorate([

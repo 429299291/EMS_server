@@ -19,6 +19,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "id", void 0);
 __decorate([
+    (0, typeorm_1.Index)("username-idx"),
     (0, typeorm_1.Column)({ type: "varchar", length: 255, default: "user" }),
     __metadata("design:type", String)
 ], User.prototype, "name", void 0);
@@ -35,10 +36,12 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "balance", void 0);
 __decorate([
+    (0, typeorm_1.Index)("phone-idx"),
     (0, typeorm_1.Column)({ type: "varchar" }),
     __metadata("design:type", String)
 ], User.prototype, "phone", void 0);
 __decorate([
+    (0, typeorm_1.Index)("email-idx"),
     (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);

@@ -23,6 +23,11 @@ __decorate([
     __metadata("design:type", String)
 ], EMS123.prototype, "name", void 0);
 __decorate([
+    (0, typeorm_1.Index)("terminalid-idx"),
+    (0, typeorm_1.Column)({ type: "varchar", length: 255, default: null }),
+    __metadata("design:type", String)
+], EMS123.prototype, "terminalIDuse", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: "int" }),
     __metadata("design:type", Number)
 ], EMS123.prototype, "WorkingMode", void 0);
@@ -35,16 +40,16 @@ __decorate([
     __metadata("design:type", Array)
 ], EMS123.prototype, "EV", void 0);
 __decorate([
-    (0, typeorm_1.Column)("simple-array"),
-    __metadata("design:type", Array)
+    (0, typeorm_1.Column)("simple-json"),
+    __metadata("design:type", Object)
 ], EMS123.prototype, "GRID", void 0);
 __decorate([
     (0, typeorm_1.Column)("simple-array"),
     __metadata("design:type", Array)
 ], EMS123.prototype, "PV", void 0);
 __decorate([
-    (0, typeorm_1.Column)("simple-array"),
-    __metadata("design:type", Array)
+    (0, typeorm_1.Column)("simple-json"),
+    __metadata("design:type", Object)
 ], EMS123.prototype, "HOME", void 0);
 __decorate([
     (0, typeorm_1.Column)("simple-json"),
@@ -55,6 +60,7 @@ __decorate([
     __metadata("design:type", Array)
 ], EMS123.prototype, "fault", void 0);
 __decorate([
+    (0, typeorm_1.Index)("timestamp-idx"),
     (0, typeorm_1.Column)({ type: "int", default: null }),
     __metadata("design:type", Number)
 ], EMS123.prototype, "timeStamp", void 0);

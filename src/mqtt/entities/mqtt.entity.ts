@@ -1,6 +1,6 @@
 import { error } from "console"
 import { Terminal } from "src/terminal/entities/device.entity"
-import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated,ManyToOne} from "typeorm"
+import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated,ManyToOne, OneToMany, JoinColumn, Index} from "typeorm"
 interface bat {     //电池
     id:string,
     volt:number,
@@ -34,8 +34,14 @@ interface inv {     //逆变器----123取消
 }
 
 interface home {
-    power:number,
-    volt:number,
+    home:{
+        power:number,
+        volt:number,
+    },
+    critical:{
+        power:number,
+        volt:number,
+    }
 }
 interface fault {
     id:string,
@@ -52,8 +58,9 @@ export class EMS123{
     @Column({type:"varchar",length:255,default:"user"})
     name:string
 
-    // @Column({type:"varchar",length:255,default:null})
-    // userId:string
+    @Index("terminalid-idx")
+    @Column({type:"varchar",length:255,default:null})
+    terminalIDuse:string
 
     // @Column({type:"varchar",default:''})
     // location:string
@@ -67,14 +74,14 @@ export class EMS123{
     @Column("simple-array")
     EV:ev[]
 
-    @Column("simple-array")
-    GRID:grid[]
+    @Column("simple-json")
+    GRID:grid
 
     @Column("simple-array")
     PV:pv[]
 
-    @Column("simple-array")
-    HOME:home[]
+    @Column("simple-json")
+    HOME:home
 
     @Column("simple-json")
     INV?:inv[]
@@ -82,11 +89,15 @@ export class EMS123{
     @Column("simple-array")
     fault:fault[]
     
+    @Index("timestamp-idx")
     @Column({type:"int",default:null})
     timeStamp:number
 
     @ManyToOne(()=>Terminal,terminal=>terminal.devices)
     terminal:Terminal
+
+    // @OneToMany(()=>PV,PV=>PV.ems)
+    // pvs:PV[]
     // @CreateDateColumn({type:"timestamp"})
     // date:Date
 
@@ -96,3 +107,17 @@ export class EMS123{
     // }
     
 }
+// @Entity()
+// export class PV{
+//     @PrimaryGeneratedColumn('uuid')  //自增  uuid 不重复
+//     id:string
+
+//     @Column({type:"int"})
+//     power:number
+
+//     @Column({type:"int"})
+//     volt:number
+    
+//     @ManyToOne(()=>EMS123,EMS123=>EMS123.pvs)
+//     ems:EMS123
+// }

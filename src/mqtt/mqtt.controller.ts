@@ -1,10 +1,11 @@
-import { Controller, Get,Post,Body, Param } from '@nestjs/common';
+import { Controller, Get,Post,Body, Param,Response } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { MqttService } from './mqtt.service';
 import { CreateMqttDto } from './dto/create-mqtt.dto';
 import { UpdateMqttDto } from './dto/update-mqtt.dto';
+import { getDashboardElectricityDTO } from './dto/create-mqtt.dto';
 import * as mqtt from "mqtt"
-import { log } from 'console';
+import { ApiTags } from '@nestjs/swagger';
 let client 
 @Controller('ems')
 export class MqttController {
@@ -19,6 +20,8 @@ export class MqttController {
     client.on('connect', function () {
       client.subscribe(`EMS/client/#`, function (err) {
         if (!err) {
+          // console.log('mqtt服务器成功');
+          
             // client.publish(`EMS/${(Math.random()*100000).toFixed(0)}`,JSON.stringify({
             //   name:`EMS-23`,
             //   userId:'1b68ccbb-f276-4a98-9523-156fc412ab51',  //终端所有权ID
@@ -97,16 +100,14 @@ export class MqttController {
     client.on('message', (topic, message)=> {
       // message is Buffer      
       // console.log(message);
-      // console.log(message.toString());
+      // console.log(message.toString());      
       this.mqttService.create(message)
       // client.end()
     })    
   }  
 
   @Post()
-  getDevices(@Body() body) {    
-    console.log(body);
-    
+  getDevices(@Body() body) {        
     client.publish(`EMS/server/${body.id}`,JSON.stringify({
       ...body,
       name:`EMS-110`,
@@ -117,8 +118,14 @@ export class MqttController {
     }
   }
 
+  @Post('/getHomeElectricity')
+  @ApiTags("dashboard")
+  getHomeElectricity(@Body() body:getDashboardElectricityDTO,@Response() res) {          
+    return this.mqttService.getHomeElectricity(body,res);
+  }
+
   @Get(":id")
-  findAlls(@Param() params) {    
+  findAlls(@Param() params) {
     return this.mqttService.findAll(params);
   }
 

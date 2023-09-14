@@ -1,5 +1,6 @@
 import { Repository } from 'typeorm';
 import { User } from './entities/entities';
+import { resType } from 'src/constants/apiType';
 export declare class UserService {
     private readonly user;
     constructor(user: Repository<User>);
@@ -7,10 +8,7 @@ export declare class UserService {
         data: User[];
         total: number;
     }>;
-    getUsers(body: any): Promise<{
-        data: User[];
-        total: number;
-    }>;
+    getUsers(body: any): Promise<resType>;
     getUserByName(name: string): Promise<User[]>;
     getUserByEmail(email: string): Promise<User>;
     findOne(email: string): Promise<User | null>;

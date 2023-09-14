@@ -9,6 +9,14 @@ import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
 import { MqttModule } from './mqtt/mqtt.module';
 import { TerminalModule } from './terminal/device.module';
+import { RedisModule,RedisModuleOptions } from '@jasonsoft/nestjs-redis';
+
+const redisOptions:RedisModuleOptions={
+  port:6379,
+  // host:"47.106.120.119",
+  host:"127.0.0.1",
+  password:"xuheng8888!"
+}
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -23,7 +31,7 @@ import { TerminalModule } from './terminal/device.module';
     synchronize:true,//实体同步到数据库
     // entities: [DashboardModule,UserModule],
     autoLoadEntities:true//自动加载实体
-  }),DashboardModule,UserModule, AuthModule, UploadModule, MqttModule, TerminalModule],
+  }),DashboardModule,UserModule, AuthModule, UploadModule, MqttModule, TerminalModule,RedisModule.forRoot(redisOptions)],
   // controllers: [AppController],
   // providers: [AppService],
 })

@@ -1,11 +1,12 @@
 import { Terminal } from "src/terminal/entities/device.entity"
-import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated, OneToMany, JoinColumn} from "typeorm"
+import {Entity,Column,PrimaryGeneratedColumn,CreateDateColumn,Generated, OneToMany, JoinColumn, Index} from "typeorm"
 
 @Entity()
 export class User{
     @PrimaryGeneratedColumn('uuid')  //自增  uuid 不重复
     id:string
 
+    @Index("username-idx")
     @Column({type:"varchar",length:255,default:"user"})
     name:string
 
@@ -18,9 +19,11 @@ export class User{
     @Column({type:"int",default:0})
     balance:number
 
+    @Index("phone-idx")
     @Column({type:"varchar"})
     phone:string
 
+    @Index("email-idx")
     @Column({type:"varchar",nullable:true})
     email:string
 

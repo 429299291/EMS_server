@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
+import { loginDTO } from './dto/create-auth.dto';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -18,7 +20,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, any>,@Response() res) {
+  @ApiTags("login")
+  signIn(@Body() signInDto: loginDTO,@Response() res) {        
     return this.authService.signIn(signInDto.email, signInDto.password,res);
   }
 

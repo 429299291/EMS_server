@@ -20,6 +20,7 @@ __decorate([
     __metadata("design:type", String)
 ], Terminal.prototype, "id", void 0);
 __decorate([
+    (0, typeorm_1.Index)("terminalname-idx"),
     (0, typeorm_1.Column)({ type: "varchar", length: 255, default: "user" }),
     __metadata("design:type", String)
 ], Terminal.prototype, "name", void 0);
@@ -40,6 +41,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Terminal.prototype, "WorkingMode", void 0);
 __decorate([
+    (0, typeorm_1.Index)("date-idx"),
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
 ], Terminal.prototype, "date", void 0);
@@ -48,8 +50,9 @@ __decorate([
     __metadata("design:type", entities_1.User)
 ], Terminal.prototype, "user", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => mqtt_entity_1.EMS123, EMS123 => EMS123.terminal),
-    (0, typeorm_1.JoinColumn)(),
+    (0, typeorm_1.OneToMany)(() => mqtt_entity_1.EMS123, EMS123 => EMS123.terminal, {
+        cascade: true
+    }),
     __metadata("design:type", Array)
 ], Terminal.prototype, "devices", void 0);
 exports.Terminal = Terminal = __decorate([

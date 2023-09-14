@@ -15,6 +15,12 @@ const auth_module_1 = require("./auth/auth.module");
 const upload_module_1 = require("./upload/upload.module");
 const mqtt_module_1 = require("./mqtt/mqtt.module");
 const device_module_1 = require("./terminal/device.module");
+const nestjs_redis_1 = require("@jasonsoft/nestjs-redis");
+const redisOptions = {
+    port: 6379,
+    host: "127.0.0.1",
+    password: "xuheng8888!"
+};
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
@@ -30,7 +36,7 @@ exports.AppModule = AppModule = __decorate([
                 retryAttempts: 1,
                 synchronize: true,
                 autoLoadEntities: true
-            }), dashboard_module_1.DashboardModule, user_module_1.UserModule, auth_module_1.AuthModule, upload_module_1.UploadModule, mqtt_module_1.MqttModule, device_module_1.TerminalModule],
+            }), dashboard_module_1.DashboardModule, user_module_1.UserModule, auth_module_1.AuthModule, upload_module_1.UploadModule, mqtt_module_1.MqttModule, device_module_1.TerminalModule, nestjs_redis_1.RedisModule.forRoot(redisOptions)],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

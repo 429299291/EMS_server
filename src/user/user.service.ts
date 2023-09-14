@@ -2,12 +2,15 @@ import { Injectable } from '@nestjs/common';
 import {JsonContains, Like, Repository,LessThanOrEqual, MoreThan, Not} from 'typeorm'
 import {InjectRepository} from '@nestjs/typeorm'
 import { User } from './entities/entities';
+import { resType } from 'src/constants/apiType';
 import { log } from 'console';
+import { CreateUserDto } from './dto/user.dto';
 const keys = "secret"
 const bcrypt = require('bcrypt')
 
 @Injectable()
 export class UserService {
+    // private esponse:Iresponse
     constructor(@InjectRepository(User) private readonly user:Repository<User>){}
     async getUserAll(body) {     
         const data = await this.user.find({
@@ -29,7 +32,7 @@ export class UserService {
             total
         }
     }
-    async getUsers(body) {
+    async getUsers(body):Promise<resType>{
         if(body.name){
             const data = await this.user.find({
                 relations:["terminals"],
@@ -46,9 +49,11 @@ export class UserService {
             })
             return {
                 data,
+                code:200,
+                message:"success",
                 total
             }
-        }else if(body.email){
+        }else if(body.email){            
             const data = await this.user.find({
                 relations:["terminals"],
                 where:{
@@ -64,7 +69,9 @@ export class UserService {
             })            
             return {
                 data,
-                total
+                total,
+                code:200,
+                message:"success"
             }
         }else{            
             const data = await this.user.find({
@@ -82,6 +89,8 @@ export class UserService {
             })
             return {
                 data,
+                code:200,
+                message:"success",
                 total
             }
         }
@@ -140,7 +149,7 @@ export class UserService {
 
         })
     }
-    register(body:any,res) {            
+    register(body,res) {            
        return this.user.findOneBy({email:body.email})
         .then(data=>{
             const thisUSER = this.user            

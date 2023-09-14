@@ -31,8 +31,14 @@ interface inv {
     volt: number;
 }
 interface home {
-    power: number;
-    volt: number;
+    home: {
+        power: number;
+        volt: number;
+    };
+    critical: {
+        power: number;
+        volt: number;
+    };
 }
 interface fault {
     id: string;
@@ -42,12 +48,13 @@ interface fault {
 export declare class EMS123 {
     id: string;
     name: string;
+    terminalIDuse: string;
     WorkingMode: number;
     BAT: bat[];
     EV: ev[];
-    GRID: grid[];
+    GRID: grid;
     PV: pv[];
-    HOME: home[];
+    HOME: home;
     INV?: inv[];
     fault: fault[];
     timeStamp: number;

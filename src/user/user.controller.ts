@@ -2,28 +2,43 @@ import { Controller, Get,Post,Request,Query,Body,Headers,Param,Response, UseGuar
 import { UserService } from './user.service';
 import { RoleGuard } from 'src/role/role.guard';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { log } from 'console';
+import { CreateUserDto } from './dto/user.dto';
+import { ApiOperation, ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
 @Controller('user')
 export class UserController {
     constructor(private userService:UserService){}
     @Get('/getUserByName/:username')
+    @ApiTags("user")
+    @UseGuards(AuthGuard)
+    @ApiOperation({
+        summary:"测试接口"
+    })
     getUserByName(@Param() params):any{     
         let username = params.username
         return this.userService.getUserByName(username)
         // return this.userService.findAll()
     }
+
     @Get('/currentUser/:email')
-    currentUser(@Param() {email}):any{     
+    @ApiTags("user")
+    @UseGuards(AuthGuard)
+    @ApiParam({
+        name:"email",
+        description:"email",
+        required:true
+    })
+    currentUser(@Param() {email}):any{        
         return this.userService.getUserByEmail(email)        
     }
     
     @Get('/all/:page/:pageSize')
-    // @UseGuards(RoleGuard)
+    @UseGuards(AuthGuard)
     getUserAll(@Param("page",ParseIntPipe) page,@Param("pageSize",ParseIntPipe) pageSize):any{
         return this.userService.getUserAll({page,pageSize})
     }
+
     @Post('/getUsers')
-    @UseGuards(RoleGuard)
+    @UseGuards(AuthGuard)
     getUsers(@Body() body):any{
         return this.userService.getUsers(body)
     }
@@ -32,15 +47,25 @@ export class UserController {
     delUser(@Param() {id}):any{      
         return this.userService.delUser(id)
     }
+
     @Post('/update/:id')
     @UseGuards(AuthGuard)
+    @ApiTags("user")
+    @ApiParam({
+        name:"id",
+        description:"用户ID",
+        required:true
+    })
     updateUser(@Body() body,@Param() {id}):any{ 
         return this.userService.updateUser({id,...body})
     }
+
     @Post('/register')
-    register(@Body() body,@Response() res):any{              
+    @ApiTags("user")
+    public register(@Body() body:CreateUserDto,@Response() res):any{                      
         return this.userService.register(body,res)
     }
+
     @Post('/login')
     login(@Body() body,@Response() res):any{              
         return this.userService.login(body,res)

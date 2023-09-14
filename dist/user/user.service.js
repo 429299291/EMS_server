@@ -59,6 +59,8 @@ let UserService = exports.UserService = class UserService {
             });
             return {
                 data,
+                code: 200,
+                message: "success",
                 total
             };
         }
@@ -78,7 +80,9 @@ let UserService = exports.UserService = class UserService {
             });
             return {
                 data,
-                total
+                total,
+                code: 200,
+                message: "success"
             };
         }
         else {
@@ -97,6 +101,8 @@ let UserService = exports.UserService = class UserService {
             });
             return {
                 data,
+                code: 200,
+                message: "success",
                 total
             };
         }

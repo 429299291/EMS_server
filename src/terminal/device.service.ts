@@ -16,7 +16,7 @@ export class TerminalService {
     const device = await this.terminal.findOneBy({ id:createDeviceDto.id})    
     if(device !== null){
       return {code:200,message:"设备已经注册"}
-    }else{
+    }else{      
       const user = await this.user.findOneBy({ id:createDeviceDto.userId})    
       const deviceList:any[] = []      
       await this.terminal.save(createDeviceDto)
@@ -65,7 +65,11 @@ export class TerminalService {
           success:data?true:false
         }
   }else if(body.id&&body.id!==''){        
-    const data = await this.terminal.findOneBy({id:body.id})
+    // const data = await this.terminal.findOneBy({id:body.id},)    
+    const data = await this.terminal.findOne({
+      where: { id: body.id},
+      relations: ['devices'],
+    })
     const total = await this.terminal.countBy({id:body.id})         
     return {
         data:[data],
