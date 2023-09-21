@@ -8,6 +8,7 @@ import { Terminal } from 'src/terminal/entities/device.entity';
 import * as moment from 'moment';
 import { Cron } from '@nestjs/schedule';
 import { InjectRedis, Redis, RedisCacheHelper } from '@jasonsoft/nestjs-redis';
+import { type } from 'os';
 
 @Injectable()
 export class MqttService {
@@ -98,9 +99,34 @@ export class MqttService {
     let evData:number=0
     let homeData:number=0
     let preHomeData:number=0
-    const CalculateArea = (pre,cur)=>{
-      return (Math.min(pre,cur)+Math.abs(cur-pre)/2)/12
+    //month
+    let newMonthdatas:object = {}
+       //零时统计数据
+    let monthBatteryDataIn:number[]
+    let currentMonthBatteryDataIn:number=0
+    let monthGridDataIn:number[]
+    let currentMonthGridDataIn:number=0
+    let monthHomeData:number[]=[]
+    let currentMonthHomeData:number=0
+    let dayGridReturnDataOut = []
+    let dayGridReturnDataIn = []
+    let dayBatteryReturnDataIn = []
+    let dayBatteryReturnDataOut = []
+    let daySolarReturnData = []
+    let dayHomeReturnData = []
+    let dayEVReturnData = []
+    const dayTime = (body.endTime-body.startTime)/86400   //一天时间
+    for(let i=0;i<dayTime;i++){
+      if(!newMonthdatas[0]){
+        newMonthdatas[i+1] = []
+      }
     }
+    const CalculateArea = (...argument: number[])=>{   //传入功率kw,计算出每五分钟的用电量
+      const currentElectricity = argument.reduce((total:number,currentValue:number,index:number,arr:number[])=>{
+      return total+ (Math.min(arr[index?index-1:0],currentValue)+Math.abs(currentValue-arr[index?index-1:0])/2)/12
+    },0)
+      return currentElectricity
+    }    
     if(body.startTime&& body.endTime){
       let newdata:dashboardElectricityDTO={
         HOMEdata:[],
@@ -121,66 +147,115 @@ export class MqttService {
         // take:body.pageSize
     })
     if(!datas.length){return res.json({code:200,message:"无数据"})}
+    
     datas.map((val,index)=>{
-      let newpv=0
+      let newpv=0   //统计图表时间后的数据
       let newev=0
       let newbat=0
-      for (let i=0;i<val.PV.length/3 ;i++){
-        let data:any = ''.concat(`${val.PV[i*3]},`,`${val.PV[i*3+1]},`,`${val.PV[i*3+2]}`)             
-        data = JSON.parse(data)
-        newpv+= data.power
-        // solarData += newpv
+      let pvdataold:any     //原始数据json转换后
+      let evdataold:any
+      let batdataold:any
+
+      if(val.EV){
+        for (let i=0;i<val.EV.length/5 ;i++){
+          evdataold = ''.concat(`${val.EV[i*5]},`,`${val.EV[i*5+1]},`,`${val.EV[i*5+2]},`,`${val.EV[i*5+3]},`,`${val.EV[i*5+4]}`)     
+          evdataold = [JSON.parse(evdataold)]                    
+          for(i=0;i<evdataold.length;i++){
+            newev+= evdataold[i].power
+            evData += evdataold[i].power
+          }
+        }
+        dayEVReturnData.push(newev)
       }
 
-      for (let i=0;i<val.EV.length/5 ;i++){
-        let data:any = ''.concat(`${val.EV[i*5]},`,`${val.EV[i*5+1]},`,`${val.EV[i*5+2]},`,`${val.EV[i*5+3]},`,`${val.EV[i*5+4]}`)     
-        data = JSON.parse(data)
-        newev+= data.power
-        evData += newev
-      }
       for (let i=0;i<val.BAT.length/7 ;i++){
-        let data:any = ''.concat(`${val.BAT[i*7]},`,`${val.BAT[i*7+1]},`,`${val.BAT[i*7+2]},`,`${val.BAT[i*7+3]},`,`${val.BAT[i*7+4]},`,`${val.BAT[i*7+5]},`,`${val.BAT[i*7+6]}`)     
-        data = JSON.parse(data)
-        newbat += data.power
-        if(data.power>0){
-          batteryDataOut += data.power
-        }else{
-          batteryDataIn -= data.power
+        batdataold = ''.concat(`${val.BAT[i*7]},`,`${val.BAT[i*7+1]},`,`${val.BAT[i*7+2]},`,`${val.BAT[i*7+3]},`,`${val.BAT[i*7+4]},`,`${val.BAT[i*7+5]},`,`${val.BAT[i*7+6]}`)     
+        batdataold = [JSON.parse(batdataold)]
+        for(i=0;i<batdataold.length;i++){
+          newbat += batdataold[i].power
+          if(batdataold.power>0){
+            batteryDataOut += batdataold[i].power
+          }else{
+            batteryDataIn -= batdataold[i].power
+          }
+        }
+      }      
+      
+      for (let i=0;i<val.PV.length/3 ;i++){
+        pvdataold = ''.concat(`${val.PV[i*3]},`,`${val.PV[i*3+1]},`,`${val.PV[i*3+2]}`)             
+        pvdataold = [JSON.parse(pvdataold)]
+        for(i=0;i<pvdataold.length;i++){
+          newpv+= pvdataold[i].power
+          
+          if(batdataold[0].power>=0){//???
+            daySolarReturnData.push(newpv)
+            // solarData += CalculateArea(newpv,preSolarData)
+            // preSolarData = newpv
+          }else{
+            // solarData += CalculateArea(newpv+batdataold[i].power,preSolarData)
+            // preSolarData = newpv+batdataold[i].power
+            daySolarReturnData.push(newpv+batdataold[i].power)
+          }
         }
       }
-      newdata.HOMEdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,parseFloat((val.HOME.home.power+val.HOME.critical.power).toFixed(2))])
-      newdata.GRIDdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,val.GRID.power])
-      newdata.PVdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,newpv])
-      newdata.EVdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,newev])
-      newdata.BATdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,newbat])
       if(val.GRID.power>0){
-        gridDataOut += val.GRID.power
+        dayGridReturnDataOut.push(val.GRID.power)
+        // gridDataOut += val.GRID.power
       }else{
-        gridDataIn -= val.GRID.power
+        dayGridReturnDataIn.push(val.GRID.power)
+        // gridDataIn -= val.GRID.power
       }
-      // homeData += val.HOME.home.power+val.HOME.critical.power
-      homeData += CalculateArea(val.HOME.home.power+val.HOME.critical.power,preHomeData)
-      preHomeData = CalculateArea(val.HOME.home.power+val.HOME.critical.power,preHomeData)
-      //计算光伏总用电
-      solarData += CalculateArea(newpv,preSolarData)
-      preSolarData = newpv
+      dayHomeReturnData.push(val.HOME.home.power+val.HOME.critical.power)
+      // homeData += CalculateArea(val.HOME.home.power+val.HOME.critical.power,preHomeData)
+      // preHomeData = CalculateArea(val.HOME.home.power+val.HOME.critical.power,preHomeData)
+      
+
+      //日统计
+      if(dayTime<=1){
+        newdata.HOMEdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,parseFloat((val.HOME.home.power+val.HOME.critical.power).toFixed(2))])
+        newdata.GRIDdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,val.GRID.power])
+        newdata.PVdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,newpv])
+        newdata.EVdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,newev])
+        newdata.BATdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,newbat])     
+      }else if(dayTime<=31){//月统计
+        newMonthdatas[moment(val.timeStamp*1000).format("DD")].push(val.HOME.home.power+val.HOME.critical.power)
+      }
     })
-    res.json({
-      data:{
-        ...newdata,
-        // solarData:parseFloat((solarData/12).toFixed(2)),
-        solarData:parseFloat((solarData).toFixed(2)),
-        gridDataIn:parseFloat((gridDataIn/12).toFixed(2)),
-        gridDataOut:parseFloat((gridDataOut/12).toFixed(2)),
-        batteryDataIn:parseFloat((batteryDataIn/12).toFixed(2)),
-        batteryDataOut:parseFloat((batteryDataOut/12).toFixed(2)),
-        evData:parseFloat((evData/12).toFixed(2)),
-        // homeData:parseFloat((homeData/12).toFixed(2))
-        homeData:parseFloat((homeData).toFixed(2))
-      },
-      code:200,
-      length:datas.length
-    })
+    if(dayTime<=1){
+      gridDataOut = CalculateArea(...dayGridReturnDataOut)
+      gridDataIn = CalculateArea(...dayGridReturnDataIn)
+      batteryDataIn = CalculateArea(...dayBatteryReturnDataIn)
+      batteryDataOut = CalculateArea(...dayBatteryReturnDataOut)
+      homeData = CalculateArea(...dayHomeReturnData)
+      solarData = CalculateArea(...daySolarReturnData)
+      evData = CalculateArea(...dayEVReturnData)
+      res.json({
+        data:{
+          ...newdata,
+          // solarData:parseFloat((solarData/12).toFixed(2)),
+          solarData:parseFloat((solarData).toFixed(2)),
+          gridDataIn:parseFloat(gridDataIn.toFixed(2)),
+          gridDataOut:parseFloat(gridDataOut.toFixed(2)),
+          batteryDataIn:parseFloat(batteryDataIn.toFixed(2)),
+          batteryDataOut:parseFloat(batteryDataOut.toFixed(2)),
+          evData:parseFloat(evData.toFixed(2)),
+          homeData:parseFloat(homeData.toFixed(2))
+        },
+        code:200,
+        length:datas.length
+      })
+    }else if(3<dayTime && dayTime<=31){
+      let monthReturnData = []
+      Object.keys(newMonthdatas).map(key=>{      
+        const data = CalculateArea(...newMonthdatas[key])
+        monthReturnData.push(data)
+      })
+      res.json({
+          monthHomeData:monthReturnData,
+          code:200,
+          length:Math.round(dayTime)
+      })
+    }
     
     }else{
       

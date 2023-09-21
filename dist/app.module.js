@@ -18,7 +18,7 @@ const device_module_1 = require("./terminal/device.module");
 const nestjs_redis_1 = require("@jasonsoft/nestjs-redis");
 const redisOptions = {
     port: 6379,
-    host: "127.0.0.1",
+    host: "47.106.120.119",
     password: "xuheng8888!"
 };
 let AppModule = exports.AppModule = class AppModule {

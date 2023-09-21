@@ -13,8 +13,8 @@ import { RedisModule,RedisModuleOptions } from '@jasonsoft/nestjs-redis';
 
 const redisOptions:RedisModuleOptions={
   port:6379,
-  // host:"47.106.120.119",
-  host:"127.0.0.1",
+  host:"47.106.120.119",
+  // host:"127.0.0.1",
   password:"xuheng8888!"
 }
 

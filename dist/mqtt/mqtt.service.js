@@ -97,8 +97,31 @@ let MqttService = exports.MqttService = class MqttService {
         let evData = 0;
         let homeData = 0;
         let preHomeData = 0;
-        const CalculateArea = (pre, cur) => {
-            return (Math.min(pre, cur) + Math.abs(cur - pre) / 2) / 12;
+        let newMonthdatas = {};
+        let monthBatteryDataIn;
+        let currentMonthBatteryDataIn = 0;
+        let monthGridDataIn;
+        let currentMonthGridDataIn = 0;
+        let monthHomeData = [];
+        let currentMonthHomeData = 0;
+        let dayGridReturnDataOut = [];
+        let dayGridReturnDataIn = [];
+        let dayBatteryReturnDataIn = [];
+        let dayBatteryReturnDataOut = [];
+        let daySolarReturnData = [];
+        let dayHomeReturnData = [];
+        let dayEVReturnData = [];
+        const dayTime = (body.endTime - body.startTime) / 86400;
+        for (let i = 0; i < dayTime; i++) {
+            if (!newMonthdatas[0]) {
+                newMonthdatas[i + 1] = [];
+            }
+        }
+        const CalculateArea = (...argument) => {
+            const currentElectricity = argument.reduce((total, currentValue, index, arr) => {
+                return total + (Math.min(arr[index ? index - 1 : 0], currentValue) + Math.abs(currentValue - arr[index ? index - 1 : 0]) / 2) / 12;
+            }, 0);
+            return currentElectricity;
         };
         if (body.startTime && body.endTime) {
             let newdata = {
@@ -124,63 +147,99 @@ let MqttService = exports.MqttService = class MqttService {
                 let newpv = 0;
                 let newev = 0;
                 let newbat = 0;
-                for (let i = 0; i < val.PV.length / 3; i++) {
-                    let data = ''.concat(`${val.PV[i * 3]},`, `${val.PV[i * 3 + 1]},`, `${val.PV[i * 3 + 2]}`);
-                    data = JSON.parse(data);
-                    newpv += data.power;
-                }
-                for (let i = 0; i < val.EV.length / 5; i++) {
-                    let data = ''.concat(`${val.EV[i * 5]},`, `${val.EV[i * 5 + 1]},`, `${val.EV[i * 5 + 2]},`, `${val.EV[i * 5 + 3]},`, `${val.EV[i * 5 + 4]}`);
-                    data = JSON.parse(data);
-                    newev += data.power;
-                    evData += newev;
+                let pvdataold;
+                let evdataold;
+                let batdataold;
+                if (val.EV) {
+                    for (let i = 0; i < val.EV.length / 5; i++) {
+                        evdataold = ''.concat(`${val.EV[i * 5]},`, `${val.EV[i * 5 + 1]},`, `${val.EV[i * 5 + 2]},`, `${val.EV[i * 5 + 3]},`, `${val.EV[i * 5 + 4]}`);
+                        evdataold = [JSON.parse(evdataold)];
+                        for (i = 0; i < evdataold.length; i++) {
+                            newev += evdataold[i].power;
+                            evData += evdataold[i].power;
+                        }
+                    }
+                    dayEVReturnData.push(newev);
                 }
                 for (let i = 0; i < val.BAT.length / 7; i++) {
-                    let data = ''.concat(`${val.BAT[i * 7]},`, `${val.BAT[i * 7 + 1]},`, `${val.BAT[i * 7 + 2]},`, `${val.BAT[i * 7 + 3]},`, `${val.BAT[i * 7 + 4]},`, `${val.BAT[i * 7 + 5]},`, `${val.BAT[i * 7 + 6]}`);
-                    data = JSON.parse(data);
-                    newbat += data.power;
-                    if (data.power > 0) {
-                        batteryDataOut += data.power;
-                    }
-                    else {
-                        batteryDataIn -= data.power;
+                    batdataold = ''.concat(`${val.BAT[i * 7]},`, `${val.BAT[i * 7 + 1]},`, `${val.BAT[i * 7 + 2]},`, `${val.BAT[i * 7 + 3]},`, `${val.BAT[i * 7 + 4]},`, `${val.BAT[i * 7 + 5]},`, `${val.BAT[i * 7 + 6]}`);
+                    batdataold = [JSON.parse(batdataold)];
+                    for (i = 0; i < batdataold.length; i++) {
+                        newbat += batdataold[i].power;
+                        if (batdataold.power > 0) {
+                            batteryDataOut += batdataold[i].power;
+                        }
+                        else {
+                            batteryDataIn -= batdataold[i].power;
+                        }
                     }
                 }
-                newdata.HOMEdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, parseFloat((val.HOME.home.power + val.HOME.critical.power).toFixed(2))]);
-                newdata.GRIDdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, val.GRID.power]);
-                newdata.PVdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, newpv]);
-                newdata.EVdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, newev]);
-                newdata.BATdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, newbat]);
+                for (let i = 0; i < val.PV.length / 3; i++) {
+                    pvdataold = ''.concat(`${val.PV[i * 3]},`, `${val.PV[i * 3 + 1]},`, `${val.PV[i * 3 + 2]}`);
+                    pvdataold = [JSON.parse(pvdataold)];
+                    for (i = 0; i < pvdataold.length; i++) {
+                        newpv += pvdataold[i].power;
+                        if (batdataold[0].power >= 0) {
+                            daySolarReturnData.push(newpv);
+                        }
+                        else {
+                            daySolarReturnData.push(newpv + batdataold[i].power);
+                        }
+                    }
+                }
                 if (val.GRID.power > 0) {
-                    gridDataOut += val.GRID.power;
+                    dayGridReturnDataOut.push(val.GRID.power);
                 }
                 else {
-                    gridDataIn -= val.GRID.power;
+                    dayGridReturnDataIn.push(val.GRID.power);
                 }
-                homeData += CalculateArea(val.HOME.home.power + val.HOME.critical.power, preHomeData);
-                preHomeData = CalculateArea(val.HOME.home.power + val.HOME.critical.power, preHomeData);
-                solarData += CalculateArea(newpv, preSolarData);
-                console.log('===');
-                console.log(newpv);
-                console.log(preSolarData);
-                console.log(CalculateArea(newpv, preSolarData));
-                console.log(solarData);
-                preSolarData = newpv;
+                dayHomeReturnData.push(val.HOME.home.power + val.HOME.critical.power);
+                if (dayTime <= 1) {
+                    newdata.HOMEdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, parseFloat((val.HOME.home.power + val.HOME.critical.power).toFixed(2))]);
+                    newdata.GRIDdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, val.GRID.power]);
+                    newdata.PVdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, newpv]);
+                    newdata.EVdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, newev]);
+                    newdata.BATdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, newbat]);
+                }
+                else if (dayTime <= 31) {
+                    newMonthdatas[moment(val.timeStamp * 1000).format("DD")].push(val.HOME.home.power + val.HOME.critical.power);
+                }
             });
-            res.json({
-                data: {
-                    ...newdata,
-                    solarData: parseFloat((solarData).toFixed(2)),
-                    gridDataIn: parseFloat((gridDataIn / 12).toFixed(2)),
-                    gridDataOut: parseFloat((gridDataOut / 12).toFixed(2)),
-                    batteryDataIn: parseFloat((batteryDataIn / 12).toFixed(2)),
-                    batteryDataOut: parseFloat((batteryDataOut / 12).toFixed(2)),
-                    evData: parseFloat((evData / 12).toFixed(2)),
-                    homeData: parseFloat((homeData).toFixed(2))
-                },
-                code: 200,
-                length: datas.length
-            });
+            if (dayTime <= 1) {
+                gridDataOut = CalculateArea(...dayGridReturnDataOut);
+                gridDataIn = CalculateArea(...dayGridReturnDataIn);
+                batteryDataIn = CalculateArea(...dayBatteryReturnDataIn);
+                batteryDataOut = CalculateArea(...dayBatteryReturnDataOut);
+                homeData = CalculateArea(...dayHomeReturnData);
+                solarData = CalculateArea(...daySolarReturnData);
+                evData = CalculateArea(...dayEVReturnData);
+                res.json({
+                    data: {
+                        ...newdata,
+                        solarData: parseFloat((solarData).toFixed(2)),
+                        gridDataIn: parseFloat(gridDataIn.toFixed(2)),
+                        gridDataOut: parseFloat(gridDataOut.toFixed(2)),
+                        batteryDataIn: parseFloat(batteryDataIn.toFixed(2)),
+                        batteryDataOut: parseFloat(batteryDataOut.toFixed(2)),
+                        evData: parseFloat(evData.toFixed(2)),
+                        homeData: parseFloat(homeData.toFixed(2))
+                    },
+                    code: 200,
+                    length: datas.length
+                });
+            }
+            else if (3 < dayTime && dayTime <= 31) {
+                let monthReturnData = [];
+                Object.keys(newMonthdatas).map(key => {
+                    const data = CalculateArea(...newMonthdatas[key]);
+                    monthReturnData.push(data);
+                });
+                res.json({
+                    monthHomeData: monthReturnData,
+                    code: 200,
+                    length: Math.round(dayTime)
+                });
+            }
         }
         else {
         }
