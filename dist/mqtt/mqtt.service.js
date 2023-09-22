@@ -166,11 +166,13 @@ let MqttService = exports.MqttService = class MqttService {
                     batdataold = [JSON.parse(batdataold)];
                     for (i = 0; i < batdataold.length; i++) {
                         newbat += batdataold[i].power;
-                        if (batdataold.power > 0) {
+                        if (batdataold[i].power > 0) {
                             batteryDataOut += batdataold[i].power;
+                            dayBatteryReturnDataOut.push(batdataold[i].power);
                         }
                         else {
                             batteryDataIn -= batdataold[i].power;
+                            dayBatteryReturnDataIn.push(batdataold[i].power);
                         }
                     }
                 }
@@ -205,14 +207,14 @@ let MqttService = exports.MqttService = class MqttService {
                     newMonthdatas[moment(val.timeStamp * 1000).format("DD")].push(val.HOME.home.power + val.HOME.critical.power);
                 }
             });
+            gridDataOut = CalculateArea(...dayGridReturnDataOut);
+            gridDataIn = CalculateArea(...dayGridReturnDataIn);
+            batteryDataIn = CalculateArea(...dayBatteryReturnDataIn);
+            batteryDataOut = CalculateArea(...dayBatteryReturnDataOut);
+            homeData = CalculateArea(...dayHomeReturnData);
+            solarData = CalculateArea(...daySolarReturnData);
+            evData = CalculateArea(...dayEVReturnData);
             if (dayTime <= 1) {
-                gridDataOut = CalculateArea(...dayGridReturnDataOut);
-                gridDataIn = CalculateArea(...dayGridReturnDataIn);
-                batteryDataIn = CalculateArea(...dayBatteryReturnDataIn);
-                batteryDataOut = CalculateArea(...dayBatteryReturnDataOut);
-                homeData = CalculateArea(...dayHomeReturnData);
-                solarData = CalculateArea(...daySolarReturnData);
-                evData = CalculateArea(...dayEVReturnData);
                 res.json({
                     data: {
                         ...newdata,
@@ -236,6 +238,13 @@ let MqttService = exports.MqttService = class MqttService {
                 });
                 res.json({
                     monthHomeData: monthReturnData,
+                    solarData: parseFloat((solarData).toFixed(2)),
+                    gridDataIn: parseFloat(gridDataIn.toFixed(2)),
+                    gridDataOut: parseFloat(gridDataOut.toFixed(2)),
+                    batteryDataIn: parseFloat(batteryDataIn.toFixed(2)),
+                    batteryDataOut: parseFloat(batteryDataOut.toFixed(2)),
+                    evData: parseFloat(evData.toFixed(2)),
+                    homeData: parseFloat(homeData.toFixed(2)),
                     code: 200,
                     length: Math.round(dayTime)
                 });
