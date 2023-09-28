@@ -12,7 +12,7 @@ export declare class UserController {
     delUser({ id }: {
         id: any;
     }): any;
-    updateUser(body: any, { id }: {
+    updateUser(body: CreateUserDto, { id }: {
         id: any;
     }): any;
     register(body: CreateUserDto, res: any): any;

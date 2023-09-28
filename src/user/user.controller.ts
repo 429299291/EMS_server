@@ -4,6 +4,7 @@ import { RoleGuard } from 'src/role/role.guard';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateUserDto } from './dto/user.dto';
 import { ApiOperation, ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { log } from 'console';
 @Controller('user')
 export class UserController {
     constructor(private userService:UserService){}
@@ -32,17 +33,20 @@ export class UserController {
     }
     
     @Get('/all/:page/:pageSize')
+    @ApiTags("user")
     @UseGuards(AuthGuard)
     getUserAll(@Param("page",ParseIntPipe) page,@Param("pageSize",ParseIntPipe) pageSize):any{
         return this.userService.getUserAll({page,pageSize})
     }
 
     @Post('/getUsers')
+    @ApiTags("user")
     @UseGuards(AuthGuard)
     getUsers(@Body() body):any{
         return this.userService.getUsers(body)
     }
     @Get('/delete/:id')
+    @ApiTags("user")
     @UseGuards(AuthGuard)
     delUser(@Param() {id}):any{      
         return this.userService.delUser(id)
@@ -56,17 +60,18 @@ export class UserController {
         description:"用户ID",
         required:true
     })
-    updateUser(@Body() body,@Param() {id}):any{ 
+    updateUser(@Body() body:CreateUserDto,@Param() {id}):any{ 
         return this.userService.updateUser({id,...body})
     }
 
     @Post('/register')
     @ApiTags("user")
-    public register(@Body() body:CreateUserDto,@Response() res):any{                      
+    public register(@Body() body:CreateUserDto,@Response() res):any{                        
         return this.userService.register(body,res)
     }
 
     @Post('/login')
+    @ApiTags("user")
     login(@Body() body,@Response() res):any{              
         return this.userService.login(body,res)
     }

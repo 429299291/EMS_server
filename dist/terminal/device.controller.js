@@ -16,14 +16,17 @@ exports.TerminalController = void 0;
 const common_1 = require("@nestjs/common");
 const device_service_1 = require("./device.service");
 const create_device_dto_1 = require("./dto/create-device.dto");
-const update_device_dto_1 = require("./dto/update-device.dto");
 const auth_guard_1 = require("../auth/auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let TerminalController = exports.TerminalController = class TerminalController {
     constructor(deviceService) {
         this.deviceService = deviceService;
     }
     create(createDeviceDto) {
         return this.deviceService.create(createDeviceDto);
+    }
+    put(putDeviceDto) {
+        return this.deviceService.putTerminal(putDeviceDto);
     }
     getDevices(createDeviceDto) {
         return this.deviceService.getDevices(createDeviceDto);
@@ -43,14 +46,23 @@ let TerminalController = exports.TerminalController = class TerminalController {
 };
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiTags)("Terminal"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_device_dto_1.CreateDeviceDto]),
     __metadata("design:returntype", void 0)
 ], TerminalController.prototype, "create", null);
 __decorate([
+    (0, common_1.Put)(""),
+    (0, swagger_1.ApiTags)("Terminal"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_device_dto_1.updateTerminalDTO]),
+    __metadata("design:returntype", void 0)
+], TerminalController.prototype, "put", null);
+__decorate([
     (0, common_1.Post)('terminals'),
+    (0, swagger_1.ApiTags)("Terminal"),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -59,6 +71,7 @@ __decorate([
 ], TerminalController.prototype, "getDevices", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiTags)("Terminal"),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -67,6 +80,7 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiTags)("Terminal"),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -74,14 +88,16 @@ __decorate([
 ], TerminalController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, swagger_1.ApiTags)("Terminal"),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_device_dto_1.UpdateDeviceDto]),
+    __metadata("design:paramtypes", [String, create_device_dto_1.updateTerminalDTO]),
     __metadata("design:returntype", void 0)
 ], TerminalController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, swagger_1.ApiTags)("Terminal"),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

@@ -7,12 +7,14 @@ import { Response } from "express"
 import { www } from '../constants';
 import { join } from 'path';
 import { zip } from 'compressing';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('upload')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
   @Post('avatar')
+  @ApiTags("profile")
   @UseInterceptors(FileInterceptor('file'))
   upload(@UploadedFile() file) {    
     return {
@@ -23,12 +25,14 @@ export class UploadController {
   }
   //简单下载
   @Get('avatar')
+  @ApiTags("profile")
   downloadAvatar(@Res() res:Response) {   
     const url = join(__dirname,'../files/images/avatar/1689863888602.png') 
     res.download(url)
   }
   //二进制流下载
   @Get('stream')
+  @ApiTags("profile")
   async downloadStream(@Res() res:Response) {
     const url = join(__dirname,'../files/images/avatar/1689865626035.png') 
     const tarStream = new zip.Stream()
@@ -41,27 +45,32 @@ export class UploadController {
     tarStream.pipe(res)
   }
 
+  @ApiTags("profile")
   @Post()
   create(@Body() createUploadDto: CreateUploadDto) {
     return this.uploadService.create(createUploadDto);
   }
 
   @Get()
+  @ApiTags("profile")
   findAll() {
     return this.uploadService.findAll();
   }
 
   @Get(':id')
+  @ApiTags("profile")
   findOne(@Param('id') id: string) {
     return this.uploadService.findOne(+id);
   }
 
   @Patch(':id')
+  @ApiTags("profile")
   update(@Param('id') id: string, @Body() updateUploadDto: UpdateUploadDto) {
     return this.uploadService.update(+id, updateUploadDto);
   }
 
   @Delete(':id')
+  @ApiTags("profile")
   remove(@Param('id') id: string) {
     return this.uploadService.remove(+id);
   }

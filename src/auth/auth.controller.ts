@@ -27,6 +27,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
+  @ApiTags("login")
   getProfile(@Request() req) {
     return req.user;
   }

@@ -207,7 +207,7 @@ export class UserService {
                     return body
                 });
                 body.password = newPassword
-        }        
+        }
         return this.user.update(body.id,{...body}).then(resolve=>{
             if(resolve.affected==1){
                 return{

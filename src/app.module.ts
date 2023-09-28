@@ -18,13 +18,27 @@ const redisOptions:RedisModuleOptions={
   password:"xuheng8888!"
 }
 
+// @Module({
+//   imports: [TypeOrmModule.forRoot({
+//     type:"mysql",
+//     host:"rm-cn-uqm3a2odq001d67o.rwlb.rds.aliyuncs.com",
+//     port:3306,
+//     username:"root",
+//     password:"zhudong520!",
+//     database:"ems",//数据库name
+//     retryDelay:500,//重连接间隔
+//     retryAttempts:1,//重连接次数
+//     synchronize:true,//实体同步到数据库
+//     autoLoadEntities:true//自动加载实体
+//   }),DashboardModule,UserModule, AuthModule, UploadModule, MqttModule, TerminalModule,RedisModule.forRoot(redisOptions)],
+// })
 @Module({
   imports: [TypeOrmModule.forRoot({
     type:"mysql",
-    host:"rm-cn-uqm3a2odq001d67o.rwlb.rds.aliyuncs.com",
+    host:"rm-cn-5yd3et1kl0001gno.rwlb.rds.aliyuncs.com",
     port:3306,
-    username:"root",
-    password:"zhudong520!",
+    username:"ems",
+    password:"xuheng8888!",
     database:"ems",//数据库name
     retryDelay:500,//重连接间隔
     retryAttempts:1,//重连接次数

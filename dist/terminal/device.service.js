@@ -29,12 +29,27 @@ let TerminalService = exports.TerminalService = class TerminalService {
             return { code: 200, message: "设备已经注册" };
         }
         else {
-            const user = await this.user.findOneBy({ id: createDeviceDto.userId });
+            const user = await this.user.findOne({
+                where: { id: createDeviceDto.userId },
+                relations: ['terminals'],
+            });
             const deviceList = [];
             await this.terminal.save(createDeviceDto);
             deviceList.push(createDeviceDto);
-            user.terminals = deviceList;
+            if (user) {
+                user.terminals = [...user.terminals, ...deviceList];
+            }
             return this.user.save(user);
+        }
+    }
+    async putTerminal(putDeviceDto) {
+        const terminal = await this.terminal.findOneBy({ id: putDeviceDto.id });
+        if (terminal) {
+            this.terminal.update(putDeviceDto.id, { ...putDeviceDto });
+            return { code: 200, message: "修改成功" };
+        }
+        else {
+            return { code: 204, message: "无效ID" };
         }
     }
     async getDevices(body) {

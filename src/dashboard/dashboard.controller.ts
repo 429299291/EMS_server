@@ -1,11 +1,12 @@
 import { Controller, Get,Post,Request,Query,Body,Headers,Param } from '@nestjs/common';
 import {DashboardService} from './dashboard.service'
+import { ApiTags } from '@nestjs/swagger';
 @Controller('dashboard')
 export class DashboardController {
     constructor(private dashboardService:DashboardService){}
     @Get('/add')
+    @ApiTags("dashboard")
     getDashboard():any{        
-        console.log('===');
         return this.dashboardService.addDashboard()
     }
 

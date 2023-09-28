@@ -107,6 +107,7 @@ export class MqttController {
   }  
 
   @Post()
+  @ApiTags("mqtt")
   getDevices(@Body() body) {        
     client.publish(`EMS/server/${body.id}`,JSON.stringify({
       ...body,
@@ -119,17 +120,19 @@ export class MqttController {
   }
 
   @Post('/getHomeElectricity')
-  @ApiTags("dashboard")
+  @ApiTags("mqtt")
   getHomeElectricity(@Body() body:getDashboardElectricityDTO,@Response() res) {          
     return this.mqttService.getHomeElectricity(body,res);
   }
 
   @Get(":id")
+  @ApiTags("mqtt")
   findAlls(@Param() params) {
     return this.mqttService.findAll(params);
   }
 
   @MessagePattern('createMqtt')
+  @ApiTags("mqtt")
   create(@Payload() createMqttDto: CreateMqttDto) {
     return this.mqttService.create(createMqttDto);
   }

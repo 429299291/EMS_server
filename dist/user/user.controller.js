@@ -76,6 +76,7 @@ __decorate([
 ], UserController.prototype, "currentUser", null);
 __decorate([
     (0, common_1.Get)('/all/:page/:pageSize'),
+    (0, swagger_1.ApiTags)("user"),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)("page", common_1.ParseIntPipe)),
     __param(1, (0, common_1.Param)("pageSize", common_1.ParseIntPipe)),
@@ -85,6 +86,7 @@ __decorate([
 ], UserController.prototype, "getUserAll", null);
 __decorate([
     (0, common_1.Post)('/getUsers'),
+    (0, swagger_1.ApiTags)("user"),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -93,6 +95,7 @@ __decorate([
 ], UserController.prototype, "getUsers", null);
 __decorate([
     (0, common_1.Get)('/delete/:id'),
+    (0, swagger_1.ApiTags)("user"),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
@@ -111,7 +114,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [user_dto_1.CreateUserDto, Object]),
     __metadata("design:returntype", Object)
 ], UserController.prototype, "updateUser", null);
 __decorate([
@@ -125,6 +128,7 @@ __decorate([
 ], UserController.prototype, "register", null);
 __decorate([
     (0, common_1.Post)('/login'),
+    (0, swagger_1.ApiTags)("user"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),

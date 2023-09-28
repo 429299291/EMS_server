@@ -1,6 +1,6 @@
 import { TerminalService } from './device.service';
-import { CreateDeviceDto } from './dto/create-device.dto';
-import { UpdateDeviceDto } from './dto/update-device.dto';
+import { CreateDeviceDto, updateTerminalDTO } from './dto/create-device.dto';
+import { Terminal } from './entities/device.entity';
 export declare class TerminalController {
     private readonly deviceService;
     constructor(deviceService: TerminalService);
@@ -8,13 +8,17 @@ export declare class TerminalController {
         code: number;
         message: string;
     }>;
+    put(putDeviceDto: updateTerminalDTO): Promise<{
+        code: number;
+        message: string;
+    }>;
     getDevices(createDeviceDto: CreateDeviceDto): Promise<{
-        data: import("./entities/device.entity").Terminal[];
+        data: Terminal[];
         total: number;
         success: boolean;
     }>;
-    findAll(): Promise<import("./entities/device.entity").Terminal[]>;
+    findAll(): Promise<Terminal[]>;
     findOne(id: string): string;
-    update(id: string, updateDeviceDto: UpdateDeviceDto): string;
+    update(id: string, updateDeviceDto: updateTerminalDTO): string;
     remove(id: string): string;
 }

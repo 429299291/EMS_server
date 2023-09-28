@@ -27,10 +27,10 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forRoot({
                 type: "mysql",
-                host: "rm-cn-uqm3a2odq001d67o.rwlb.rds.aliyuncs.com",
+                host: "rm-cn-5yd3et1kl0001gno.rwlb.rds.aliyuncs.com",
                 port: 3306,
-                username: "root",
-                password: "zhudong520!",
+                username: "ems",
+                password: "xuheng8888!",
                 database: "ems",
                 retryDelay: 500,
                 retryAttempts: 1,

@@ -21,6 +21,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const constants_1 = require("../constants");
 const path_1 = require("path");
 const compressing_1 = require("compressing");
+const swagger_1 = require("@nestjs/swagger");
 let UploadController = exports.UploadController = class UploadController {
     constructor(uploadService) {
         this.uploadService = uploadService;
@@ -62,6 +63,7 @@ let UploadController = exports.UploadController = class UploadController {
 };
 __decorate([
     (0, common_1.Post)('avatar'),
+    (0, swagger_1.ApiTags)("profile"),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
@@ -70,6 +72,7 @@ __decorate([
 ], UploadController.prototype, "upload", null);
 __decorate([
     (0, common_1.Get)('avatar'),
+    (0, swagger_1.ApiTags)("profile"),
     __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -77,12 +80,14 @@ __decorate([
 ], UploadController.prototype, "downloadAvatar", null);
 __decorate([
     (0, common_1.Get)('stream'),
+    (0, swagger_1.ApiTags)("profile"),
     __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UploadController.prototype, "downloadStream", null);
 __decorate([
+    (0, swagger_1.ApiTags)("profile"),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -91,12 +96,14 @@ __decorate([
 ], UploadController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiTags)("profile"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], UploadController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiTags)("profile"),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -104,6 +111,7 @@ __decorate([
 ], UploadController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, swagger_1.ApiTags)("profile"),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -112,6 +120,7 @@ __decorate([
 ], UploadController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, swagger_1.ApiTags)("profile"),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

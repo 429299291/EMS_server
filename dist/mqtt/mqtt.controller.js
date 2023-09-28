@@ -72,6 +72,7 @@ let MqttController = exports.MqttController = class MqttController {
 };
 __decorate([
     (0, common_1.Post)(),
+    (0, swagger_1.ApiTags)("mqtt"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -79,7 +80,7 @@ __decorate([
 ], MqttController.prototype, "getDevices", null);
 __decorate([
     (0, common_1.Post)('/getHomeElectricity'),
-    (0, swagger_1.ApiTags)("dashboard"),
+    (0, swagger_1.ApiTags)("mqtt"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),
@@ -88,6 +89,7 @@ __decorate([
 ], MqttController.prototype, "getHomeElectricity", null);
 __decorate([
     (0, common_1.Get)(":id"),
+    (0, swagger_1.ApiTags)("mqtt"),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -95,6 +97,7 @@ __decorate([
 ], MqttController.prototype, "findAlls", null);
 __decorate([
     (0, microservices_1.MessagePattern)('createMqtt'),
+    (0, swagger_1.ApiTags)("mqtt"),
     __param(0, (0, microservices_1.Payload)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_mqtt_dto_1.CreateMqttDto]),

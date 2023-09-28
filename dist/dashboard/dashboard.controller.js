@@ -12,17 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DashboardController = void 0;
 const common_1 = require("@nestjs/common");
 const dashboard_service_1 = require("./dashboard.service");
+const swagger_1 = require("@nestjs/swagger");
 let DashboardController = exports.DashboardController = class DashboardController {
     constructor(dashboardService) {
         this.dashboardService = dashboardService;
     }
     getDashboard() {
-        console.log('===');
         return this.dashboardService.addDashboard();
     }
 };
 __decorate([
     (0, common_1.Get)('/add'),
+    (0, swagger_1.ApiTags)("dashboard"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Object)
