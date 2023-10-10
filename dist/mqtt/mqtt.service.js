@@ -98,6 +98,7 @@ let MqttService = exports.MqttService = class MqttService {
         let homeData = 0;
         let preHomeData = 0;
         let newMonthdatas = {};
+        let newYearDatas = {};
         let monthBatteryDataIn;
         let currentMonthBatteryDataIn = 0;
         let monthGridDataIn;
@@ -113,8 +114,13 @@ let MqttService = exports.MqttService = class MqttService {
         let dayEVReturnData = [];
         const dayTime = (body.endTime - body.startTime) / 86400;
         for (let i = 0; i < dayTime; i++) {
-            if (!newMonthdatas[0]) {
-                newMonthdatas[i + 1] = [];
+            if (dayTime > 13 && dayTime < 32) {
+                if (!newMonthdatas[0]) {
+                    newMonthdatas[i + 1] = [];
+                }
+            }
+            else {
+                newYearDatas = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 10: [], 11: [], 12: [] };
             }
         }
         const CalculateArea = (...argument) => {
@@ -204,7 +210,10 @@ let MqttService = exports.MqttService = class MqttService {
                     newdata.BATdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`, newbat]);
                 }
                 else if (dayTime <= 31) {
-                    newMonthdatas[moment(val.timeStamp * 1000).format("DD")].push(val.HOME.home.power + val.HOME.critical.power);
+                    newMonthdatas[moment(val.timeStamp * 1000).date()].push(val.HOME.home.power + val.HOME.critical.power);
+                }
+                else {
+                    newYearDatas[moment(val.timeStamp * 1000).month() + 1].push(val.HOME.home.power + val.HOME.critical.power);
                 }
             });
             gridDataOut = CalculateArea(...dayGridReturnDataOut);
@@ -230,7 +239,7 @@ let MqttService = exports.MqttService = class MqttService {
                     length: datas.length
                 });
             }
-            else if (3 < dayTime && dayTime <= 31) {
+            else if (3 < dayTime && dayTime <= 32) {
                 let monthReturnData = [];
                 Object.keys(newMonthdatas).map(key => {
                     const data = CalculateArea(...newMonthdatas[key]);
@@ -238,6 +247,25 @@ let MqttService = exports.MqttService = class MqttService {
                 });
                 res.json({
                     monthHomeData: monthReturnData,
+                    solarData: parseFloat((solarData).toFixed(2)),
+                    gridDataIn: parseFloat(gridDataIn.toFixed(2)),
+                    gridDataOut: parseFloat(gridDataOut.toFixed(2)),
+                    batteryDataIn: parseFloat(batteryDataIn.toFixed(2)),
+                    batteryDataOut: parseFloat(batteryDataOut.toFixed(2)),
+                    evData: parseFloat(evData.toFixed(2)),
+                    homeData: parseFloat(homeData.toFixed(2)),
+                    code: 200,
+                    length: Math.round(dayTime)
+                });
+            }
+            else {
+                let yearReturnData = [];
+                Object.keys(newYearDatas).map(key => {
+                    const data = CalculateArea(...newYearDatas[key]);
+                    yearReturnData.push(data);
+                });
+                res.json({
+                    yearHomeData: yearReturnData,
                     solarData: parseFloat((solarData).toFixed(2)),
                     gridDataIn: parseFloat(gridDataIn.toFixed(2)),
                     gridDataOut: parseFloat(gridDataOut.toFixed(2)),

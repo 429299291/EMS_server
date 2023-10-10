@@ -8,6 +8,8 @@ export class CreateUserDto {
   readonly name: string;
   @ApiProperty({example:18})
   readonly age: number;
+  @ApiProperty({example:8888})
+  readonly emailCode: number;
   @ApiProperty({example:"429299291@qq.com"})
   readonly email: string;
   @ApiProperty({example:15111111111})
@@ -48,4 +50,10 @@ export class updateUserDto {
   readonly location:locationType;
   @ApiProperty({example:["dashboard","about"]})
   readonly accessPermissions:string[];
+}
+export class getUsersDto {
+  @ApiProperty({example:"1"})
+  readonly current: string;
+  @ApiProperty({example:"10"})
+  readonly pageSize: string;
 }

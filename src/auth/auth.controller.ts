@@ -21,7 +21,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   @ApiTags("login")
-  signIn(@Body() signInDto: loginDTO,@Response() res) {        
+  signIn(@Body() signInDto: loginDTO,@Response() res) {       
     return this.authService.signIn(signInDto.email, signInDto.password,res);
   }
 

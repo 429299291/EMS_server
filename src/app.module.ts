@@ -10,6 +10,13 @@ import { UploadModule } from './upload/upload.module';
 import { MqttModule } from './mqtt/mqtt.module';
 import { TerminalModule } from './terminal/device.module';
 import { RedisModule,RedisModuleOptions } from '@jasonsoft/nestjs-redis';
+import { EmailModule } from './email/email.module';
+
+//email
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+
+
 
 const redisOptions:RedisModuleOptions={
   port:6379,
@@ -45,7 +52,31 @@ const redisOptions:RedisModuleOptions={
     synchronize:true,//实体同步到数据库
     // entities: [DashboardModule,UserModule],
     autoLoadEntities:true//自动加载实体
-  }),DashboardModule,UserModule, AuthModule, UploadModule, MqttModule, TerminalModule,RedisModule.forRoot(redisOptions)],
+  }),
+  MailerModule.forRoot({//邮箱服务
+    transport: {
+      host: 'smtp.exmail.qq.com',
+      port: 465,
+      ignoreTLS: true,
+      secure: true,
+      auth: {
+        user: 'neuron@alwayscontrol.com.cn',
+        pass: 'Xuheng8888',
+      },
+    },
+    defaults: {
+      from: '"旭衡科技" <neuron@alwayscontrol.com.cn>',
+    },
+    preview: false,
+    template: {
+      dir: process.cwd() + '/template/',
+      adapter: new PugAdapter(), // or new PugAdapter() or new EjsAdapter()
+      options: {
+        strict: true,
+      },
+    },
+  }),
+  DashboardModule,UserModule, AuthModule, UploadModule, MqttModule, TerminalModule,RedisModule.forRoot(redisOptions), EmailModule],
   // controllers: [AppController],
   // providers: [AppService],
 })

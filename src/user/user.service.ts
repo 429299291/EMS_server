@@ -3,7 +3,6 @@ import {JsonContains, Like, Repository,LessThanOrEqual, MoreThan, Not} from 'typ
 import {InjectRepository} from '@nestjs/typeorm'
 import { User } from './entities/entities';
 import { resType } from 'src/constants/apiType';
-import { log } from 'console';
 import { CreateUserDto } from './dto/user.dto';
 const keys = "secret"
 const bcrypt = require('bcrypt')
@@ -11,7 +10,9 @@ const bcrypt = require('bcrypt')
 @Injectable()
 export class UserService {
     // private esponse:Iresponse
-    constructor(@InjectRepository(User) private readonly user:Repository<User>){}
+    constructor(
+        @InjectRepository(User) private readonly user:Repository<User>
+    ){}
     async getUserAll(body) {     
         const data = await this.user.find({
             relations:["terminals"],
@@ -114,41 +115,6 @@ export class UserService {
     findOne(email: string): Promise<User | null> {
         return this.user.findOneBy({ email });
     }
-
-    login(body:any,res) {
-          //查询数据库
-        return this.user.findOneBy({email:body.email})
-        .then(user =>{           
-            if(!user){
-                return {
-                    code:204,
-                    message:"用户不存在"
-                }
-            }
-            //密码匹配
-            // bcrypt.compare(body.password, user.password,(err, result) => {          
-            //     if(result){ 
-            //         const rule = {id:user.id,name:user.name}
-            //         // jwt.sign('规则','加密名字','过期时间','箭头函数')
-            //         jwt.sign(rule,keys,{expiresIn:3600000},(err,token) =>{
-            //             if(err) throw err;
-            //             res.json({
-            //                 success:true,
-            //                 code:200,
-            //                 message:"登录成功",
-            //                 token:"Bearer "+token
-            //             })
-            //         })
-            //     }else{                    
-            //         res.json({
-            //             code:204,
-            //             message:"密码错误"
-            //         })
-            //     }
-            // });
-
-        })
-    }
     register(body,res) {            
        return this.user.findOneBy({email:body.email})
         .then(data=>{
@@ -160,6 +126,7 @@ export class UserService {
             })
           }else{
             let newUser = new User()
+            //发送邮件
             newUser = {
                 ...body
             }
@@ -172,7 +139,7 @@ export class UserService {
                     thisUSER.save(newUser).then((resolve)=>{                        
                         res.json({
                             code:200,
-                            message:"注册成功"
+                            message:"注册成功",
                         })
                     })
                 });

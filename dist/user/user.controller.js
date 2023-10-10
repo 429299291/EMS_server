@@ -18,9 +18,14 @@ const user_service_1 = require("./user.service");
 const auth_guard_1 = require("../auth/auth.guard");
 const user_dto_1 = require("./dto/user.dto");
 const swagger_1 = require("@nestjs/swagger");
+const email_service_1 = require("../email/email.service");
+const tool_1 = require("../tool");
+const nestjs_redis_1 = require("@jasonsoft/nestjs-redis");
 let UserController = exports.UserController = class UserController {
-    constructor(userService) {
+    constructor(userService, emailService, redisCacheHelper) {
         this.userService = userService;
+        this.emailService = emailService;
+        this.redisCacheHelper = redisCacheHelper;
     }
     getUserByName(params) {
         let username = params.username;
@@ -41,11 +46,26 @@ let UserController = exports.UserController = class UserController {
     updateUser(body, { id }) {
         return this.userService.updateUser({ id, ...body });
     }
-    register(body, res) {
-        return this.userService.register(body, res);
+    async register(body, res) {
+        if (body.emailCode === await this.redisCacheHelper.getAsObj(`${body.email}`)) {
+            return this.userService.register(body, res);
+        }
+        else {
+            res.json({
+                code: 400,
+                massage: "验证码错误"
+            });
+        }
     }
-    login(body, res) {
-        return this.userService.login(body, res);
+    async registerEmail({ email }, res) {
+        const emailCode = (0, tool_1.mathRand)(1000, 9999) + '';
+        await this.redisCacheHelper.set(email, emailCode);
+        const data = await this.emailService.example({
+            to: email,
+            subject: "旭衡科技注册验证码",
+            text: emailCode,
+            html: `注册验证码:<b>${emailCode}</b>`
+        }, res);
     }
 };
 __decorate([
@@ -90,7 +110,7 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [user_dto_1.getUsersDto]),
     __metadata("design:returntype", Object)
 ], UserController.prototype, "getUsers", null);
 __decorate([
@@ -124,19 +144,21 @@ __decorate([
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_dto_1.CreateUserDto, Object]),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "register", null);
 __decorate([
-    (0, common_1.Post)('/login'),
+    (0, common_1.Get)('/registerEmail/:email'),
     (0, swagger_1.ApiTags)("user"),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Param)()),
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Object)
-], UserController.prototype, "login", null);
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "registerEmail", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
-    __metadata("design:paramtypes", [user_service_1.UserService])
+    __metadata("design:paramtypes", [user_service_1.UserService,
+        email_service_1.EmailService,
+        nestjs_redis_1.RedisCacheHelper])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

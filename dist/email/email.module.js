@@ -6,22 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserModule = void 0;
+exports.EmailModule = void 0;
 const common_1 = require("@nestjs/common");
-const user_controller_1 = require("./user.controller");
-const user_service_1 = require("./user.service");
+const email_service_1 = require("./email.service");
+const email_controller_1 = require("./email.controller");
 const typeorm_1 = require("@nestjs/typeorm");
-const entities_1 = require("./entities/entities");
-const email_module_1 = require("../email/email.module");
-const device_entity_1 = require("../terminal/entities/device.entity");
-let UserModule = exports.UserModule = class UserModule {
+const entities_1 = require("../user/entities/entities");
+let EmailModule = exports.EmailModule = class EmailModule {
 };
-exports.UserModule = UserModule = __decorate([
+exports.EmailModule = EmailModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([entities_1.User, device_entity_1.Terminal]), email_module_1.EmailModule],
-        controllers: [user_controller_1.UserController],
-        exports: [user_service_1.UserService],
-        providers: [user_service_1.UserService]
+        imports: [typeorm_1.TypeOrmModule.forFeature([entities_1.User])],
+        controllers: [email_controller_1.EmailController],
+        providers: [email_service_1.EmailService],
+        exports: [email_service_1.EmailService]
     })
-], UserModule);
-//# sourceMappingURL=user.module.js.map
+], EmailModule);
+//# sourceMappingURL=email.module.js.map

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserDto = exports.CreateUserDto = void 0;
+exports.getUsersDto = exports.updateUserDto = exports.CreateUserDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 class CreateUserDto {
 }
@@ -22,6 +22,10 @@ __decorate([
     (0, swagger_1.ApiProperty)({ example: 18 }),
     __metadata("design:type", Number)
 ], CreateUserDto.prototype, "age", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: 8888 }),
+    __metadata("design:type", Number)
+], CreateUserDto.prototype, "emailCode", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ example: "429299291@qq.com" }),
     __metadata("design:type", String)
@@ -101,4 +105,15 @@ __decorate([
     (0, swagger_1.ApiProperty)({ example: ["dashboard", "about"] }),
     __metadata("design:type", Array)
 ], updateUserDto.prototype, "accessPermissions", void 0);
+class getUsersDto {
+}
+exports.getUsersDto = getUsersDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: "1" }),
+    __metadata("design:type", String)
+], getUsersDto.prototype, "current", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: "10" }),
+    __metadata("design:type", String)
+], getUsersDto.prototype, "pageSize", void 0);
 //# sourceMappingURL=user.dto.js.map

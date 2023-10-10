@@ -49,7 +49,7 @@ export class MqttService {
           data.fault = data.fault.map(data=>{
             return JSON.stringify(data)
           })
-          } catch(error){
+          } catch(error){  
             throw error(error)
           }
           const deviceList:any[] = []   
@@ -80,7 +80,7 @@ export class MqttService {
           this.terminal.save(newdata)
           this.redisCacheHelper.del(`${data}`)
         }
-      }        
+      }
     })
     this.bufferList.clear()
   }
@@ -101,6 +101,7 @@ export class MqttService {
     let preHomeData:number=0
     //month
     let newMonthdatas:object = {}
+    let newYearDatas:object = {}
        //零时统计数据
     let monthBatteryDataIn:number[]
     let currentMonthBatteryDataIn:number=0
@@ -115,12 +116,16 @@ export class MqttService {
     let daySolarReturnData = []
     let dayHomeReturnData = []
     let dayEVReturnData = []
-    const dayTime = (body.endTime-body.startTime)/86400   //一天时间
+    const dayTime = (body.endTime-body.startTime)/86400   //一天时间    
     for(let i=0;i<dayTime;i++){
-      if(!newMonthdatas[0]){
-        newMonthdatas[i+1] = []
+      if(dayTime>13&& dayTime<32){//月统计
+        if(!newMonthdatas[0]){
+          newMonthdatas[i+1] = []
+        }
+      }else{//年统计
+        newYearDatas = {1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[],9:[],10:[],11:[],12:[]}
       }
-    }
+    }    
     const CalculateArea = (...argument: number[])=>{   //传入功率kw,计算出每五分钟的用电量
       const currentElectricity = argument.reduce((total:number,currentValue:number,index:number,arr:number[])=>{
       return total+ (Math.min(arr[index?index-1:0],currentValue)+Math.abs(currentValue-arr[index?index-1:0])/2)/12
@@ -220,7 +225,9 @@ export class MqttService {
         newdata.EVdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,newev])
         newdata.BATdata.push([`${moment(val.timeStamp * 1000).format('HH:mm')}`,newbat])     
       }else if(dayTime<=31){//月统计
-        newMonthdatas[moment(val.timeStamp*1000).format("DD")].push(val.HOME.home.power+val.HOME.critical.power)
+        newMonthdatas[moment(val.timeStamp*1000).date()].push(val.HOME.home.power+val.HOME.critical.power)
+      }else{  //年统计
+        newYearDatas[moment(val.timeStamp*1000).month()+1].push(val.HOME.home.power+val.HOME.critical.power)
       }
     })
     gridDataOut = CalculateArea(...dayGridReturnDataOut)
@@ -246,9 +253,9 @@ export class MqttService {
         code:200,
         length:datas.length
       })
-    }else if(3<dayTime && dayTime<=31){
+    }else if(3<dayTime && dayTime<=32){      
       let monthReturnData = []
-      Object.keys(newMonthdatas).map(key=>{      
+      Object.keys(newMonthdatas).map(key=>{     
         const data = CalculateArea(...newMonthdatas[key])
         monthReturnData.push(data)
       })
@@ -264,8 +271,25 @@ export class MqttService {
           code:200,
           length:Math.round(dayTime)
       })
+    }else{//年统计
+      let yearReturnData = []
+      Object.keys(newYearDatas).map(key=>{             
+        const data = CalculateArea(...newYearDatas[key])        
+        yearReturnData.push(data)
+      })      
+      res.json({
+          yearHomeData:yearReturnData,
+          solarData:parseFloat((solarData).toFixed(2)),
+          gridDataIn:parseFloat(gridDataIn.toFixed(2)),
+          gridDataOut:parseFloat(gridDataOut.toFixed(2)),
+          batteryDataIn:parseFloat(batteryDataIn.toFixed(2)),
+          batteryDataOut:parseFloat(batteryDataOut.toFixed(2)),
+          evData:parseFloat(evData.toFixed(2)),
+          homeData:parseFloat(homeData.toFixed(2)),
+          code:200,
+          length:Math.round(dayTime)
+      })
     }
-    
     }else{
       
     }

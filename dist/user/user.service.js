@@ -125,17 +125,6 @@ let UserService = exports.UserService = class UserService {
     findOne(email) {
         return this.user.findOneBy({ email });
     }
-    login(body, res) {
-        return this.user.findOneBy({ email: body.email })
-            .then(user => {
-            if (!user) {
-                return {
-                    code: 204,
-                    message: "用户不存在"
-                };
-            }
-        });
-    }
     register(body, res) {
         return this.user.findOneBy({ email: body.email })
             .then(data => {
@@ -159,7 +148,7 @@ let UserService = exports.UserService = class UserService {
                         thisUSER.save(newUser).then((resolve) => {
                             res.json({
                                 code: 200,
-                                message: "注册成功"
+                                message: "注册成功",
                             });
                         });
                     });

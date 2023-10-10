@@ -16,6 +16,9 @@ const upload_module_1 = require("./upload/upload.module");
 const mqtt_module_1 = require("./mqtt/mqtt.module");
 const device_module_1 = require("./terminal/device.module");
 const nestjs_redis_1 = require("@jasonsoft/nestjs-redis");
+const email_module_1 = require("./email/email.module");
+const mailer_1 = require("@nestjs-modules/mailer");
+const pug_adapter_1 = require("@nestjs-modules/mailer/dist/adapters/pug.adapter");
 const redisOptions = {
     port: 6379,
     host: "47.106.120.119",
@@ -36,7 +39,31 @@ exports.AppModule = AppModule = __decorate([
                 retryAttempts: 1,
                 synchronize: true,
                 autoLoadEntities: true
-            }), dashboard_module_1.DashboardModule, user_module_1.UserModule, auth_module_1.AuthModule, upload_module_1.UploadModule, mqtt_module_1.MqttModule, device_module_1.TerminalModule, nestjs_redis_1.RedisModule.forRoot(redisOptions)],
+            }),
+            mailer_1.MailerModule.forRoot({
+                transport: {
+                    host: 'smtp.exmail.qq.com',
+                    port: 465,
+                    ignoreTLS: true,
+                    secure: true,
+                    auth: {
+                        user: 'neuron@alwayscontrol.com.cn',
+                        pass: 'Xuheng8888',
+                    },
+                },
+                defaults: {
+                    from: '"旭衡科技" <neuron@alwayscontrol.com.cn>',
+                },
+                preview: false,
+                template: {
+                    dir: process.cwd() + '/template/',
+                    adapter: new pug_adapter_1.PugAdapter(),
+                    options: {
+                        strict: true,
+                    },
+                },
+            }),
+            dashboard_module_1.DashboardModule, user_module_1.UserModule, auth_module_1.AuthModule, upload_module_1.UploadModule, mqtt_module_1.MqttModule, device_module_1.TerminalModule, nestjs_redis_1.RedisModule.forRoot(redisOptions), email_module_1.EmailModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

@@ -2,12 +2,19 @@ import { Controller, Get,Post,Request,Query,Body,Headers,Param,Response, UseGuar
 import { UserService } from './user.service';
 import { RoleGuard } from 'src/role/role.guard';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto,getUsersDto } from './dto/user.dto';
 import { ApiOperation, ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
-import { log } from 'console';
+import { EmailService } from 'src/email/email.service';
+import { mathRand } from 'src/tool';
+import { RedisCacheHelper } from '@jasonsoft/nestjs-redis';
+
 @Controller('user')
 export class UserController {
-    constructor(private userService:UserService){}
+    constructor(
+        private userService:UserService,
+        private readonly emailService: EmailService,
+        private readonly redisCacheHelper: RedisCacheHelper
+    ){}
     @Get('/getUserByName/:username')
     @ApiTags("user")
     @UseGuards(AuthGuard)
@@ -42,13 +49,13 @@ export class UserController {
     @Post('/getUsers')
     @ApiTags("user")
     @UseGuards(AuthGuard)
-    getUsers(@Body() body):any{
+    getUsers(@Body() body:getUsersDto):any{
         return this.userService.getUsers(body)
     }
     @Get('/delete/:id')
     @ApiTags("user")
     @UseGuards(AuthGuard)
-    delUser(@Param() {id}):any{      
+    delUser(@Param() {id}):any{
         return this.userService.delUser(id)
     }
 
@@ -66,13 +73,27 @@ export class UserController {
 
     @Post('/register')
     @ApiTags("user")
-    public register(@Body() body:CreateUserDto,@Response() res):any{                        
-        return this.userService.register(body,res)
+    public async register(@Body() body:CreateUserDto,@Response() res):Promise<any>{
+        if(body.emailCode === await this.redisCacheHelper.getAsObj(`${body.email}`)){
+            return this.userService.register(body,res)
+        }else{
+            res.json({
+                code:400,
+                massage:"验证码错误"
+            })
+        }
     }
 
-    @Post('/login')
+    @Get('/registerEmail/:email')
     @ApiTags("user")
-    login(@Body() body,@Response() res):any{              
-        return this.userService.login(body,res)
+    public async registerEmail(@Param() {email},@Response() res):Promise<any>{        
+        const emailCode = mathRand(1000,9999)+''     
+        await this.redisCacheHelper.set(email,emailCode)  
+        const data = await this.emailService.example({
+            to:email,
+            subject:"旭衡科技注册验证码",
+            text:emailCode,
+            html:`注册验证码:<b>${emailCode}</b>`
+          },res)
     }
 }

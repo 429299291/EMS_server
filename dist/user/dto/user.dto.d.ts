@@ -4,6 +4,7 @@ interface locationType {
 export declare class CreateUserDto {
     readonly name: string;
     readonly age: number;
+    readonly emailCode: number;
     readonly email: string;
     readonly phone: string;
     readonly password: string;
@@ -25,5 +26,9 @@ export declare class updateUserDto {
     readonly actived: boolean;
     readonly location: locationType;
     readonly accessPermissions: string[];
+}
+export declare class getUsersDto {
+    readonly current: string;
+    readonly pageSize: string;
 }
 export {};

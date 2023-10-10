@@ -12,10 +12,6 @@ export declare class UserService {
     getUserByName(name: string): Promise<User[]>;
     getUserByEmail(email: string): Promise<User>;
     findOne(email: string): Promise<User | null>;
-    login(body: any, res: any): Promise<{
-        code: number;
-        message: string;
-    }>;
     register(body: any, res: any): Promise<void>;
     delUser(id: string): Promise<{
         code: number;

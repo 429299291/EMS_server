@@ -4,7 +4,6 @@ import { Terminal } from './entities/device.entity';
 import { User } from 'src/user/entities/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import {JsonContains, Like, Repository,Not} from 'typeorm'
-import { log } from 'console';
 
 @Injectable()
 export class TerminalService {
