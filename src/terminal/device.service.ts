@@ -12,21 +12,29 @@ export class TerminalService {
     @InjectRepository(User) private readonly user:Repository<User>
   ){}
   async create(createDeviceDto: CreateDeviceDto) {  
-    const device = await this.terminal.findOneBy({ id:createDeviceDto.id})    
+    const device = await this.terminal.findOneBy({ id:createDeviceDto.id})
+    if(!createDeviceDto.userId){
+      return {
+        code:204,
+        message:"userid 必须传递"
+      }
+    }
     if(device !== null){
       return {code:200,message:"设备已经注册"}
     }else{
-      const user = await this.user.findOne({ 
+      const user = await this.user.findOne({
         // id:createDeviceDto.userId
         where: { id: createDeviceDto.userId},
         relations: ['terminals'],
       })    
       const deviceList:any[] = []      
+      console.log(createDeviceDto);
+      
       await this.terminal.save(createDeviceDto)
       deviceList.push(createDeviceDto)      
       if(user){//注册到同一个人名下
         user.terminals = [...user.terminals,...deviceList]
-      }
+      }      
       return this.user.save(user) 
     }
   }

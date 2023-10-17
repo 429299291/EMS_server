@@ -22,7 +22,7 @@ let AuthService = exports.AuthService = class AuthService {
     async signIn(email, pass, res) {
         const user = await this.UserService.findOne(email);
         if (user == null)
-            return res.json({ code: 200, message: "用户不存在" });
+            return res.json({ code: 204, message: "用户不存在" });
         const payload = { sub: user.id, username: user.name };
         const tokenPay = await this.jwtService.signAsync(payload);
         bcrypt.compare(pass, user.password, (err, result) => {

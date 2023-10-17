@@ -103,7 +103,7 @@ export class UserService {
             }
         });
     }
-    getUserByEmail(email:string) {        
+    getUserByEmail(email:string) {
         return this.user.findOne({
             relations:["terminals"],
             where:{
@@ -115,7 +115,7 @@ export class UserService {
     findOne(email: string): Promise<User | null> {
         return this.user.findOneBy({ email });
     }
-    register(body,res) {            
+    register(body,res) {
        return this.user.findOneBy({email:body.email})
         .then(data=>{
             const thisUSER = this.user            

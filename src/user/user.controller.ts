@@ -86,9 +86,9 @@ export class UserController {
 
     @Get('/registerEmail/:email')
     @ApiTags("user")
-    public async registerEmail(@Param() {email},@Response() res):Promise<any>{        
+    public async registerEmail(@Param() {email},@Response() res):Promise<any>{           
         const emailCode = mathRand(1000,9999)+''     
-        await this.redisCacheHelper.set(email,emailCode)  
+        await this.redisCacheHelper.set(email,emailCode)          
         const data = await this.emailService.example({
             to:email,
             subject:"旭衡科技注册验证码",

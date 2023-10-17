@@ -21,12 +21,12 @@ export class MqttService {
   ){
   }
   async create(createMqttDto: CreateMqttDto) {        
-    let data:any = JSON.parse(createMqttDto.toString())            
+    let data:any = JSON.parse(createMqttDto.toString())     
     return await this.terminal.findOne({
       where: { id: data.id},
       relations: ['devices'],
-    }).then(async terminalA=>{      
-      if(terminalA){                
+    }).then(async terminalA=>{
+      if(terminalA){     
         try{
           data.BAT = data.BAT.map(data=>{
             return JSON.stringify(data)
@@ -64,13 +64,12 @@ export class MqttService {
 
           // return this.terminal.save(terminalA) //存储第二条,第一条devices的 terminalID就会被覆盖掉
       }else{
-        console.log(`无效ID:${data.id}`);
+        // console.log(`无效ID:${data.id}`);
       }
     })
   }
-  // @Cron("* */5 * * * *")
   @Cron("0 */5 * * * *")
-  async saveEMS123(id) {
+  async saveEMS123(id) {    
     this.bufferList.forEach(async data=>{
       const timeStamps:number = parseInt(moment().format("X"))      
       let newdata:any = await this.redisCacheHelper.getAsObj(`${data}`)

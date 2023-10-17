@@ -64,7 +64,6 @@ let MqttService = exports.MqttService = class MqttService {
                 await this.redisCacheHelper.set(data.terminalIDuse, terminalA);
             }
             else {
-                console.log(`无效ID:${data.id}`);
             }
         });
     }

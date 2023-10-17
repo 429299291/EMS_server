@@ -25,6 +25,12 @@ let TerminalService = exports.TerminalService = class TerminalService {
     }
     async create(createDeviceDto) {
         const device = await this.terminal.findOneBy({ id: createDeviceDto.id });
+        if (!createDeviceDto.userId) {
+            return {
+                code: 204,
+                message: "userid 必须传递"
+            };
+        }
         if (device !== null) {
             return { code: 200, message: "设备已经注册" };
         }
@@ -34,6 +40,7 @@ let TerminalService = exports.TerminalService = class TerminalService {
                 relations: ['terminals'],
             });
             const deviceList = [];
+            console.log(createDeviceDto);
             await this.terminal.save(createDeviceDto);
             deviceList.push(createDeviceDto);
             if (user) {
