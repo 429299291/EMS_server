@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { Cron } from '@nestjs/schedule';
 import { InjectRedis, Redis, RedisCacheHelper } from '@jasonsoft/nestjs-redis';
 import { type } from 'os';
+import { error, log } from 'console';
 
 @Injectable()
 export class MqttService {
@@ -26,42 +27,31 @@ export class MqttService {
       where: { id: data.id},
       relations: ['devices'],
     }).then(async terminalA=>{
-      if(terminalA){     
-        try{
-          data.BAT = data.BAT.map(data=>{
+      if(terminalA){
+          data.BAT = data?.BAT?.map(data=>{            
             return JSON.stringify(data)
           })
-          data.EV = data.EV?data.EV.map(data=>{
+          data.EV = data.EV?data?.EV?.map(data=>{            
             return JSON.stringify(data)
           }):[]
-          data.PV = data.PV.map(data=>{
+          data.PV = data?.PV?.map(data=>{
             return JSON.stringify(data)
           })
-          // data.GRID = data.GRID.map(data=>{
-          //   return JSON.stringify(data)
-          // })
-          // data.HOME = data.HOME.map(data=>{
-          //   return JSON.stringify(data)
-          // })
-          data.INV = data.INV?data.INV.map(data=>{
+          data.INV = data.INV?data?.INV?.map(data=>{
             return JSON.stringify(data)
           }):[]
-          data.fault = data.fault.map(data=>{
+          data.fault = data?.fault?.map(data=>{
             return JSON.stringify(data)
           })
-          } catch(error){  
-            throw error(error)
-          }
           const deviceList:any[] = []   
           deviceList.push(data)  
           terminalA.devices = [...terminalA.devices,...deviceList]
           data.terminalIDuse= data.id
-          delete(data.id)
+          delete(data.id)          
         //一对多,一个terminal对应多个devices
           this.bufferList.add(data.terminalIDuse)
           // await this.redisCacheHelper.set(data.terminalIDuse,terminalA)
-          await this.redisCacheHelper.set(data.terminalIDuse,terminalA)        
-
+          await this.redisCacheHelper.set(data.terminalIDuse,terminalA)                  
           // return this.terminal.save(terminalA) //存储第二条,第一条devices的 terminalID就会被覆盖掉
       }else{
         // console.log(`无效ID:${data.id}`);

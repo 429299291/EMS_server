@@ -35,26 +35,21 @@ let MqttService = exports.MqttService = class MqttService {
             relations: ['devices'],
         }).then(async (terminalA) => {
             if (terminalA) {
-                try {
-                    data.BAT = data.BAT.map(data => {
-                        return JSON.stringify(data);
-                    });
-                    data.EV = data.EV ? data.EV.map(data => {
-                        return JSON.stringify(data);
-                    }) : [];
-                    data.PV = data.PV.map(data => {
-                        return JSON.stringify(data);
-                    });
-                    data.INV = data.INV ? data.INV.map(data => {
-                        return JSON.stringify(data);
-                    }) : [];
-                    data.fault = data.fault.map(data => {
-                        return JSON.stringify(data);
-                    });
-                }
-                catch (error) {
-                    throw error(error);
-                }
+                data.BAT = data?.BAT?.map(data => {
+                    return JSON.stringify(data);
+                });
+                data.EV = data.EV ? data?.EV?.map(data => {
+                    return JSON.stringify(data);
+                }) : [];
+                data.PV = data?.PV?.map(data => {
+                    return JSON.stringify(data);
+                });
+                data.INV = data.INV ? data?.INV?.map(data => {
+                    return JSON.stringify(data);
+                }) : [];
+                data.fault = data?.fault?.map(data => {
+                    return JSON.stringify(data);
+                });
                 const deviceList = [];
                 deviceList.push(data);
                 terminalA.devices = [...terminalA.devices, ...deviceList];
