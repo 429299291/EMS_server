@@ -1,4 +1,4 @@
-import { CreateEmailDto } from './dto/create-email.dto';
+import { CreateEmailDto, CreateNotificationDTO } from './dto/create-email.dto';
 import { UpdateEmailDto } from './dto/update-email.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { User } from 'src/user/entities/entities';
@@ -13,6 +13,7 @@ export declare class EmailService {
         html: string;
         to: string;
     }, res: any): Promise<void>;
+    notification(notificationData: CreateNotificationDTO, res: any): Promise<void>;
     create(createEmailDto: CreateEmailDto): string;
     findAll(): string;
     findOne(id: number): string;

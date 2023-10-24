@@ -72,10 +72,10 @@ let MqttController = exports.MqttController = class MqttController {
 };
 __decorate([
     (0, common_1.Post)(),
-    (0, swagger_1.ApiTags)("mqtt"),
+    (0, swagger_1.ApiTags)("command"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [create_mqtt_dto_1.commendDTO]),
     __metadata("design:returntype", void 0)
 ], MqttController.prototype, "getDevices", null);
 __decorate([

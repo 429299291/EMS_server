@@ -1,7 +1,7 @@
 import { Controller, Get,Post,Body, Param,Response } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { MqttService } from './mqtt.service';
-import { CreateMqttDto } from './dto/create-mqtt.dto';
+import { CreateMqttDto,commendDTO } from './dto/create-mqtt.dto';
 import { UpdateMqttDto } from './dto/update-mqtt.dto';
 import { getDashboardElectricityDTO } from './dto/create-mqtt.dto';
 import * as mqtt from "mqtt"
@@ -107,8 +107,8 @@ export class MqttController {
   }  
 
   @Post()
-  @ApiTags("mqtt")
-  getDevices(@Body() body) {        
+  @ApiTags("command")
+  getDevices(@Body() body:commendDTO) {        
     client.publish(`EMS/server/${body.id}`,JSON.stringify({
       ...body,
       name:`EMS-110`,

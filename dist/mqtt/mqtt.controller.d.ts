@@ -1,11 +1,11 @@
 import { MqttService } from './mqtt.service';
-import { CreateMqttDto } from './dto/create-mqtt.dto';
+import { CreateMqttDto, commendDTO } from './dto/create-mqtt.dto';
 import { UpdateMqttDto } from './dto/update-mqtt.dto';
 import { getDashboardElectricityDTO } from './dto/create-mqtt.dto';
 export declare class MqttController {
     private readonly mqttService;
     constructor(mqttService: MqttService);
-    getDevices(body: any): {
+    getDevices(body: commendDTO): {
         success: boolean;
     };
     getHomeElectricity(body: getDashboardElectricityDTO, res: any): Promise<any>;

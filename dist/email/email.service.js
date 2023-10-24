@@ -54,6 +54,28 @@ let EmailService = exports.EmailService = class EmailService {
             });
         }
     }
+    notification(notificationData, res) {
+        return this.mailerService
+            .sendMail({
+            to: notificationData.email,
+            from: 'neuron@alwayscontrol.com.cn',
+            subject: notificationData.title,
+            text: notificationData.message,
+            html: notificationData.message,
+        })
+            .then((data) => {
+            res.json({
+                code: 200,
+                message: "邮件发送成功"
+            });
+        })
+            .catch((err) => {
+            res.json({
+                code: 204,
+                message: "邮件发送失败"
+            });
+        });
+    }
     create(createEmailDto) {
         return 'This action adds a new email';
     }

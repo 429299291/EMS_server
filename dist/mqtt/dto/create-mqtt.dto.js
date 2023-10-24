@@ -9,11 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dashboardElectricityDTO = exports.getDashboardElectricityDTO = exports.CreateMqttDto = void 0;
+exports.dashboardElectricityDTO = exports.getDashboardElectricityDTO = exports.commendDTO = exports.CreateMqttDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 class CreateMqttDto {
 }
 exports.CreateMqttDto = CreateMqttDto;
+class commendDTO {
+}
+exports.commendDTO = commendDTO;
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: 0 }),
+    __metadata("design:type", Number)
+], commendDTO.prototype, "WorkingMode", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: "00007" }),
+    __metadata("design:type", String)
+], commendDTO.prototype, "id", void 0);
 class getDashboardElectricityDTO {
 }
 exports.getDashboardElectricityDTO = getDashboardElectricityDTO;

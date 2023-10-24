@@ -6,8 +6,8 @@ import { join } from 'path';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 const listenPort = 3000
 const logger = new Logger("main.ts")
-const MiddleWareAll =(req:any,res:any,next:any)=>{
-  console.log('全局中间件');  
+const MiddleWareAll =(req:any,res:any,next:any)=>{  
+  // 全局中间件
   next()
 }
 

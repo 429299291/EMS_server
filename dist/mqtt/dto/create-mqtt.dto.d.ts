@@ -1,5 +1,9 @@
 export declare class CreateMqttDto {
 }
+export declare class commendDTO {
+    WorkingMode: number;
+    id: string;
+}
 export declare class getDashboardElectricityDTO {
     id: string;
     startTime: number;

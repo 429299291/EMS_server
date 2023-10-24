@@ -8,7 +8,6 @@ const swagger_1 = require("@nestjs/swagger");
 const listenPort = 3000;
 const logger = new common_1.Logger("main.ts");
 const MiddleWareAll = (req, res, next) => {
-    console.log('全局中间件');
     next();
 };
 async function bootstrap() {

@@ -1,6 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateMqttDto {}
+export class commendDTO {
+  @ApiProperty({example:0})
+  WorkingMode:number;
+  @ApiProperty({example:"00007"})
+  id:string
+}
 export class getDashboardElectricityDTO{
   @ApiProperty({example:"0000007"})
   id:string;

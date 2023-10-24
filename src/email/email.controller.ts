@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete,Response } from '@nestjs/common';
 import { EmailService } from './email.service';
-import { CreateEmailDto } from './dto/create-email.dto';
+import { CreateEmailDto,CreateNotificationDTO } from './dto/create-email.dto';
 import { UpdateEmailDto } from './dto/update-email.dto';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -19,6 +19,12 @@ export class EmailController {
   @ApiTags("email")
   findAll(@Response() res) {
     return this.emailService.findAll();
+  }
+
+  @Post('/notification')
+  @ApiTags("notification")
+  public async notification(@Body() body:CreateNotificationDTO,@Response() res):Promise<any>{    
+    this.emailService.notification(body,res)    
   }
 
   @Get(':id')

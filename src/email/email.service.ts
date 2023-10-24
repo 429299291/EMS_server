@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEmailDto } from './dto/create-email.dto';
+import { CreateEmailDto, CreateNotificationDTO } from './dto/create-email.dto';
 import { UpdateEmailDto } from './dto/update-email.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { User } from 'src/user/entities/entities';
@@ -11,7 +11,7 @@ export class EmailService {
   constructor(private readonly mailerService: MailerService,@InjectRepository(User) private readonly user:Repository<User>) {}
   //邮件发送
   public async example(emailData:{subject:string,text:string,html:string,to:string},res) {
-    const currentUser = await this.user.findOneBy({email:emailData.to})
+    const currentUser = await this.user.findOneBy({email:emailData.to})    
     if(currentUser){
       res.json(
         {
@@ -42,6 +42,31 @@ export class EmailService {
       });
     }
   }
+
+  notification(notificationData: CreateNotificationDTO,res) {    
+    return this.mailerService
+    .sendMail({
+      // to: 'sandy_you@alwayscontrol.com.cn',
+      to: notificationData.email,
+      from: 'neuron@alwayscontrol.com.cn',
+      subject: notificationData.title,
+      text: notificationData.message,
+      html: notificationData.message,
+    })
+    .then((data) => {
+      res.json({
+        code : 200,
+        message:"邮件发送成功"
+      })
+    })
+    .catch((err) => {        
+      res.json ({
+        code:204,
+        message:"邮件发送失败"
+      })
+    });
+  }
+
   create(createEmailDto: CreateEmailDto) {
     return 'This action adds a new email';
   }

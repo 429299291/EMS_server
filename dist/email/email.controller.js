@@ -28,6 +28,9 @@ let EmailController = exports.EmailController = class EmailController {
     findAll(res) {
         return this.emailService.findAll();
     }
+    async notification(body, res) {
+        this.emailService.notification(body, res);
+    }
     findOne(id) {
         return this.emailService.findOne(+id);
     }
@@ -54,6 +57,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], EmailController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Post)('/notification'),
+    (0, swagger_1.ApiTags)("notification"),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Response)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_email_dto_1.CreateNotificationDTO, Object]),
+    __metadata("design:returntype", Promise)
+], EmailController.prototype, "notification", null);
 __decorate([
     (0, common_1.Get)(':id'),
     (0, swagger_1.ApiTags)("email"),
